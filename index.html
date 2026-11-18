@@ -2376,7 +2376,7 @@ function pickCard() {
 }
 function mdLite(s, reveal) {
   let h = esc(String(s || ''));
-  h = h.replace(/\{\{c\d+::(.*?)(?:::(.*?))?\}\}/g, (m, a, hint) => (reveal ? `<b>${a}</b>` : `[ ${hint || '…'} ]`));
+  h = h.replace(/\{\{(?:c\d+::)?(.*?)(?:::(.*?))?\}\}/g, (m, a, hint) => (reveal ? `<b>${a}</b>` : `[ ${hint || '…'} ]`));
   h = h.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
   return h.split('\n').map((l) => (l.startsWith('- ') ? '• ' + l.slice(2) : l)).join('<br>');
 }
