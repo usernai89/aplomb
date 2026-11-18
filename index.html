@@ -401,6 +401,16 @@ details.p-how summary{cursor:pointer;font-weight:600;color:var(--plumb);padding:
 
 .ring-wrap.sm{width:min(170px,46vw)}
 .ring-wrap.sm .ring-n{font-size:54px}
+.fig .band{stroke:#D6457A;fill:none;stroke-linecap:round}
+.fig .dbp{fill:#2B3040}.fig .dbi{fill:#9AA2B4}.fig .anc{fill:#586176}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fig .dbp{fill:#C9D0DE}:root:not([data-theme="light"]) .fig .dbi{fill:#4A5268}}
+:root[data-theme="dark"] .fig .dbp{fill:#C9D0DE}:root[data-theme="dark"] .fig .dbi{fill:#4A5268}
+.eqb{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);align-self:flex-start;line-height:1.4}
+.fem{background:var(--plumb-soft);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.ex-list li.lk{display:block;padding:0}
+.ex-row{width:100%;display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 0;background:none;border:0;text-align:left;color:inherit;font:inherit}
+.ex-row .see{font-size:12.5px;font-weight:600;color:var(--plumb)}
+.eq-chips .chip{min-height:36px;font-size:13.5px;padding:0 12px}
 [hidden]{display:none!important}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:90;max-width:calc(100% - 32px);text-align:center;transition:opacity .2s,transform .2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -526,6 +536,144 @@ const EX = {
     easy: "Amplitude plus petite, appui sur les avant-bras.", hard: "Jambe tendue en arrière au lieu de pliée, pause de 3 s en haut." },
 };
 
+/* ---------- Variantes selon le matériel (haltères, élastique) ---------- */
+Object.assign(EX, {
+  hipthrust_h: { name: "Pont fessier avec haltère", muscles: "Grand fessier, ischio-jambiers", kind: "base", leg: true, reps: [10, 15], unit: "rép", side: "", tempo: "2-0-1-2", rest: 75, load: true, eq: 'h',
+    cue: "Sur le dos, genoux pliés, pieds à plat. Pose un haltère en travers du bassin, sur une serviette pliée, et tiens-le des deux mains. Monte le bassin jusqu'à aligner genoux, hanches et épaules, serre les fesses 2 s en haut, côtes basses, sans cambrer.",
+    easy: "Haltère plus léger, ou sans haltère.", hard: "Haltère plus lourd, puis pont sur une jambe avec l'haltère.",
+    fem: "Expire en montant en serrant le périnée (comme pour retenir un pipi), inspire en descendant. Une serviette épaisse protège l'os du bassin." },
+  hipthrust_b: { name: "Pont fessier avec mini-bande", muscles: "Grand et moyen fessier", kind: "base", leg: true, reps: [12, 20], unit: "rép", side: "", tempo: "2-0-1-2", rest: 60, eq: 'b',
+    cue: "Mini-bande élastique juste au-dessus des genoux. Sur le dos, pieds à plat, écartés de la largeur des hanches. Pousse les genoux vers l'extérieur contre la bande, monte le bassin et serre les fesses 2 s en haut.",
+    easy: "Bande plus souple.", hard: "Bande plus dure, ou pause de 3 s en haut avec 3 petites ouvertures des genoux.",
+    fem: "La bande t'apprend à garder les genoux dans l'axe des pieds : avec un bassin plus large, ils ont tendance à rentrer vers l'intérieur." },
+  splitsquat_h: { name: "Fente statique avec haltères", muscles: "Fessiers, quadriceps, adducteurs, équilibre", kind: "base", leg: true, reps: [8, 12], unit: "rép", side: "/jambe", tempo: "3-1-1-0", rest: 60, load: true, eq: 'h',
+    cue: "Un haltère dans chaque main, bras le long du corps. Un grand pas en avant, pieds écartés de la largeur des hanches. Buste un peu penché vers l'avant, descends jusqu'à frôler le sol du genou arrière, puis pousse dans le talon avant.",
+    easy: "Un seul haltère, l'autre main au mur.", hard: "Haltères plus lourds, puis pause de 2 s en bas.",
+    fem: "Genou avant au-dessus du 2e orteil, jamais vers l'intérieur. Expire en remontant." },
+  splitsquat_b: { name: "Fente statique à l'élastique", muscles: "Fessiers, quadriceps, adducteurs, équilibre", kind: "base", leg: true, reps: [10, 15], unit: "rép", side: "/jambe", tempo: "3-1-1-0", rest: 60, eq: 'b',
+    cue: "Bande sous le pied avant, une extrémité dans chaque main, mains à hauteur des épaules. Grand pas en avant, descends jusqu'à frôler le sol du genou arrière, puis remonte en poussant dans le talon avant contre la bande.",
+    easy: "Bande plus souple, descente moins basse.", hard: "Bande plus dure ou raccourcie, puis pause de 2 s en bas.",
+    fem: "Genou avant au-dessus du 2e orteil, jamais vers l'intérieur. Expire en remontant." },
+  pompes_h: { name: "Développé au sol avec haltères", muscles: "Pectoraux, triceps, avant des épaules", kind: "base", reps: [8, 12], unit: "rép", side: "", tempo: "3-1-1-0", rest: 60, load: true, eq: 'h',
+    cue: "Sur le dos, genoux pliés, un haltère dans chaque main. Coudes posés au sol à 45° du corps, avant-bras verticaux. Pousse les haltères vers le plafond, puis redescends lentement jusqu'à poser les coudes.",
+    easy: "Haltères plus légers.", hard: "Haltères plus lourds, ou pause de 2 s coudes au sol sans relâcher.",
+    fem: "Ne demande pas de porter le poids du corps sur les poignets et ne gêne pas la poitrine. Expire en poussant." },
+  pompes_b: { name: "Développé debout à l'élastique", muscles: "Pectoraux, triceps, dentelé antérieur", kind: "base", reps: [10, 15], unit: "rép", side: "", tempo: "2-1-1-0", rest: 45, eq: 'b',
+    cue: "Bande accrochée derrière toi à hauteur de poitrine (porte fermée, poteau). Un pied devant l'autre, mains à hauteur de poitrine. Pousse les mains devant toi jusqu'à tendre les bras, puis reviens lentement.",
+    easy: "Rapproche-toi de l'ancrage (bande moins tendue).", hard: "Éloigne-toi ou prends une bande plus dure, puis un bras à la fois.",
+    fem: "Expire à chaque poussée en rentrant le ventre : le bas du dos ne doit pas se creuser." },
+  rowing_h: { name: "Rowing penché avec haltères", muscles: "Grand dorsal, rhomboïdes, trapèzes moyens, arrière des épaules", kind: "base", reps: [10, 15], unit: "rép", side: "", tempo: "2-0-1-2", rest: 60, load: true, eq: 'h',
+    cue: "Genoux un peu fléchis, penche le buste à 45° en gardant le dos plat, haltères bras tendus. Tire les coudes vers les hanches en serrant les omoplates 2 s, puis redescends lentement.",
+    easy: "Une main et un genou en appui sur le lit ou une chaise, un bras à la fois.", hard: "Haltères plus lourds, puis pause de 3 s en haut.",
+    fem: "Si te pencher fatigue ton bas du dos ou ton périnée, fais-le un bras à la fois, en appui sur le lit." },
+  rowing_b: { name: "Rowing assis à l'élastique", muscles: "Grand dorsal, rhomboïdes, trapèzes moyens, arrière des épaules", kind: "base", reps: [12, 15], unit: "rép", side: "", tempo: "2-0-1-2", rest: 45, eq: 'b',
+    cue: "Assise au sol, jambes tendues, bande passée sous les pieds, une extrémité dans chaque main. Dos droit, tire les coudes vers l'arrière le long du corps en serrant les omoplates 2 s, puis reviens lentement.",
+    easy: "Bande plus souple, genoux un peu pliés.", hard: "Bande plus dure ou croisée, puis pause de 3 s en arrière.",
+    fem: "Pas de dos rond : assieds-toi sur un coussin plié si l'arrière des cuisses tire." },
+  yausol_h: { name: "Y penchée avec haltères légers", muscles: "Trapèzes inférieur et moyen", kind: "acc", reps: [10, 12], unit: "rép", side: "", tempo: "2-0-1-2", rest: 45, eq: 'h',
+    cue: "Buste penché à 45°, dos plat, haltères très légers (0,5 à 2 kg) ou bouteilles d'eau. Lève les bras devant toi en Y, pouces vers le plafond, en tirant les omoplates vers le bas, puis redescends.",
+    easy: "Sans haltères, ou front posé contre le mur.", hard: "Pause de 3 s en haut.",
+    fem: "Version sans te mettre à plat ventre : plus confortable pour la poitrine." },
+  yausol_b: { name: "Écartés à l'élastique (pull-apart)", muscles: "Trapèzes moyen et inférieur, rhomboïdes, arrière des épaules", kind: "acc", reps: [12, 15], unit: "rép", side: "", tempo: "2-0-1-2", rest: 30, eq: 'b',
+    cue: "Debout, bras tendus devant toi à hauteur des épaules, bande tenue à la largeur des épaules. Écarte les mains en tirant la bande jusqu'à la poitrine, serre les omoplates 2 s, puis reviens lentement.",
+    easy: "Mains plus écartées sur la bande.", hard: "Mains plus rapprochées ou bande plus dure, puis pause de 3 s.",
+    fem: "Un des meilleurs exercices contre les épaules enroulées, et sans te mettre à plat ventre. Épaules basses, loin des oreilles." },
+  mollets_t_h: { name: "Montées sur pointes avec haltères", muscles: "Gastrocnémiens", kind: "acc", reps: [12, 20], unit: "rép", side: "", tempo: "2-1-1-1", rest: 30, load: true, eq: 'h',
+    cue: "Un haltère dans chaque main, bras le long du corps, près d'un mur. Monte sur la pointe des pieds le plus haut possible, 1 s en haut, puis redescends lentement.",
+    easy: "Un seul haltère, l'autre main au mur.", hard: "Sur un pied, haltère du même côté, puis pause de 3 s en haut." },
+  frogpump_h: { name: "Frog pumps avec haltère", muscles: "Grand fessier, en fin de contraction", kind: "acc", reps: [15, 25], unit: "rép", side: "", tempo: "1-0-1-1", rest: 30, load: true, eq: 'h',
+    cue: "Plantes des pieds collées, genoux ouverts, haltère posé sur le bassin avec une serviette dessous. Monte le bassin en serrant fort les fesses, 1 s en haut, côtes basses, sans cambrer.",
+    easy: "Sans haltère.", hard: "Haltère plus lourd, puis pause de 3 s en haut.",
+    fem: "Expire en montant en serrant le périnée." },
+  rdl_h: { name: "Soulevé de terre roumain avec haltères", muscles: "Ischio-jambiers, fessiers, muscles du dos", kind: "base", leg: true, reps: [8, 12], unit: "rép", side: "", tempo: "3-1-1-0", rest: 75, load: true, eq: 'h',
+    cue: "Debout, pieds largeur de hanches, un haltère dans chaque main devant les cuisses, genoux légèrement fléchis. Recule les fesses en penchant le buste, dos plat, haltères qui glissent le long des jambes, jusqu'à sentir l'étirement derrière les cuisses. Remonte en serrant les fesses.",
+    easy: "Haltères plus légers, descente jusqu'aux genoux seulement.", hard: "Haltères plus lourds, puis sur une jambe.",
+    fem: "Le mouvement part des hanches, pas du dos. Expire en remontant : c'est l'exercice roi des fessiers et de l'arrière des cuisses." },
+  rdl_b: { name: "Soulevé de terre roumain à l'élastique", muscles: "Ischio-jambiers, fessiers, muscles du dos", kind: "base", leg: true, reps: [12, 15], unit: "rép", side: "", tempo: "3-1-1-0", rest: 60, eq: 'b',
+    cue: "Bande sous les deux pieds, une extrémité dans chaque main, genoux légèrement fléchis. Recule les fesses en penchant le buste, dos plat, puis remonte en poussant les hanches vers l'avant et en serrant les fesses en haut.",
+    easy: "Bande plus souple.", hard: "Bande plus dure ou raccourcie, puis pause de 2 s en haut.",
+    fem: "Le mouvement part des hanches, pas du dos. Expire en remontant." },
+  fente_h: { name: "Fente arrière avec haltères", muscles: "Fessiers, quadriceps", kind: "base", leg: true, reps: [8, 12], unit: "rép", side: "/jambe", tempo: "3-0-1-0", rest: 60, load: true, eq: 'h',
+    cue: "Un haltère dans chaque main, bras le long du corps. Recule une jambe d'un grand pas, buste un peu penché en avant, descends jusqu'à frôler le sol du genou arrière, puis pousse dans le talon avant pour revenir.",
+    easy: "Un seul haltère, l'autre main au mur.", hard: "Haltères plus lourds, puis pause de 2 s en bas.",
+    fem: "La fente arrière est plus douce pour les genoux que la fente avant. Genou avant dans l'axe du pied." },
+  fente_b: { name: "Fente arrière à l'élastique", muscles: "Fessiers, quadriceps", kind: "base", leg: true, reps: [10, 15], unit: "rép", side: "/jambe", tempo: "3-0-1-0", rest: 60, eq: 'b',
+    cue: "Bande sous le pied avant, extrémités tenues à hauteur des épaules. Recule l'autre jambe d'un grand pas, descends jusqu'à frôler le sol du genou arrière, puis reviens en poussant dans le talon avant.",
+    easy: "Bande plus souple, une main au mur.", hard: "Bande plus dure ou raccourcie, puis pause de 2 s en bas.",
+    fem: "La fente arrière est plus douce pour les genoux que la fente avant. Genou avant dans l'axe du pied." },
+  developpe_h: { name: "Écarté au sol avec haltères", muscles: "Pectoraux, avant des épaules", kind: "base", reps: [10, 15], unit: "rép", side: "", tempo: "3-1-1-0", rest: 45, load: true, eq: 'h',
+    cue: "Sur le dos, genoux pliés, haltères au-dessus de la poitrine, coudes légèrement fléchis. Ouvre les bras sur les côtés jusqu'à poser les coudes au sol, puis referme en serrant les pectoraux.",
+    easy: "Haltères plus légers.", hard: "Haltères plus lourds, puis pause de 2 s en bas.",
+    fem: "Le sol limite l'amplitude et protège l'épaule. Les pectoraux, sous la poitrine, raffermissent le haut du buste." },
+  developpe_b: { name: "Écarté debout à l'élastique", muscles: "Pectoraux", kind: "base", reps: [12, 15], unit: "rép", side: "", tempo: "2-1-1-0", rest: 45, eq: 'b',
+    cue: "Bande accrochée derrière toi à hauteur de poitrine, une extrémité dans chaque main, bras ouverts, coudes légèrement fléchis. Ramène les mains l'une vers l'autre devant la poitrine, comme pour serrer un arbre, puis reviens lentement.",
+    easy: "Rapproche-toi de l'ancrage.", hard: "Bande plus dure, puis pause de 2 s mains jointes.",
+    fem: "Expire en serrant les mains, ventre rentré." },
+  tirage_h: { name: "Pull-over au sol avec haltère", muscles: "Grand dorsal, dentelé antérieur, triceps", kind: "base", reps: [10, 15], unit: "rép", side: "", tempo: "3-0-1-1", rest: 45, load: true, eq: 'h',
+    cue: "Sur le dos, genoux pliés, un haltère tenu à deux mains au-dessus de la poitrine, bras presque tendus. Descends l'haltère derrière la tête vers le sol sans cambrer, côtes basses, puis ramène-le au-dessus de la poitrine.",
+    easy: "Haltère plus léger, amplitude plus petite.", hard: "Haltère plus lourd, puis pause de 2 s en bas.",
+    fem: "Bas du dos collé au sol, expire en ramenant l'haltère : tu travailles aussi les abdominaux profonds, sans pousser sur le périnée." },
+  tirage_b: { name: "Tirage vertical à l'élastique", muscles: "Grand dorsal, trapèzes inférieurs, rhomboïdes", kind: "base", reps: [12, 15], unit: "rép", side: "", tempo: "2-0-1-2", rest: 45, eq: 'b',
+    cue: "Bande accrochée en haut d'une porte. À genoux ou debout, bras tendus vers le haut. Tire les coudes vers le bas et vers les côtes en serrant les omoplates, jusqu'à ce que les mains arrivent à hauteur du menton, puis remonte lentement.",
+    easy: "Bande plus souple, ou rapproche-toi de la porte.", hard: "Bande plus dure, puis pause de 2 s en bas.",
+    fem: "Il prépare à la traction, souvent difficile au début. Épaules basses, loin des oreilles." },
+  rotext_h: { name: "Rotation externe couchée avec haltère", muscles: "Infra-épineux, petit rond (coiffe des rotateurs)", kind: "acc", reps: [12, 15], unit: "rép", side: "/bras", tempo: "2-0-1-1", rest: 30, eq: 'h',
+    cue: "Couchée sur le côté, c'est le bras du dessus qui travaille, avec un haltère très léger (0,5 à 2 kg) ou une bouteille d'eau. Serviette roulée entre le coude et les côtes, coude plié à 90°, fais pivoter l'avant-bras vers le plafond sans décoller le coude.",
+    easy: "Sans haltère.", hard: "Pause de 2 s en haut." },
+  rotext_b: { name: "Rotation externe à l'élastique", muscles: "Infra-épineux, petit rond (coiffe des rotateurs)", kind: "acc", reps: [12, 15], unit: "rép", side: "/bras", tempo: "2-0-1-1", rest: 30, eq: 'b',
+    cue: "Bande accrochée sur le côté, à hauteur du coude (poignée de porte). Coude collé au corps et plié à 90°, serviette roulée entre le coude et les côtes. Fais pivoter l'avant-bras vers l'extérieur sans décoller le coude, puis reviens lentement.",
+    easy: "Moins de tension sur la bande.", hard: "Bande plus dure, puis pause de 2 s." },
+  abduction_b: { name: "Marche latérale avec mini-bande", muscles: "Moyen fessier, stabilité du bassin et des genoux", kind: "acc", reps: [10, 15], unit: "rép", side: " pas/côté", tempo: "contrôlé", rest: 30, eq: 'b',
+    cue: "Mini-bande au-dessus des genoux (aux chevilles, c'est plus dur). Jambes un peu fléchies, buste légèrement penché, fais des pas de côté sans laisser les pieds se rapprocher, puis reviens dans l'autre sens.",
+    easy: "Bande plus souple, au-dessus des genoux.", hard: "Bande aux chevilles, ou position plus basse.",
+    fem: "Le moyen fessier tient le bassin à chaque pas et protège les genoux, qui ont tendance à rentrer vers l'intérieur chez les femmes." },
+  kickback_b: { name: "Kickback debout à l'élastique", muscles: "Grand fessier", kind: "acc", reps: [15, 20], unit: "rép", side: "/jambe", tempo: "1-0-1-2", rest: 30, eq: 'b',
+    cue: "Mini-bande autour des chevilles, mains contre le mur, buste légèrement penché. Pousse une jambe tendue vers l'arrière en serrant la fesse, sans cambrer, 1 s en arrière, puis reviens.",
+    easy: "Bande plus souple, petite amplitude.", hard: "Bande plus dure, puis pause de 2 s en arrière.",
+    fem: "Ventre rentré : c'est la fesse qui pousse, pas le bas du dos." },
+  mollets_f_h: { name: "Montées sur pointes genoux pliés avec haltère", muscles: "Soléaire, le principal muscle pour tenir debout longtemps", kind: "acc", reps: [12, 20], unit: "rép", side: "", tempo: "2-1-1-1", rest: 30, load: true, eq: 'h',
+    cue: "Dos contre le mur, genoux pliés comme sur une petite chaise, haltère posé sur les cuisses près des genoux. Monte sur la pointe des pieds, 1 s en haut, puis redescends lentement.",
+    easy: "Sans haltère, genoux moins pliés.", hard: "Haltère plus lourd, puis sur un pied." },
+});
+/* Conseils pensés pour le corps des femmes, sur les exercices de base */
+Object.entries({
+  sauts: "Brassière bien maintenue. Si tu as des fuites d'urine en sautant, remplace par les montées sur pointes et parles-en à une sage-femme.",
+  hipthrust: "Expire en montant en serrant le périnée (comme pour retenir un pipi), inspire en descendant.",
+  splitsquat: "Genou avant au-dessus du 2e orteil, jamais vers l'intérieur : avec un bassin plus large, le genou a tendance à rentrer. Expire en remontant.",
+  fente: "La fente arrière est plus douce pour les genoux que la fente avant. Genou avant dans l'axe du pied.",
+  pompes: "Progression adaptée : mur, puis table, puis genoux, puis sol. Poignets sensibles : appuie-toi sur les poings ou sur des haltères.",
+  developpe: "Les pectoraux, sous la poitrine, raffermissent le haut du buste. Expire en poussant.",
+  rowing: "Appuie bien les coudes, pas la tête. Expire en montant.",
+  yausol: "Gênée par la poitrine à plat ventre ? Serviette roulée sous le haut du sternum, ou choisis « Élastique » dans le matériel.",
+  tirage: "Gênée par la poitrine à plat ventre ? Serviette roulée sous le haut du sternum, ou choisis « Élastique » dans le matériel.",
+  planche: "Expire en allongeant bras et jambe : un gainage sans pression sur le périnée, qui remplace les relevés de buste (crunchs).",
+  gainage_l: "Si ton ventre forme un « dôme » au milieu pendant l'effort (signe de diastasis, fréquent après une grossesse), fais la version genoux au sol.",
+  rdl: "Le mouvement part des hanches, pas du dos. Expire en remontant.",
+  abduction: "Le moyen fessier tient le bassin à chaque pas et protège les genoux, qui ont tendance à rentrer vers l'intérieur chez les femmes.",
+  kickback: "Ventre rentré : c'est la fesse qui pousse, pas le bas du dos.",
+  frogpump: "Expire en montant en serrant le périnée.",
+}).forEach(([k, v]) => { if (EX[k]) EX[k].fem = v; });
+/* Quel exercice pour quel matériel. « mixte » = haltères + élastique : haltères pour les jambes et la poussée, élastique pour le dos et les épaules. */
+const ALT = {
+  hipthrust: { halteres: 'hipthrust_h', bande: 'hipthrust_b', mixte: 'hipthrust_h' },
+  splitsquat: { halteres: 'splitsquat_h', bande: 'splitsquat_b', mixte: 'splitsquat_h' },
+  pompes: { halteres: 'pompes_h', bande: 'pompes_b', mixte: 'pompes_h' },
+  rowing: { halteres: 'rowing_h', bande: 'rowing_b', mixte: 'rowing_b' },
+  yausol: { halteres: 'yausol_h', bande: 'yausol_b', mixte: 'yausol_b' },
+  mollets_t: { halteres: 'mollets_t_h', mixte: 'mollets_t_h' },
+  frogpump: { halteres: 'frogpump_h', mixte: 'frogpump_h' },
+  rdl: { halteres: 'rdl_h', bande: 'rdl_b', mixte: 'rdl_h' },
+  fente: { halteres: 'fente_h', bande: 'fente_b', mixte: 'fente_h' },
+  developpe: { halteres: 'developpe_h', bande: 'developpe_b', mixte: 'developpe_h' },
+  tirage: { halteres: 'tirage_h', bande: 'tirage_b', mixte: 'tirage_b' },
+  rotext: { halteres: 'rotext_h', bande: 'rotext_b', mixte: 'rotext_b' },
+  abduction: { bande: 'abduction_b', mixte: 'abduction_b' },
+  kickback: { bande: 'kickback_b', mixte: 'kickback_b' },
+  mollets_f: { halteres: 'mollets_f_h', mixte: 'mollets_f_h' },
+};
+const exFor = (id, eq) => (ALT[id] && ALT[id][eq || S.settings.equipment]) || id;
+const eqBadge = (ex) => (ex.eq === 'h' ? '<span class="eqb">Haltères</span>' : ex.eq === 'b' ? '<span class="eqb">Élastique</span>' : '');
+
 const PLAN = {
   A: { name: 'Séance A', focus: 'Fessiers et poussée', steps: [
     { n: '1', ex: ['sauts'] }, { n: '2', ex: ['hipthrust'] }, { n: '3', ex: ['splitsquat'] }, { n: '4', ex: ['pompes', 'rowing'] }, { n: '5', ex: ['yausol'] }, { n: '6', ex: ['mollets_t', 'planche'] }, { n: '7', ex: ['frogpump'] } ] },
@@ -609,7 +757,8 @@ const REMINDERS = [
   ['21h00', 'Écrans coupés, coucher à 22h', 'Tous les jours, à partir du 19 novembre'],
   ['3h20', 'Mesures du dimanche', 'Chaque dimanche, à partir du 22 novembre'],
 ];
-const EQUIP = [['aucun', 'Aucun'], ['halteres', 'Haltères'], ['elastique', 'Haltères et élastique']];
+const EQUIP = [['aucun', 'Poids du corps'], ['halteres', 'Haltères'], ['bande', 'Élastique'], ['mixte', 'Haltères + élastique']];
+const eqLabel = (k) => (EQUIP.find((x) => x[0] === k) || EQUIP[0])[1];
 
 function phaseOf(cw) {
   if (cw <= 2) return { name: 'Fondations', rr: 'RR 3', note: 'Gestes lents et propres, versions faciles si besoin.' };
@@ -639,12 +788,13 @@ function progInfo(date = new Date()) {
   const cw = ((week - 1) % 13) + 1;
   return { before: false, week, cw, cycle, phase: phaseOf(cw) };
 }
-function buildSteps(type, express, cw) {
+function buildSteps(type, express, cw, eq) {
   const steps = [{ kind: 'warm', n: 'Échauf.' }];
+  const q = eq || S.settings.equipment;
   if (express && EXPRESS[type]) {
-    EXPRESS[type].forEach((ids, idx) => steps.push({ kind: 'ex', n: String(idx + 1), ex: ids.map((id, j) => ({ id, label: ids.length > 1 ? (idx + 1) + 'ab'[j] : String(idx + 1), sets: 2, reps: EX[id].reps })) }));
+    EXPRESS[type].forEach((ids, idx) => steps.push({ kind: 'ex', n: String(idx + 1), ex: ids.map((id, j) => { const rid = exFor(id, q); return { id: rid, base: id, label: ids.length > 1 ? (idx + 1) + 'ab'[j] : String(idx + 1), sets: 2, reps: EX[rid].reps }; }) }));
   } else {
-    PLAN[type].steps.forEach((st) => steps.push({ kind: 'ex', n: st.n, ex: st.ex.map((id, j) => ({ id, label: st.ex.length > 1 ? st.n + 'ab'[j] : st.n, sets: setsFor(id, cw, st.sets), reps: st.reps || EX[id].reps })) }));
+    PLAN[type].steps.forEach((st) => steps.push({ kind: 'ex', n: st.n, ex: st.ex.map((id, j) => { const rid = exFor(id, q); return { id: rid, base: id, label: st.ex.length > 1 ? st.n + 'ab'[j] : st.n, sets: setsFor(id, cw, st.sets), reps: rid === id ? (st.reps || EX[id].reps) : EX[rid].reps }; }) }));
   }
   steps.push({ kind: 'end', n: 'Fin' });
   return steps;
@@ -653,7 +803,8 @@ function progressTip(id) {
   const ex = EX[id];
   if (id === 'sauts') return 'Passe à la version plus difficile : sauts plus hauts, puis sur un pied.';
   if (ex.timed) return "+5 s par séance jusqu'à 60 s, puis la version plus difficile.";
-  if (ex.load && S.settings.equipment !== 'aucun') return "+1 à 2 kg. Sinon descente en 4 à 5 s, sinon la version plus difficile.";
+  if (ex.eq === 'h') return "+1 à 2 kg. Sinon descente en 4 à 5 s, sinon la version plus difficile.";
+  if (ex.eq === 'b') return 'Bande plus dure ou raccourcie. Sinon descente en 4 à 5 s, sinon la version plus difficile.';
   return 'Descente en 4 à 5 s ou pause de 2 s en bas, sinon la version plus difficile.';
 }
 function lastEntry(id) {
@@ -709,6 +860,8 @@ function ensureDefaults() {
   S.settings = Object.assign(clone(DEFAULTS.settings), S.settings || {});
   if (!Array.isArray(S.settings.days)) S.settings.days = [1, 3, 5];
   if (!S.settings.setup || typeof S.settings.setup !== 'object') S.settings.setup = {};
+  if (S.settings.equipment === 'elastique') S.settings.equipment = 'mixte';
+  if (!EQUIP.some((x) => x[0] === S.settings.equipment)) S.settings.equipment = 'aucun';
   S.habits = Object.assign(clone(DEFAULTS.habits), S.habits || {});
   if (!S.habits.days || typeof S.habits.days !== 'object') S.habits.days = {};
   S.measures = Object.assign(clone(DEFAULTS.measures), S.measures || {});
@@ -873,9 +1026,69 @@ POSES.p_fente = [{ h: [58, 23], n: [57, 32], p: [56, 52], k: [70, 56], f: [71, 7
   { h: [60, 25], n: [60, 34], p: [60, 54], k: [72, 57], f: [73, 71], k2: [48, 70], f2: [34, 71], e: [61, 24], w: [62, 14], toe2: [-1, 0] }];
 POSES.p_w = [mixP(ST, { e: [68, 30], w: [72, 20] }), mixP(ST, { e: [53, 33], w: [57, 23] })];
 POSES.p_hipstand = [ST, mixP(ST, { h: [59, 15], n: [59, 24], p: [60, 44], k: [65, 58], f: [68, 71], k2: [54, 58], f2: [47, 70] })];
-const FIG_WALL = { pompes: 88, developpe: 88 };
-const FIG_WALL_L = { mollets_f: 40, w_glisses: 52, p_menton: 52, p_pecs: 46 };
-const FIG_MAT = { p_thor: 1, p_fente: 1, w_catcow: 1, w_book: 1, hipthrust: 1, frogpump: 1, rowing: 1, yausol: 1, tirage: 1, planche: 1, kickback: 1, rotext: 1, abduction: 1, gainage_l: 1 };
+/* Postures des variantes avec haltères et élastique */
+const hangA = (o) => mixP(o, { e: [o.n[0] + 0.6, o.n[1] + 10], w: [o.n[0] + 1.2, o.n[1] + 19.5] });
+const rackA = (o) => mixP(o, { e: [o.n[0] + 6, o.n[1] + 9], w: [o.n[0] + 5, o.n[1] + 1.5] });
+const HINGE = { h: [82, 33], n: [74, 36], p: [55, 45], k: [58, 58], f: [57, 71], k2: [57, 58], f2: [56, 71] };
+const HINGE2 = { h: [84, 37], n: [76, 39], p: [56, 44], k: [58, 58], f: [57, 71], k2: [57, 58], f2: [56, 71] };
+const SEAT = { h: [29, 32], n: [31, 41], p: [35, 64], k: [52, 66], f: [69, 67], toe: [0.2, -1], toe2: [0.2, -1] };
+const BANDW = { side: 1, h: [60, 19], n: [60, 28], p: [60, 47], sh: [66, 30], sh2: [54, 30], hp: [63, 47], hp2: [57, 47], k: [65, 59], f: [65, 71], k2: [55, 59], f2: [55, 71], e: [69, 38], w: [66, 45], e2: [51, 38], w2: [54, 45], toe: [1, 0], toe2: [-1, 0] };
+const KB = { h: [64, 17], n: [62, 26], p: [58, 45], k: [60, 58], f: [59, 71], k2: [58, 58], f2: [57, 71], e: [68, 32], w: [75, 31] };
+Object.assign(POSES, {
+  hipthrust_h: POSES.hipthrust, hipthrust_b: POSES.hipthrust, frogpump_h: POSES.frogpump,
+  splitsquat_h: POSES.splitsquat.map(hangA), splitsquat_b: POSES.splitsquat.map(rackA),
+  fente_h: [hangA(ST), hangA(SPLIT_B)], fente_b: [rackA(ST), rackA(SPLIT_B)],
+  mollets_t_h: POSES.mollets_t.map(hangA), mollets_f_h: POSES.mollets_f,
+  rdl_h: [hangA(ST), hangA(HINGE2)], rdl_b: [hangA(ST), hangA(HINGE2)],
+  rowing_h: [hangA(HINGE), mixP(HINGE, { e: [64, 37], w: [68, 46] })],
+  yausol_h: [hangA(HINGE), mixP(HINGE, { e: [83, 31], w: [91, 25] })],
+  rowing_b: [mixP(SEAT, { e: [42, 51], w: [53, 57] }), mixP(SEAT, { e: [24, 51], w: [33, 53] })],
+  pompes_h: [mixP(BACK, { e: [24, 70], w: [25, 61] }), mixP(BACK, { e: [21, 58], w: [21, 49] })],
+  developpe_h: [mixP(BACK, { e: [26, 69.5], w: [31, 66] }), mixP(BACK, { e: [21.5, 58], w: [21, 49] })],
+  tirage_h: [mixP(BACK, { e: [21, 58], w: [21, 49] }), mixP(BACK, { e: [12, 66], w: [3, 66] })],
+  pompes_b: [mixP(ST, { e: [54, 33], w: [64, 30] }), mixP(ST, { e: [70, 26], w: [80, 26] })],
+  developpe_b: [mixP(ST, { e: [52, 27], w: [46, 31] }), mixP(ST, { e: [69, 25], w: [79, 27] })],
+  tirage_b: [mixP(ST, { e: [62, 13], w: [64, 4] }), mixP(ST, { e: [55, 34], w: [62, 27] })],
+  rotext_h: POSES.rotext,
+  rotext_b: [mixP(FRONT, { e: [67, 36], w: [61, 39] }), mixP(FRONT, { e: [67, 36], w: [77, 37] })],
+  yausol_b: [mixP(FRONT, { e: [65, 29], w: [62, 27], e2: [55, 29], w2: [58, 27] }), mixP(FRONT, { e: [75, 26], w: [84, 26], e2: [45, 26], w2: [36, 26] })],
+  abduction_b: [BANDW, mixP(BANDW, { h: [62, 19], n: [62, 28], p: [62, 47], sh: [68, 30], sh2: [56, 30], hp: [65, 47], hp2: [59, 47], k: [70, 59], f: [73, 71], e: [71, 38], w: [68, 45], e2: [53, 38], w2: [56, 45] })],
+  kickback_b: [KB, mixP(KB, { k2: [50, 56], f2: [42, 64] })],
+});
+/* Accessoires dessinés : haltère (disque vu de côté), élastique (trait), ancrage */
+const DBW = [{ t: 'db', at: 'w' }];
+const PROPS = {
+  hipthrust_h: [{ t: 'db', at: 'p', dy: -5.5 }], frogpump_h: [{ t: 'db', at: 'p', dy: -5.5 }],
+  hipthrust_b: [{ t: 'cuff', a: 'p', b: 'k', u: 0.8 }],
+  splitsquat_h: DBW, fente_h: DBW, rdl_h: DBW, mollets_t_h: DBW, rowing_h: DBW, yausol_h: DBW, pompes_h: DBW, developpe_h: DBW, tirage_h: DBW, rotext_h: DBW,
+  mollets_f_h: [{ t: 'db', at: 'k', dy: -3.5 }],
+  splitsquat_b: [{ t: 'band', a: 'w', b: 'f' }], fente_b: [{ t: 'band', a: 'w', b: 'f' }], rdl_b: [{ t: 'band', a: 'w', b: 'f' }], rowing_b: [{ t: 'band', a: 'w', b: 'f' }],
+  pompes_b: [{ t: 'band', a: 'w', b: [30, 28] }], developpe_b: [{ t: 'band', a: 'w', b: [30, 28] }],
+  tirage_b: [{ t: 'band', a: 'w', b: [70, -16] }], rotext_b: [{ t: 'band', a: 'w', b: [32, 38] }],
+  yausol_b: [{ t: 'band', a: 'w', b: 'w2' }],
+  abduction_b: [{ t: 'band', a: { f: 'hp', to: 'k', u: 0.82 }, b: { f: 'hp2', to: 'k2', u: 0.82 }, sw: 2.4 }],
+  kickback_b: [{ t: 'band', a: { f: 'k', to: 'f', u: 0.85 }, b: { f: 'k2', to: 'f2', u: 0.85 }, sw: 2.4 }],
+};
+function propPt(o, s) {
+  if (Array.isArray(s)) return s;
+  if (typeof s === 'string') return o[s];
+  const a = o[s.f] || o.p; const b = o[s.to];
+  return [a[0] + (b[0] - a[0]) * s.u, a[1] + (b[1] - a[1]) * s.u];
+}
+function propSVG(o, id) {
+  const L = PROPS[id]; if (!L) return '';
+  const r = (x) => Math.round(x * 10) / 10;
+  let s = '';
+  L.forEach((p) => {
+    if (p.t === 'db') { const c = o[p.at]; const x = c[0] + (p.dx || 0); const y = c[1] + (p.dy || 0); s += `<circle class="dbp" cx="${r(x)}" cy="${r(y)}" r="3.4"/><circle class="dbi" cx="${r(x)}" cy="${r(y)}" r="1.2"/>`; }
+    else if (p.t === 'band') { const a = propPt(o, p.a); const b = propPt(o, p.b); s += `<line class="band" x1="${r(a[0])}" y1="${r(a[1])}" x2="${r(b[0])}" y2="${r(b[1])}" stroke-width="${p.sw || 1.6}"/>`; if (Array.isArray(p.b)) s += `<circle class="anc" cx="${r(b[0])}" cy="${r(b[1])}" r="1.8"/>`; }
+    else if (p.t === 'cuff') { const a = o[p.a]; const b = o[p.b]; const c = [a[0] + (b[0] - a[0]) * p.u, a[1] + (b[1] - a[1]) * p.u]; const d = V.norm(V.sub(b, a)); const q = [-d[1] * 4.2, d[0] * 4.2]; s += `<line class="band" x1="${r(c[0] - q[0])}" y1="${r(c[1] - q[1])}" x2="${r(c[0] + q[0])}" y2="${r(c[1] + q[1])}" stroke-width="2.6"/>`; }
+  });
+  return s;
+}
+const FIG_WALL = { pompes: 88, developpe: 88, kickback_b: 77 };
+const FIG_WALL_L = { pompes_b: 30, developpe_b: 30, mollets_f_h: 40, mollets_f: 40, w_glisses: 52, p_menton: 52, p_pecs: 46 };
+const FIG_MAT = { hipthrust_h: 1, hipthrust_b: 1, frogpump_h: 1, pompes_h: 1, developpe_h: 1, tirage_h: 1, rowing_b: 1, rotext_h: 1, p_thor: 1, p_fente: 1, w_catcow: 1, w_book: 1, hipthrust: 1, frogpump: 1, rowing: 1, yausol: 1, tirage: 1, planche: 1, kickback: 1, rotext: 1, abduction: 1, gainage_l: 1 };
 const V = { add: (a, b) => [a[0] + b[0], a[1] + b[1]], sub: (a, b) => [a[0] - b[0], a[1] - b[1]], mul: (a, k) => [a[0] * k, a[1] * k], len: (a) => Math.hypot(a[0], a[1]) || 1 };
 V.norm = (a) => V.mul(a, 1 / V.len(a));
 function figFill(o) {
@@ -890,7 +1103,7 @@ function figLerp(A, B, t) {
   const o = {}; Object.keys(A).forEach((k) => { const a = A[k]; const b = B[k]; o[k] = Array.isArray(a) && Array.isArray(b) ? [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t] : a; });
   return o;
 }
-function figBody(o) {
+function figBody(o, id) {
   const r = (x) => Math.round(x * 10) / 10;
   const seg = (a, b, cls, w) => `<line class="${cls}" x1="${r(a[0])}" y1="${r(a[1])}" x2="${r(b[0])}" y2="${r(b[1])}" stroke-width="${w}"/>`;
   const dot = (c, rad, cls) => `<circle class="${cls}" cx="${r(c[0])}" cy="${r(c[1])}" r="${rad}"/>`;
@@ -917,7 +1130,7 @@ function figBody(o) {
   s += `<path class="hr" d="M${r(o.h[0] + back[0] * 4.5 + up[0] * 2.5)},${r(o.h[1] + back[1] * 4.5 + up[1] * 2.5)} Q${r(o.h[0] + back[0] * 11 + up[0] * 1)},${r(o.h[1] + back[1] * 11 + up[1] * 1)} ${r(o.h[0] + back[0] * 10 - up[0] * 5)},${r(o.h[1] + back[1] * 10 - up[1] * 5)}" stroke-width="3.4"/>`;
   s += dot(V.add(o.h, V.mul(back, 1.3)), 6.3, 'hr-f');
   s += dot(V.add(o.h, V.mul(back, -0.7)), 5.4, 'sk-f');
-  return s;
+  return s + propSVG(o, id);
 }
 const FIG_CACHE = {};
 function figPoses(id) { if (!FIG_CACHE[id]) FIG_CACHE[id] = POSES[id].map(figFill); return FIG_CACHE[id]; }
@@ -933,7 +1146,7 @@ function figHTML(id, size) {
   if (!POSES[id]) return '';
   const wall = FIG_WALL[id] != null ? `<rect class="fwall" x="${FIG_WALL[id]}" y="-60" width="80" height="133"/>` : FIG_WALL_L[id] != null ? `<rect class="fwall" x="${FIG_WALL_L[id] - 100}" y="-60" width="100" height="133"/>` : '';
   const mat = FIG_MAT[id] ? '<rect class="fmat" x="4" y="71.5" width="112" height="3" rx="1.5"/>' : '';
-  return `<span class="fig-box ${size || 'sm'}"><svg class="fig" viewBox="${figBox(id)}" data-ex="${id}" aria-hidden="true" focusable="false">${wall}<line class="ffloor" x1="-60" y1="74.5" x2="180" y2="74.5"/>${mat}<g class="who">${figBody(figPoses(id)[0])}</g></svg></span>`;
+  return `<span class="fig-box ${size || 'sm'}"><svg class="fig" viewBox="${figBox(id)}" data-ex="${id}" aria-hidden="true" focusable="false">${wall}<line class="ffloor" x1="-60" y1="74.5" x2="180" y2="74.5"/>${mat}<g class="who">${figBody(figPoses(id)[0], id)}</g></svg></span>`;
 }
 const FIG_RM = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } })();
 let figLast = 0;
@@ -947,11 +1160,33 @@ function figLoop(ts) {
   if (FIG_RM) t = c < 0.5 ? 0 : 1;
   else if (c < 0.18) t = 0; else if (c < 0.48) t = (c - 0.18) / 0.3; else if (c < 0.68) t = 1; else t = 1 - (c - 0.68) / 0.32;
   t = t * t * (3 - 2 * t);
-  svgs.forEach((svg) => { const id = svg.dataset.ex; const P = figPoses(id); const g = svg.querySelector('.who'); if (g) g.innerHTML = figBody(figLerp(P[0], P[1], t)); });
+  svgs.forEach((svg) => { const id = svg.dataset.ex; const P = figPoses(id); const g = svg.querySelector('.who'); if (g) g.innerHTML = figBody(figLerp(P[0], P[1], t), id); });
 }
 requestAnimationFrame(figLoop);
-function exListHTML(steps) {
-  return `<ol class="ex-list">${steps.filter((s) => s.kind === 'ex').map((s) => s.ex.map((e) => `<li>${figHTML(e.id, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(EX[e.id].name)}</span><span class="muted num">${e.sets} × ${repsTxt(e.reps[0], e.reps[1], EX[e.id].unit)}${esc(EX[e.id].side)}</span></div><span class="num ex-li-n">${esc(e.label)}</span></li>`).join('')).join('')}</ol>`;
+function exListHTML(steps, type) {
+  const inner = (e) => `${figHTML(e.id, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(EX[e.id].name)}</span><span class="muted num">${e.sets} × ${repsTxt(e.reps[0], e.reps[1], EX[e.id].unit)}${esc(EX[e.id].side)}</span>${eqBadge(EX[e.id])}${type ? '<span class="see">Voir l\'exercice</span>' : ''}</div><span class="num ex-li-n">${esc(e.label)}</span>`;
+  return `<ol class="ex-list">${steps.filter((s) => s.kind === 'ex').map((s) => s.ex.map((e) => (type ? `<li class="lk"><button class="ex-row" data-action="preview" data-type="${type}" data-ex="${e.id}">${inner(e)}</button></li>` : `<li>${inner(e)}</li>`)).join('')).join('')}</ol>`;
+}
+function eqChips() {
+  return `<div class="field"><span>Ton matériel <em>· les exercices changent tout de suite</em></span><div class="chips eq-chips" role="group" aria-label="Matériel">${EQUIP.map(([k, l]) => `<button class="chip" data-action="set-equip" data-k="${k}" aria-pressed="${S.settings.equipment === k}">${esc(l)}</button>`).join('')}</div></div>`;
+}
+function ovPreview() {
+  const pv = UI.prev; if (!pv) return '';
+  const P = progInfo(); const busy = pv.type !== 'C' && !!S.settings.busy;
+  const steps = buildSteps(pv.type, busy, P.before ? 1 : P.cw);
+  const list = steps.filter((s) => s.kind === 'ex').flatMap((s) => s.ex);
+  const cards = list.map((e) => { const ex = EX[e.id];
+    return `<section class="card" id="pv-${e.id}">
+      <div class="ex-top"><span class="ex-n num">${esc(e.label)}</span><div class="stack" style="gap:4px"><h2>${esc(ex.name)}</h2><p class="small muted">${esc(ex.muscles)}</p>${eqBadge(ex)}</div></div>
+      ${figHTML(e.id, 'lg')}
+      <div class="presc"><div><b>${e.sets}</b><span>${plural(e.sets, 'série')}</span></div><div><b>${repsTxt(e.reps[0], e.reps[1], '')}</b><span>${ex.unit === 's' ? 's' : 'rép'}${esc(ex.side)}</span></div><div><b>${esc(ex.tempo)}</b><span>tempo</span></div><div><b>${ex.rest ? esc(ex.restTxt || ex.rest + ' s') : 'aucun'}</b><span>repos</span></div></div>
+      <div><p class="cue-l">Comment faire</p><p class="cue">${esc(ex.cue)}</p></div>
+      ${ex.fem ? `<div class="fem"><p class="cue-l">Pensé pour toi</p><p class="small">${esc(ex.fem)}</p></div>` : ''}
+      <p class="small"><b>Plus facile :</b> ${esc(ex.easy)}</p><p class="small"><b>Plus difficile :</b> ${esc(ex.hard)}</p>
+    </section>`; }).join('');
+  return `<header class="ov-head"><div class="wrap"><div class="ov-row"><div class="ov-title"><p class="eyebrow">Aperçu · rien n'est lancé${busy ? ' · express' : ''}</p><h2>${esc(PLAN[pv.type].name)} · ${list.length} exercices</h2></div><button class="icon-btn" data-action="close-overlay" aria-label="Fermer">${ICON.x}</button></div></div></header>
+  <div class="ov-body"><div class="wrap stack"><section class="card">${eqChips()}</section>${cards}</div></div>
+  <footer class="ov-foot"><div class="wrap"><div class="btn-row"><button class="btn" data-action="close-overlay">Fermer</button><button class="btn primary" data-action="start-session" data-type="${pv.type}">${S.draft ? 'Reprendre la séance' : 'Commencer la séance'}</button></div></div></footer>`;
 }
 function sessionCard(type, eyebrow) {
   const P = progInfo(); const busy = !!S.settings.busy && type !== 'C';
@@ -962,8 +1197,10 @@ function sessionCard(type, eyebrow) {
     <div class="sess-top"><div><p class="eyebrow">${eyebrow}${busy ? ' · express' : ''}</p><h2 class="sess-h">${esc(PLAN[type].name)}</h2><p class="small muted">${esc(PLAN[type].focus)}</p></div><span class="sess-letter" aria-hidden="true">${type}</span></div>
     <p class="meta-line"><span>${ICON.timer}${mins} min</span><span>${nEx} exercices</span></p>
     <button class="btn primary block big" data-action="start-session" data-type="${type}">Début</button>
+    ${eqChips()}
     <h3 class="list-h">Exercices</h3>
-    ${exListHTML(steps)}
+    ${exListHTML(steps, type)}
+    <button class="btn block" data-action="preview" data-type="${type}">Voir les exercices en détail</button>
     ${type !== 'C' ? `<button class="toggle-line" data-action="set-busy" aria-pressed="${busy}"><span class="switch"></span>Semaine chargée : version express</button>` : '<p class="small muted">Seulement après une nuit d\'au moins 6 h.</p>'}
   </article>`;
 }
@@ -972,7 +1209,9 @@ function prepCard(type) {
   const hasM = S.measures.list.length > 0;
   return `<article class="card feature">
     <div class="sess-top"><div><p class="eyebrow">Première séance · ${esc(fmtDate(parseKey(S.settings.startDate)))}</p><h2>${esc(PLAN[type].name)}</h2><p class="small muted">${esc(PLAN[type].focus)}</p></div><span class="sess-letter" aria-hidden="true">${type}</span></div>
-    ${exListHTML(steps)}
+    ${eqChips()}
+    ${exListHTML(steps, type)}
+    <button class="btn block" data-action="preview" data-type="${type}">Voir les exercices en détail</button>
     <h3>Pour être prête</h3>
     <ul class="checklist">${PREP.map(([k, t, s]) => { const on = k === 'p-mesures' ? (hasM || !!S.settings.setup[k]) : !!S.settings.setup[k]; return `<li><button class="check-row" data-action="setup" data-k="${k}" aria-pressed="${on}"><span class="box">${ICON.check}</span><span><b>${esc(t)}</b><small>${esc(s)}</small></span></button></li>`; }).join('')}</ul>
     <button class="btn block" data-action="start-session" data-type="${type}">Commencer quand même aujourd'hui</button>
@@ -1000,6 +1239,9 @@ function restCard(type) {
   return `<article class="card">
     <p class="eyebrow">Jour de repos</p><h2>Récupération</h2>
     <p class="small muted">Routine posture et micro-pauses quand même. Prochaine séance : ${esc(PLAN[type].name)}.</p>
+    ${eqChips()}
+    ${exListHTML(buildSteps(type, !!S.settings.busy, progInfo().before ? 1 : progInfo().cw), type)}
+    <button class="btn block" data-action="preview" data-type="${type}">Voir les exercices en détail</button>
     <button class="btn block" data-action="start-session" data-type="${type}">Faire la séance ${type} aujourd'hui</button>
   </article>`;
 }
@@ -1217,12 +1459,12 @@ function progGuide() {
   <ul class="plain"><li>Séance ratée : reprends où tu en étais, sans rattraper.</li><li>Ne saute jamais deux séances de suite.</li><li>Semaine d'examens : active « Semaine chargée » pour des séances express de 25 min (exercices 2, 3 et 4, 2 séries chacun).</li><li>Nuit de moins de 5 h : séance express ou routine posture seule.</li><li>Séance C (25 min, le samedi) : à partir de la semaine 5, seulement après une nuit d'au moins 6 h.</li></ul>`;
 }
 function exGuide() {
-  const part = (t) => `<h3>${PLAN[t].name} · ${esc(PLAN[t].focus)}</h3>` + PLAN[t].steps.map((st) => st.ex.map((id, j) => {
-    const ex = EX[id]; const lbl = st.ex.length > 1 ? st.n + 'ab'[j] : st.n;
+  const part = (t) => `<h3>${PLAN[t].name} · ${esc(PLAN[t].focus)}</h3>` + PLAN[t].steps.map((st) => st.ex.map((bid, j) => {
+    const id = exFor(bid); const ex = EX[id]; const lbl = st.ex.length > 1 ? st.n + 'ab'[j] : st.n;
     if (t === 'B' && id === 'sauts') return `<div class="fiche"><p class="fiche-h"><span class="num">${lbl}</span><b>${esc(ex.name)}</b><span class="small muted">comme en séance A</span></p></div>`;
-    return `<div class="fiche"><p class="fiche-h"><span class="num">${lbl}</span><b>${esc(ex.name)}</b><span class="small muted">${ex.kind === 'acc' ? 2 : 3} × ${repsTxt(ex.reps[0], ex.reps[1], ex.unit)}${esc(ex.side)} · tempo ${esc(ex.tempo)} · repos ${ex.rest ? esc(ex.restTxt || ex.rest + ' s') : 'aucun'}</span></p>${figHTML(id, 'sm')}<p class="small muted">${esc(ex.muscles)}</p><p class="small">${esc(ex.cue)}</p><p class="small"><b>Plus facile :</b> ${esc(ex.easy)}</p><p class="small"><b>Plus difficile :</b> ${esc(ex.hard)}</p></div>`;
+    return `<div class="fiche"><p class="fiche-h"><span class="num">${lbl}</span><b>${esc(ex.name)}</b><span class="small muted">${ex.kind === 'acc' ? 2 : 3} × ${repsTxt(ex.reps[0], ex.reps[1], ex.unit)}${esc(ex.side)} · tempo ${esc(ex.tempo)} · repos ${ex.rest ? esc(ex.restTxt || ex.rest + ' s') : 'aucun'}</span></p>${figHTML(id, 'sm')}<p class="small muted">${esc(ex.muscles)}</p><p class="small">${esc(ex.cue)}</p>${ex.fem ? `<p class="small"><b>Pensé pour toi :</b> ${esc(ex.fem)}</p>` : ''}<p class="small"><b>Plus facile :</b> ${esc(ex.easy)}</p><p class="small"><b>Plus difficile :</b> ${esc(ex.hard)}</p></div>`;
   }).join('')).join('');
-  return `<p class="small muted">Échauffement commun de 5 min avant chaque séance : cercles de bras, chat-vache, livre ouvert, pont fessier, squat, glissés au mur.</p>${part('A')}${part('B')}`;
+  return `<p><b>Matériel choisi : ${esc(eqLabel(S.settings.equipment))}.</b> Change-le sur l'accueil ou dans les réglages : les exercices ci-dessous et tes séances s'adaptent tout de suite.</p><p class="small muted">Échauffement commun de 5 min avant chaque séance : cercles de bras, chat-vache, livre ouvert, pont fessier, squat, glissés au mur.</p>${part('A')}${part('B')}`;
 }
 function diagGuide() {
   return `<p><b>Ta posture correspond au syndrome croisé supérieur</b> : l'avant du corps et le haut des épaules sont trop tendus, le cou profond et le milieu du dos trop faibles. Rester assise toute la journée crée le même déséquilibre aux hanches.</p>
@@ -1264,6 +1506,8 @@ function alertGuide() {
 }
 function femmesGuide() {
   return `<p><b>Les principes de la musculation sont les mêmes pour les femmes et pour les hommes</b> : en proportion, les femmes gagnent autant de muscle et de force. Ce qui change, ce sont les objectifs et quelques points de santé.</p>
+  <h3>Pensé pour le corps des femmes</h3>
+  <ul class="plain"><li><b>Périnée</b> : à chaque effort, tu expires en serrant le périnée (comme pour retenir un pipi), sans bloquer ta respiration. Pas de relevés de buste (crunchs), qui poussent les organes vers le bas : le gainage, le bird-dog et le pull-over au sol travaillent les abdominaux profonds à la place.</li><li><b>Bassin plus large</b> : les genoux ont tendance à rentrer vers l'intérieur. Les consignes rappellent de garder le genou au-dessus du 2e orteil, on préfère les fentes arrière, et le moyen fessier (abduction, marche latérale avec mini-bande) est travaillé à chaque séance B.</li><li><b>Poitrine</b> : chaque exercice à plat ventre a une version debout ou penchée (élastique, haltères). Pour les sauts, une brassière bien maintenue.</li><li><b>Haut du corps</b> : la progression part de là où tu en es (mur, table, genoux, sol ; développé au sol avec haltères ; tirage à l'élastique qui prépare la traction).</li><li><b>Grossesse et après l'accouchement</b> : demande l'avis d'une sage-femme ou d'un médecin. Après un accouchement, la rééducation du périnée passe avant les sauts et les charges ; un ventre en « dôme » pendant l'effort (diastasis) demande des versions plus faciles.</li></ul>
   <h3>Ce qui a changé dans ton programme</h3>
   <ul class="plain"><li>Fessiers travaillés à chaque séance, avec plusieurs exercices : aucun exercice ne cible à lui seul toutes les parties des fessiers.</li><li>Deux exercices de fin de séance, populaires sur TikTok et efficaces sans matériel : les frog pumps (séances A et C) et les kickbacks à quatre pattes (séance B).</li><li>Séries longues de 15 à 30 répétitions avec des repos courts : les femmes se fatiguent en général moins vite d'une série à l'autre.</li><li>Les pompes commencent en version facile (contre le mur, puis à genoux), car la force du haut du corps est souvent plus basse au départ. Passe à la version standard quand tu atteins le haut de la fourchette deux séances de suite.</li></ul>
   <h3>Ce qu'on a gardé de TikTok, et ce qu'on a laissé</h3>
@@ -1277,7 +1521,8 @@ function femmesGuide() {
   <p class="small muted">Sources : <a href="https://www.frontiersin.org/articles/10.3389/fspor.2023.1054542/full" target="_blank" rel="noopener">revue Frontiers 2023 sur le cycle menstruel et la musculation</a> ; <a href="https://www.planetfitness.com/newsroom/news/whats-behind-this-glutemaxxing-or-bootymaxxing-trend" target="_blank" rel="noopener">Planet Fitness sur la tendance « glutemaxxing »</a> ; <a href="https://central.gymshark.com/article/best-bodyweight-glute-exercises" target="_blank" rel="noopener">Gymshark, exercices fessiers au poids du corps</a>.</p>`;
 }
 function baseGuide() {
-  return `<p><b>Tout le programme se fait sans matériel</b>, au sol et contre un mur : il te faut seulement 2 m² de place et une serviette ou un pagne. Sans charge, on progresse avec plus de répétitions, une descente plus lente, des pauses et des versions plus difficiles.</p>
+  return `<p><b>Le programme marche sans matériel</b>, au sol et contre un mur : il te faut seulement 2 m² de place et une serviette ou un pagne. Sans charge, on progresse avec plus de répétitions, une descente plus lente, des pauses et des versions plus difficiles.</p>
+  <p><b>Tu as des haltères ou un élastique ?</b> Choisis ton matériel sur l'accueil ou dans les réglages (poids du corps, haltères, élastique, ou les deux) : les exercices de tes séances changent tout de suite. Avec les deux, les haltères servent aux jambes et à la poussée, l'élastique au dos et aux épaules.</p>
   <h3>Si un jour tu veux t'équiper, par priorité</h3>
   <ol class="plain"><li>Bande élastique longue, résistance légère et moyenne : la plus utile pour la posture.</li><li>Deux haltères réglables de 2 à 10 kg : pour continuer à faire progresser les fessiers.</li><li>Mini-bande élastique en boucle : pour le moyen fessier.</li><li>Barre de traction de porte : utile plus tard, pas indispensable.</li></ol>
   <h3>Ce que tu peux attendre</h3>
@@ -1307,8 +1552,8 @@ function render() {
 /* ---------- Séance guidée ---------- */
 function newDraft(type, express) {
   const P = progInfo(); const cw = P.before ? 1 : P.cw;
-  const d = { id: Date.now().toString(36), type, express: !!express, cw, week: P.week || 0, cycle: P.cycle || 1, startedAt: Date.now(), step: 0, warm: WARMUP.map(() => false), entries: {} };
-  buildSteps(type, express, cw).forEach((st) => {
+  const d = { id: Date.now().toString(36), type, express: !!express, eq: S.settings.equipment, cw, week: P.week || 0, cycle: P.cycle || 1, startedAt: Date.now(), step: 0, warm: WARMUP.map(() => false), entries: {} };
+  buildSteps(type, express, cw, d.eq).forEach((st) => {
     if (st.kind !== 'ex') return;
     st.ex.forEach((e) => {
       const last = lastEntry(e.id);
@@ -1324,7 +1569,7 @@ function stepDone(d, st) {
 }
 function setStep(i) {
   const d = S.draft; if (!d) return;
-  const n = buildSteps(d.type, d.express, d.cw).length;
+  const n = buildSteps(d.type, d.express, d.cw, d.eq || 'aucun').length;
   d.step = Math.max(0, Math.min(n - 1, i)); RT.hold = null; saveLocal(); renderOverlay();
 }
 function startRest(secs, label) { RT.rest = { until: Date.now() + secs * 1000, total: secs * 1000, label, warned: false }; }
@@ -1332,7 +1577,7 @@ function warmHTML(d) {
   return `<section class="card"><div><p class="eyebrow">5 minutes</p><h2>Échauffement</h2></div>
     <ul class="checklist">${WARMUP.map(([t, s], i) => `<li><button class="check-row" data-action="warm" data-i="${i}" aria-pressed="${!!d.warm[i]}"><span class="box">${ICON.check}</span><span><b>${esc(t)}</b><small>${esc(s)}</small></span></button></li>`).join('')}</ul>
     <button class="btn block" data-action="warm-all">Tout cocher</button></section>
-    <section class="card"><h3>Au programme</h3>${exListHTML(buildSteps(d.type, d.express, d.cw))}</section>`;
+    <section class="card"><h3>Au programme</h3>${exListHTML(buildSteps(d.type, d.express, d.cw, d.eq || 'aucun'))}</section>`;
 }
 function exBlockHTML(d, e) {
   const ex = EX[e.id]; const en = d.entries[e.id]; const last = lastEntry(e.id); const ready = readyToProgress(e.id);
@@ -1346,7 +1591,8 @@ function exBlockHTML(d, e) {
     <div><p class="cue-l">Consigne</p><p class="cue">${esc(ex.cue)}</p></div>
     <div class="seg" role="group" aria-label="Version de l'exercice">${[['f', 'Plus facile'], ['n', 'Standard'], ['d', 'Plus difficile']].map(([v, l]) => `<button data-action="variant" data-ex="${e.id}" data-v="${v}" aria-pressed="${en.variant === v}">${l}</button>`).join('')}</div>
     <p class="small">${esc(varTxt)}</p>
-    ${ex.load && S.settings.equipment !== 'aucun' ? `<label class="field"><span>Charge en kg (facultatif)</span><input id="load-${e.id}" inputmode="decimal" autocomplete="off" placeholder="${esc(placeholder)}" value="${en.load == null ? '' : esc(fmtN(en.load))}" data-change="load" data-ex="${e.id}"></label>` : ''}
+    ${ex.fem ? `<div class="fem"><p class="cue-l">Pensé pour toi</p><p class="small">${esc(ex.fem)}</p></div>` : ''}
+    ${ex.eq === 'h' ? `<label class="field"><span>Charge en kg (facultatif)</span><input id="load-${e.id}" inputmode="decimal" autocomplete="off" placeholder="${esc(placeholder)}" value="${en.load == null ? '' : esc(fmtN(en.load))}" data-change="load" data-ex="${e.id}"></label>` : ''}
     ${last ? `<p class="small muted">Dernière fois : ${last.sets.filter((v) => v != null).join(' · ')} ${unit}${last.load ? ' · ' + fmtN(last.load) + ' kg' : ''}${last.variant && last.variant !== 'n' ? ' · version ' + (last.variant === 'f' ? 'facile' : 'difficile') : ''}</p>` : ''}
     ${ready ? `<div class="up"><b>Prête à monter d'un cran.</b> ${esc(progressTip(e.id))}</div>` : ''}
   </section>`;
@@ -1390,13 +1636,13 @@ function footHTML(d, steps) {
   const next = last ? '<button class="btn primary" data-action="finish-session">Terminer</button>' : `<button class="btn ${stepDone(d, steps[d.step]) ? 'primary' : 'plumb'}" data-action="sess-next">Suivant</button>`;
   return `<div class="btn-row"><button class="btn" data-action="sess-prev" ${d.step === 0 ? 'disabled' : ''}>Précédent</button>${next}</div>`;
 }
-function renderFoot() { const f = document.getElementById('sessFoot'); if (f && S.draft) f.innerHTML = footHTML(S.draft, buildSteps(S.draft.type, S.draft.express, S.draft.cw)); }
+function renderFoot() { const f = document.getElementById('sessFoot'); if (f && S.draft) f.innerHTML = footHTML(S.draft, buildSteps(S.draft.type, S.draft.express, S.draft.cw, S.draft.eq || 'aucun')); }
 /* ---------- Lecteur de séance : tout s'enchaîne, on n'appuie que sur « Fini » ---------- */
 const WARM_S = 40;
 const WARM_FIG = ['w_cercles', 'w_catcow', 'w_book', 'hipthrust', 'w_squat', 'w_glisses'];
 function pQueue(d) {
   const q = WARMUP.map((w, i) => ({ k: 'warm', i }));
-  buildSteps(d.type, d.express, d.cw).forEach((st, si) => {
+  buildSteps(d.type, d.express, d.cw, d.eq || 'aucun').forEach((st, si) => {
     if (st.kind !== 'ex') return;
     const max = Math.max(...st.ex.map((e) => e.sets));
     for (let i = 0; i < max; i++) st.ex.forEach((e) => { if (i < e.sets) q.push({ k: 'set', si, e, i, sup: st.ex.length > 1 ? st.ex.filter((x) => x.id !== e.id).map((x) => EX[x.id].name) : null }); });
@@ -1472,7 +1718,7 @@ function ovPlayer(d) {
     body = `<div class="p-hero"><p class="eyebrow">Exercice ${ids.indexOf(id) + 1} sur ${ids.length} · Série ${it.i + 1} sur ${it.e.sets}</p><h1 class="p-name">${esc(ex.name)}</h1>${it.sup ? `<p class="small muted">En alternance avec : ${esc(it.sup.join(', '))}</p>` : ''}</div>
       ${figHTML(id, 'lg')}
       ${target}
-      <details class="p-how"${it.i === 0 && !running ? ' open' : ''}><summary>Comment faire</summary><div class="stack" style="gap:10px;padding-top:6px"><p class="cue">${esc(ex.cue)}</p>
+      <details class="p-how"${it.i === 0 && !running ? ' open' : ''}><summary>Comment faire</summary><div class="stack" style="gap:10px;padding-top:6px"><p class="cue">${esc(ex.cue)}</p>${ex.fem ? `<div class="fem"><p class="cue-l">Pensé pour toi</p><p class="small">${esc(ex.fem)}</p></div>` : ''}
         <div class="seg" role="group" aria-label="Version de l'exercice">${[['f', 'Plus facile'], ['n', 'Standard'], ['d', 'Plus difficile']].map(([k, l]) => `<button data-action="variant" data-ex="${id}" data-v="${k}" aria-pressed="${en.variant === k}">${l}</button>`).join('')}</div>
         <p class="small">${esc(varTxt)}</p>
         ${last ? `<p class="small muted">Dernière fois : ${last.sets.filter((x) => x != null).join(' · ')} ${ex.unit === 's' ? 's' : 'rép'}</p>` : ''}</div></details>`;
@@ -1513,7 +1759,7 @@ function ovSession() {
   const d = S.draft;
   if (!d) return UI.summaryId ? ovSummary() : '';
   if (!UI.detail) return ovPlayer(d);
-  const steps = buildSteps(d.type, d.express, d.cw);
+  const steps = buildSteps(d.type, d.express, d.cw, d.eq || 'aucun');
   if (d.step > steps.length - 1) d.step = steps.length - 1;
   const st = steps[d.step];
   const leave = UI.confirm && UI.confirm.kind === 'leave' ? `<section class="card warn-card"><h3>Quitter la séance ?</h3><p class="small">Elle reste en brouillon : tu la reprends depuis l'accueil quand tu veux.</p><div class="btn-row"><button class="btn" data-action="confirm-no">Continuer</button><button class="btn" data-action="leave-keep">Quitter</button></div><button class="link-btn danger" data-action="discard-yes">Abandonner la séance</button></section>` : '';
@@ -1620,10 +1866,11 @@ function renderOverlay(opts = {}) {
   const ov = $('#overlay');
   if (!UI.overlay) { ov.hidden = true; ov.innerHTML = ''; document.documentElement.classList.remove('lock'); wakeSync(); return; }
   const oldBody = ov.querySelector('.ov-body'); const top = opts.keep && oldBody ? oldBody.scrollTop : 0;
-  const html = UI.overlay === 'session' ? ovSession() : UI.overlay === 'guided' ? ovGuided() : ovSettings();
+  const html = UI.overlay === 'session' ? ovSession() : UI.overlay === 'guided' ? ovGuided() : UI.overlay === 'preview' ? ovPreview() : ovSettings();
   if (!html) { UI.overlay = null; renderOverlay(); return; }
   ov.innerHTML = html; ov.hidden = false; document.documentElement.classList.add('lock');
   const nb = ov.querySelector('.ov-body'); if (nb) nb.scrollTop = top;
+  if (UI.overlay === 'preview' && UI.prev && UI.prev.focus) { const el = document.getElementById('pv-' + UI.prev.focus); if (el && nb) nb.scrollTop = Math.max(0, el.offsetTop - 12); UI.prev.focus = null; }
   const cur = ov.querySelector('.step-chip.cur');
   if (cur) { const row = cur.parentElement; row.scrollLeft = Math.max(0, cur.offsetLeft - row.clientWidth / 2 + cur.clientWidth / 2); }
   wakeSync();
@@ -1634,6 +1881,7 @@ function closeOverlay() { UI.overlay = null; UI.confirm = null; renderOverlay();
 const A = {
   tab(b) { UI.tab = b.dataset.tab; UI.confirm = null; render(); window.scrollTo(0, 0); },
   'open-settings'() { UI.overlay = 'settings'; renderOverlay(); },
+  preview(b) { UI.prev = { type: b.dataset.type || nextType(), focus: b.dataset.ex || null }; UI.overlay = 'preview'; renderOverlay(); },
   'close-overlay'() { closeOverlay(); },
   'go-measure'() { UI.tab = 'suivi'; UI.measureOpen = true; render(); window.scrollTo(0, 0); },
   'go-suivi'() { UI.tab = 'suivi'; render(); window.scrollTo(0, 0); },
@@ -1751,7 +1999,7 @@ const A = {
     toast(S.settings.busy ? 'Semaine chargée : séances express' : 'Séances complètes');
   },
   'set-sound'() { S.settings.mute = !S.settings.mute; touch('settings'); renderOverlay({ keep: true }); if (!S.settings.mute) chime('tick'); },
-  'set-equip'(b) { S.settings.equipment = b.dataset.k; touch('settings'); renderOverlay({ keep: true }); },
+  'set-equip'(b) { S.settings.equipment = b.dataset.k; touch('settings'); render(); if (UI.overlay) renderOverlay({ keep: true }); toast(`Matériel : ${eqLabel(b.dataset.k)}. Séances mises à jour.`); },
   'set-day'(b) { const d = +b.dataset.d; const days = new Set(S.settings.days); if (days.has(d)) days.delete(d); else days.add(d); S.settings.days = [...days].sort((x, y) => x - y); touch('settings'); renderOverlay({ keep: true }); render(); },
   'measure-toggle'() { UI.measureOpen = !UI.measureOpen; render(); },
   'measure-save'() {
