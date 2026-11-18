@@ -411,6 +411,21 @@ details.p-how summary{cursor:pointer;font-weight:600;color:var(--plumb);padding:
 .ex-row{width:100%;display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 0;background:none;border:0;text-align:left;color:inherit;font:inherit}
 .ex-row .see{font-size:12.5px;font-weight:600;color:var(--plumb)}
 .eq-chips .chip{min-height:36px;font-size:13.5px;padding:0 12px}
+.cam-wrap{position:relative;background:#000;border-radius:14px;overflow:hidden;aspect-ratio:3/4;width:100%;max-height:62vh}
+.cam-wrap video{width:100%;height:100%;object-fit:cover;display:block}
+.cam-wrap video.mir{transform:scaleX(-1)}
+.plumb{position:absolute;inset:0;pointer-events:none}
+.plumb i{position:absolute;left:50%;top:0;bottom:22px;width:2px;margin-left:-1px;background:#E9A21A;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+.plumb b{position:absolute;left:50%;bottom:6px;width:14px;height:18px;margin-left:-7px;background:#E9A21A;clip-path:polygon(0 0,100% 0,50% 100%)}
+.cam-fig{position:absolute;right:8px;top:8px;width:44%;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.92)}
+.cam-fig .fig-box{width:100%}
+.cam-count{position:absolute;inset:0;display:grid;place-items:center;font:700 120px/1 var(--f-display);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.6);pointer-events:none}
+.ph-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ph-pair.one{grid-template-columns:minmax(0,240px)}
+.ph-pair img,.ph-grid img{width:100%;border-radius:10px;display:block;aspect-ratio:3/4;object-fit:cover;background:var(--surface-2)}
+figure{margin:0}figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}
+.ph-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.rv{border-color:var(--plumb)}.rv-q{font-size:16px;line-height:1.5}.rv-a{background:var(--good-soft);border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.5}
+.tabs .wrap{grid-template-columns:repeat(5,minmax(0,1fr))}.tab{font-size:11px}
 [hidden]{display:none!important}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:90;max-width:calc(100% - 32px);text-align:center;transition:opacity .2s,transform .2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -435,6 +450,7 @@ details.p-how summary{cursor:pointer;font-weight:600;color:var(--plumb);padding:
 <nav class="tabs" aria-label="Sections">
   <div class="wrap">
     <button class="tab" data-action="tab" data-tab="today"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 10h16M9 3v4M15 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Aujourd'hui</button>
+    <button class="tab" data-action="tab" data-tab="seances"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7v10M17 7v10M4 10v4M20 10v4M7 12h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Séances</button>
     <button class="tab" data-action="tab" data-tab="posture"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7.5 10.5h9L12 21.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Posture</button>
     <button class="tab" data-action="tab" data-tab="suivi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 16l4.5-4.5 3 3L19 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Suivi</button>
     <button class="tab" data-action="tab" data-tab="guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h10a2 2 0 012 2v14H8a2 2 0 01-2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 18a2 2 0 012-2h10M10 8h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Guide</button>
@@ -684,6 +700,96 @@ const PLAN = {
 };
 const EXPRESS = { A: [['hipthrust'], ['splitsquat'], ['pompes', 'rowing']], B: [['rdl'], ['fente'], ['developpe', 'tirage']] };
 
+/* ---------- Séance F : musculation pensée pour le corps des femmes ---------- */
+Object.assign(EX, {
+  sumo: { name: "Squat sumo", muscles: "Fessiers, adducteurs (intérieur des cuisses), quadriceps", kind: "base", leg: true, reps: [12, 20], unit: "rép", side: "", tempo: "3-1-1-0", rest: 60,
+    cue: "Pieds bien plus écartés que les épaules, pointes tournées vers l'extérieur, mains jointes devant la poitrine. Descends en poussant les genoux vers l'extérieur, dans l'axe des pieds, buste droit, jusqu'à ce que les cuisses soient presque horizontales, puis remonte en serrant les fesses.",
+    easy: "Descente moins basse, ou fesses qui touchent une chaise.", hard: "Pause de 3 s en bas, puis montée sur la pointe des pieds en haut.",
+    fem: "La position écartée suit la forme du bassin féminin et travaille l'intérieur des cuisses en même temps que les fessiers. Expire en remontant en serrant le périnée." },
+  sumo_h: { name: "Squat sumo avec haltère (goblet)", muscles: "Fessiers, adducteurs, quadriceps", kind: "base", leg: true, reps: [10, 15], unit: "rép", side: "", tempo: "3-1-1-0", rest: 60, load: true, eq: 'h',
+    cue: "Pieds écartés, pointes vers l'extérieur, un haltère tenu à deux mains contre la poitrine. Descends en poussant les genoux vers l'extérieur, buste droit, puis remonte en serrant les fesses.",
+    easy: "Haltère plus léger, descente moins basse.", hard: "Haltère plus lourd, puis pause de 2 s en bas.",
+    fem: "Expire en remontant en serrant le périnée. Genoux dans l'axe des pieds." },
+  sumo_b: { name: "Squat sumo avec mini-bande", muscles: "Fessiers, moyen fessier, adducteurs", kind: "base", leg: true, reps: [12, 20], unit: "rép", side: "", tempo: "3-1-1-0", rest: 60, eq: 'b',
+    cue: "Mini-bande au-dessus des genoux, pieds écartés, pointes vers l'extérieur. Garde les genoux poussés vers l'extérieur contre la bande pendant toute la descente et la montée.",
+    easy: "Bande plus souple.", hard: "Bande plus dure, puis pause de 3 s en bas.",
+    fem: "La bande empêche les genoux de rentrer vers l'intérieur, un défaut fréquent avec un bassin plus large." },
+  curtsy: { name: "Fente croisée (révérence)", muscles: "Moyen et grand fessier, côté de la hanche, quadriceps", kind: "base", leg: true, reps: [8, 12], unit: "rép", side: "/jambe", tempo: "2-1-1-0", rest: 45,
+    cue: "Debout, recule une jambe en diagonale derrière l'autre, comme une révérence, puis plie les deux genoux. Le genou avant reste au-dessus du pied, buste droit. Remonte en poussant dans le talon avant.",
+    easy: "Une main sur une chaise ou au mur, descente moins basse.", hard: "Pause de 2 s en bas, ou lève la jambe sur le côté en remontant.",
+    fem: "Conçue pour le galbe des hanches : elle cible le moyen fessier, peu travaillé par les squats classiques." },
+  curtsy_h: { name: "Fente croisée avec haltères", muscles: "Moyen et grand fessier, quadriceps", kind: "base", leg: true, reps: [8, 12], unit: "rép", side: "/jambe", tempo: "2-1-1-0", rest: 45, load: true, eq: 'h',
+    cue: "Un haltère dans chaque main, bras le long du corps. Recule une jambe en diagonale derrière l'autre, plie les deux genoux, puis remonte en poussant dans le talon avant.",
+    easy: "Un seul haltère, l'autre main sur une chaise.", hard: "Haltères plus lourds, puis pause de 2 s en bas.",
+    fem: "Genou avant au-dessus du pied, buste droit : c'est la hanche qui travaille." },
+  hydrant: { name: "Fire hydrant (ouverture de hanche)", muscles: "Moyen et petit fessier, rotateurs de hanche", kind: "acc", reps: [12, 15], unit: "rép", side: "/côté", tempo: "1-0-1-2", rest: 30,
+    cue: "À quatre pattes, dos plat, genou plié à 90°. Lève le genou sur le côté jusqu'à hauteur de hanche sans faire basculer le bassin, tiens 2 s, puis redescends.",
+    easy: "Plus petite amplitude.", hard: "Tends la jambe en haut avant de redescendre, ou pause de 3 s.",
+    fem: "Il travaille le côté des fessiers, qui arrondit la hanche et stabilise les genoux." },
+  hydrant_b: { name: "Fire hydrant avec mini-bande", muscles: "Moyen et petit fessier", kind: "acc", reps: [12, 15], unit: "rép", side: "/côté", tempo: "1-0-1-2", rest: 30, eq: 'b',
+    cue: "Mini-bande au-dessus des genoux, à quatre pattes, dos plat. Lève le genou sur le côté contre la bande, sans basculer le bassin, tiens 2 s, puis redescends.",
+    easy: "Bande plus souple.", hard: "Bande plus dure, puis pause de 3 s.",
+    fem: "Il travaille le côté des fessiers, qui arrondit la hanche et stabilise les genoux." },
+  clam: { name: "Coquillage (clamshell)", muscles: "Moyen fessier profond, rotateurs externes de hanche", kind: "acc", reps: [15, 20], unit: "rép", side: "/côté", tempo: "1-0-1-2", rest: 0,
+    cue: "Couchée sur le côté, hanches et genoux pliés à 45°, pieds collés. Ouvre le genou du dessus comme une coquille, sans faire basculer le bassin en arrière, tiens 2 s, puis referme.",
+    easy: "Plus petite ouverture.", hard: "Décolle les pieds du sol avant d'ouvrir, ou pause de 3 s.",
+    fem: "Très utilisé en rééducation chez les femmes : il stabilise le bassin et soulage les douleurs de hanche et de genou." },
+  clam_b: { name: "Coquillage avec mini-bande", muscles: "Moyen fessier profond, rotateurs externes de hanche", kind: "acc", reps: [15, 20], unit: "rép", side: "/côté", tempo: "1-0-1-2", rest: 0, eq: 'b',
+    cue: "Mini-bande au-dessus des genoux, couchée sur le côté, hanches et genoux pliés, pieds collés. Ouvre le genou du dessus contre la bande, tiens 2 s, puis referme lentement.",
+    easy: "Bande plus souple.", hard: "Bande plus dure, puis pause de 3 s.",
+    fem: "Il stabilise le bassin et soulage les douleurs de hanche et de genou." },
+  pontmarche: { name: "Pont fessier en marche", muscles: "Fessiers, abdominaux profonds, stabilité du bassin", kind: "acc", reps: [10, 16], unit: "rép", side: " pas", tempo: "contrôlé", rest: 45,
+    cue: "Monte en pont fessier, fesses serrées. Sans laisser le bassin pencher ni descendre, lève un genou vers la poitrine, repose le pied, puis l'autre : chaque levée compte pour un pas.",
+    easy: "Pont simple, ou petits pas.", hard: "Pause de 2 s genou levé.",
+    fem: "Le bassin reste horizontal comme un plateau : ce travail profond soulage le bas du dos." },
+  adducteurs: { name: "Adduction couchée (intérieur des cuisses)", muscles: "Adducteurs", kind: "acc", reps: [15, 20], unit: "rép", side: "/côté", tempo: "2-0-1-1", rest: 0,
+    cue: "Couchée sur le côté, pied de la jambe du dessus posé au sol devant le genou du dessous. Lève la jambe du dessous, tendue, de quelques centimètres, tiens 1 s, puis redescends sans la poser.",
+    easy: "Moins de répétitions.", hard: "Pause de 3 s en haut, puis planche de Copenhague, genoux posés sur une chaise.",
+    fem: "L'intérieur des cuisses est peu travaillé ailleurs ; des adducteurs forts stabilisent aussi le bassin et aident le périnée." },
+  dips: { name: "Dips sur une chaise", muscles: "Triceps (arrière du bras), avant des épaules", kind: "acc", reps: [8, 15], unit: "rép", side: "", tempo: "3-0-1-0", rest: 45,
+    cue: "Assise au bord d'une chaise stable (contre un mur), mains à côté des fesses, doigts vers l'avant. Avance les fesses dans le vide, genoux pliés, puis plie les coudes vers l'arrière pour descendre de 10 à 15 cm, et pousse pour remonter.",
+    easy: "Pieds plus près de la chaise, petite descente.", hard: "Jambes tendues, puis pause de 2 s en bas.",
+    fem: "Il cible l'arrière du bras, la zone qui se relâche le plus vite. Épaules basses ; arrête si l'avant de l'épaule fait mal." },
+  dips_h: { name: "Extension des triceps avec haltère", muscles: "Triceps (arrière du bras)", kind: "acc", reps: [10, 15], unit: "rép", side: "", tempo: "3-0-1-0", rest: 45, load: true, eq: 'h',
+    cue: "Debout ou assise, un haltère tenu à deux mains au-dessus de la tête. Plie les coudes pour descendre l'haltère derrière la tête, coudes pointés vers le plafond, puis tends les bras.",
+    easy: "Haltère plus léger.", hard: "Haltère plus lourd, puis pause de 2 s en bas.",
+    fem: "Il cible l'arrière du bras. Côtes basses : ne cambre pas en tendant les bras." },
+  dips_b: { name: "Extension des triceps à l'élastique", muscles: "Triceps (arrière du bras)", kind: "acc", reps: [12, 15], unit: "rép", side: "", tempo: "3-0-1-0", rest: 45, eq: 'b',
+    cue: "Bande sous le pied arrière, les deux extrémités dans les mains derrière la tête. Tends les bras vers le plafond, coudes près de la tête, puis redescends lentement.",
+    easy: "Bande plus souple.", hard: "Bande plus dure, puis pause de 2 s bras tendus.",
+    fem: "Il cible l'arrière du bras. Côtes basses : ne cambre pas en tendant les bras." },
+  deadbug: { name: "Dead bug (ventre sans crunch)", muscles: "Transverse, grands droits, stabilité du tronc", kind: "acc", reps: [6, 10], unit: "rép", side: "/côté", tempo: "3-1-1-0", rest: 45,
+    cue: "Sur le dos, bras tendus vers le plafond, hanches et genoux pliés à 90°. Colle le bas du dos au sol. En expirant, allonge un bras derrière la tête et la jambe opposée vers le sol, sans décoller le dos, puis reviens et change de côté.",
+    easy: "Seulement les jambes, pied qui touche le sol en alternance.", hard: "Pause de 3 s en extension, ou une bouteille d'eau dans chaque main.",
+    fem: "Il remplace les crunchs, qui poussent les organes vers le périnée. Si ton ventre forme un « dôme », réduis l'amplitude." },
+  perinee: { name: "Ascenseur du périnée", muscles: "Plancher pelvien (périnée), transverse", kind: "acc", reps: [6, 10], unit: "rép", side: "", tempo: "3-3-3-3", rest: 30,
+    cue: "Sur le dos, genoux pliés, mains sur le ventre. En expirant, serre le périnée comme pour retenir un pipi et un gaz, et monte-le en 3 étages (3 s), tiens 3 s en respirant, redescends étage par étage (3 s), puis relâche complètement 3 s.",
+    easy: "Serre puis relâche simplement, 3 s chacun.", hard: "Assise puis debout, et 10 contractions rapides à la fin.",
+    fem: "Le muscle que les programmes classiques oublient : il protège des fuites urinaires, soutient les organes et aide pendant et après une grossesse. Ne le fais jamais en urinant." },
+  elevlat: { name: "Élévations latérales avec bouteilles d'eau", muscles: "Deltoïdes (épaules), trapèzes", kind: "acc", reps: [12, 15], unit: "rép", side: "", tempo: "2-1-1-0", rest: 30,
+    cue: "Debout, une bouteille d'eau de 0,5 à 1,5 L dans chaque main, bras le long du corps, coudes légèrement fléchis. Lève les bras sur les côtés jusqu'à hauteur d'épaule, puis redescends lentement.",
+    easy: "Bouteilles plus petites ou à moitié vides.", hard: "Bouteilles plus lourdes, puis pause de 2 s en haut.",
+    fem: "Des épaules un peu plus dessinées affinent visuellement la taille et soutiennent une posture droite. Épaules basses, cou détendu." },
+  elevlat_h: { name: "Élévations latérales avec haltères", muscles: "Deltoïdes (épaules), trapèzes", kind: "acc", reps: [10, 15], unit: "rép", side: "", tempo: "2-1-1-0", rest: 30, load: true, eq: 'h',
+    cue: "Debout, haltères légers, bras le long du corps, coudes légèrement fléchis. Lève les bras sur les côtés jusqu'à hauteur d'épaule, puis redescends lentement.",
+    easy: "Haltères plus légers.", hard: "Haltères plus lourds, puis pause de 2 s en haut.",
+    fem: "Épaules basses, cou détendu : ce sont les épaules qui lèvent, pas les trapèzes." },
+  elevlat_b: { name: "Élévations latérales à l'élastique", muscles: "Deltoïdes (épaules), trapèzes", kind: "acc", reps: [12, 15], unit: "rép", side: "", tempo: "2-1-1-0", rest: 30, eq: 'b',
+    cue: "Bande sous les pieds, une extrémité dans chaque main. Lève les bras sur les côtés jusqu'à hauteur d'épaule, puis redescends lentement.",
+    easy: "Bande plus souple.", hard: "Bande plus dure, puis pause de 2 s en haut.",
+    fem: "Épaules basses, cou détendu." },
+});
+PLAN.F = { name: 'Séance F', focus: 'Pensée pour le corps des femmes : fessiers, hanches, intérieur des cuisses, bras, ventre et périnée', steps: [
+  { n: '1', ex: ['sumo'] }, { n: '2', ex: ['curtsy'] }, { n: '3', ex: ['pontmarche', 'dips'] }, { n: '4', ex: ['hydrant', 'elevlat'] }, { n: '5', ex: ['clam', 'adducteurs'] }, { n: '6', ex: ['deadbug'] }, { n: '7', ex: ['perinee'] } ] };
+Object.assign(ALT, {
+  sumo: { halteres: 'sumo_h', bande: 'sumo_b', mixte: 'sumo_h' },
+  curtsy: { halteres: 'curtsy_h', mixte: 'curtsy_h' },
+  hydrant: { bande: 'hydrant_b', mixte: 'hydrant_b' },
+  clam: { bande: 'clam_b', mixte: 'clam_b' },
+  dips: { halteres: 'dips_h', bande: 'dips_b', mixte: 'dips_h' },
+  elevlat: { halteres: 'elevlat_h', bande: 'elevlat_b', mixte: 'elevlat_h' },
+});
+
 const WARMUP = [
   ['Cercles de bras', "10 vers l'avant, 10 vers l'arrière"],
   ['Chat-vache à quatre pattes', '8 fois'],
@@ -710,6 +816,34 @@ const MICRO = [
   { fig: 'mollets_t', t: 'Pointes de pieds', target: 'Mollets', dose: '10 fois', how: 'Monte sur la pointe des pieds, redescends lentement.', segs: [{ l: '10 montées', s: 15 }] },
   { fig: 'p_hipstand', t: 'Fléchisseurs de hanche', target: 'Psoas, droit fémoral', dose: '15 s par côté', how: "Debout, une jambe derrière, fesse serrée, bassin basculé vers l'arrière.", segs: [{ l: 'Jambe gauche derrière', s: 15 }, { l: 'Jambe droite derrière', s: 15 }] },
 ];
+/* ---------- Cardio : séances guidées, avec ou sans sauts ---------- */
+const CM = {
+  marche: { fig: 'c_marche', t: 'Marche genoux hauts', target: 'Cœur, fessiers, abdos', how: "Sur place, monte les genoux à hauteur de hanche en alternance, bras qui accompagnent, dos droit. Pose le pied doucement, sans taper." },
+  boxe: { fig: 'c_boxe', t: 'Boxe dans le vide', target: 'Cœur, épaules, taille', how: "Pieds décalés, genoux souples, poings devant le visage. Frappe devant toi en alternant les bras, en tournant un peu le buste, sans tendre le coude à fond." },
+  chasse: { fig: 'c_chasse', t: 'Pas chassés', target: 'Cœur, fessiers, intérieur des cuisses', how: "Jambes un peu fléchies, 3 pas chassés vers la droite, puis 3 vers la gauche. Reste basse et légère sur tes appuis." },
+  jack: { fig: 'c_jack', t: 'Jumping jack sans saut', target: 'Cœur, épaules', how: "Écarte une jambe sur le côté en levant les deux bras au-dessus de la tête, reviens, puis l'autre jambe. Aucun saut : le périnée est protégé." },
+  squatpas: { fig: 'c_squatpas', t: 'Squat et pas de côté', target: 'Cœur, cuisses, fessiers', how: "Un pas sur le côté, squat, retour pieds joints, puis de l'autre côté. Expire en remontant." },
+  step: { fig: 'c_step', t: 'Montées sur une marche', target: 'Cœur, fessiers, cuisses', how: "Sur une marche d'escalier ou une caisse solide de 15 à 25 cm : monte un pied, puis l'autre, redescends, et change de pied de départ toutes les 10 montées." },
+  genoux: { fig: 'c_marche', t: 'Genoux hauts rapides', target: 'Cœur', how: "Comme la marche genoux hauts, mais vite. Sans fuites urinaires, tu peux faire des petits sauts ; sinon reste en marche rapide." },
+  patineur: { fig: 'c_chasse', t: 'Patineur sans saut', target: 'Cœur, fessiers', how: "Grand pas en diagonale vers l'arrière, comme une patineuse, en balançant les bras, puis de l'autre côté. Sans fuites urinaires, tu peux sauter d'un pied sur l'autre." },
+  danse: { fig: 'c_danse', t: 'Danse', target: 'Cœur, tout le corps', how: "Mets ta musique (mbalax, sabar, afro, coupé-décalé…) et danse en restant en mouvement : bras, genoux, hanches. Tu dois être essoufflée mais pouvoir dire quelques mots." },
+  rapide: { fig: 'c_marche', t: 'Marche rapide', target: 'Cœur, endurance', how: "Dehors ou dans un couloir. Rythme où tu peux parler mais pas chanter. Les grandes chaleurs : tôt le matin ou après 17h, avec de l'eau." },
+  tresrapide: { fig: 'c_step', t: 'Très rapide ou escaliers', target: 'Cœur, fessiers', how: "Accélère au maximum en marchant, ou monte des escaliers. Tu dois avoir du mal à parler." },
+};
+const cStep = (m, secs, label, rest) => Object.assign({}, CM[m], { dose: `${secs} s`, segs: [{ l: label || 'Effort', s: secs }].concat(rest ? [{ l: 'Récupère en marchant', s: rest, rest: true }] : []) });
+const cBlock = (m, mins, label) => Object.assign({}, CM[m], { dose: `${mins} min`, segs: [{ l: label, s: mins * 60 }] });
+const DOUX = ['marche', 'boxe', 'chasse', 'jack', 'squatpas', 'step'];
+const HIIT = ['squatpas', 'boxe', 'genoux', 'patineur'];
+const CARDIO = {
+  doux: { name: 'Cardio sans sauts', mins: 18, tag: 'Périnée et genoux protégés', desc: "6 mouvements sans aucun saut, 40 s d'effort et 20 s de marche, deux tours. Idéal pour commencer, les jours de règles ou si tu as des fuites en sautant.",
+    steps: [cBlock('marche', 3, 'Échauffement : de plus en plus vite')].concat(DOUX.map((m) => cStep(m, 40, 'Effort · tour 1', 20)), [Object.assign({}, CM.marche, { t: 'Pause entre les tours', dose: '1 min', segs: [{ l: 'Marche tranquille, bois un peu', s: 60, rest: true }] })], DOUX.map((m) => cStep(m, 40, 'Effort · tour 2', 20)), [cBlock('marche', 2, 'Retour au calme, respire lentement')]) },
+  hiit: { name: 'HIIT express', mins: 12, tag: 'Court et intense', desc: "8 fois 30 s à fond et 30 s de récupération. Version sans saut par défaut ; ajoute des sauts seulement si tu n'as aucune fuite urinaire.",
+    steps: [cBlock('marche', 1, 'Échauffement'), Object.assign({}, CM.jack, { dose: '1 min', segs: [{ l: 'Échauffement', s: 60 }] })].concat(HIIT.concat(HIIT).map((m, i) => cStep(m, 30, `À fond · ${i + 1} sur 8`, 30)), [cBlock('marche', 2, 'Retour au calme')]) },
+  danse: { name: 'Cardio danse', mins: 21, tag: 'Sur ta musique', desc: "Mets ta musique préférée (mbalax, sabar, afro…). 4 blocs de 3 min de danse intense, avec 1 min de marche entre chaque. Le plus fun pour tenir sur la durée.",
+    steps: [cBlock('danse', 3, 'Danse douce pour chauffer')].concat([1, 2, 3, 4].map((i) => Object.assign({}, CM.danse, { t: `Danse intense · ${i} sur 4`, dose: '3 min + 1 min', segs: [{ l: 'Danse, essoufflée', s: 180 }, { l: 'Marche et souffle', s: 60, rest: true }] })), [cBlock('marche', 2, 'Retour au calme')]) },
+  marche: { name: 'Marche rapide ou escaliers', mins: 30, tag: 'Dehors ou dans un couloir', desc: "5 min tranquille, 5 fois 3 min rapide + 1 min très rapide (ou escaliers), puis 5 min de retour. Garde l'appli ouverte : elle sonne aux changements.",
+    steps: [cBlock('rapide', 5, 'Tranquille pour chauffer')].concat([1, 2, 3, 4, 5].map((i) => Object.assign({}, CM.rapide, { t: `Intervalle ${i} sur 5`, dose: '3 min + 1 min', segs: [{ l: 'Rapide : tu peux parler', s: 180 }, { l: 'Très rapide ou escaliers', s: 60 }] })), [cBlock('rapide', 5, 'Retour au calme')]) },
+};
 const SETUP = [
   ['ecran', 'Livre ou écran à hauteur des yeux', 'Pupitre, ou pile de livres dessous.'],
   ['portable', 'Ordinateur portable surélevé', 'Avec un clavier séparé si possible.'],
@@ -847,7 +981,7 @@ const protRange = () => { const w = S.settings.weightKg || 60; return `${Math.ro
 /* ---------- État et sauvegarde ---------- */
 const LS_KEY = 'aplomb.v1';
 const DEFAULTS = {
-  settings: { startDate: '2026-11-16', weightKg: 60, equipment: 'aucun', days: [1, 3, 5], busy: false, mute: false, studyMins: 50, setup: {}, updatedAt: 0 },
+  settings: { startDate: '2026-11-16', weightKg: 60, equipment: 'aucun', days: [1, 3, 5], busy: false, mute: false, voice: true, revise: true, studyMins: 50, setup: {}, updatedAt: 0 },
   habits: { days: {}, updatedAt: 0 },
   measures: { list: [], updatedAt: 0 },
 };
@@ -1086,6 +1220,48 @@ function propSVG(o, id) {
   });
   return s;
 }
+/* Postures de la séance F et des mouvements de cardio */
+const SUMO_A = { side: 1, h: [60, 15], n: [60, 24], p: [60, 44], sh: [66, 26], sh2: [54, 26], hp: [63, 44], hp2: [57, 44], k: [68, 58], f: [71, 71], k2: [52, 58], f2: [49, 71], e: [66, 34], w: [61, 31], e2: [54, 34], w2: [59, 31], toe: [1, 0], toe2: [-1, 0] };
+const SUMO_B = mixP(SUMO_A, { h: [60, 25], n: [60, 34], p: [60, 53], sh: [66, 36], sh2: [54, 36], hp: [63, 53], hp2: [57, 53], k: [72, 56], k2: [48, 56], e: [66, 44], w: [61, 41], e2: [54, 44], w2: [59, 41] });
+const CUR_B = { side: 1, h: [60, 22], n: [60, 31], p: [60, 50], sh: [66, 33], sh2: [54, 33], hp: [63, 50], hp2: [57, 50], k: [66, 58], f: [64, 71], k2: [54, 63], f2: [47, 69], e: [67, 41], w: [64, 47], e2: [53, 41], w2: [56, 47], toe: [1, 0], toe2: [-1, 0] };
+const CLAM_A = mixP(SIDE, { k: [57, 59], f: [46, 66], k2: [57, 63], f2: [46, 68], e: [30, 66], w: [34, 71] });
+const PM_A = mixP(BACK, { n: [20, 66], p: [40, 55], k: [57, 53] });
+const DIP_A = { h: [48, 24], n: [47, 33], p: [47, 51], k: [64, 52], f: [66, 71], e: [41, 41], w: [39, 50], toe: [1, 0], toe2: [1, 0] };
+const OH_A = mixP(ST, { e: [63, 9], w: [57, 15] });
+const OH_B = mixP(ST, { e: [63, 9], w: [65, -1] });
+const DBUG_A = mixP(BACK, { k: [44, 53], f: [55, 53], k2: [44, 53], f2: [55, 53], e: [21, 58], w: [21, 49], e2: [21, 58], w2: [21, 49] });
+const PER_A = mixP(BACK, { e: [30, 64], w: [37, 62], e2: [30, 64], w2: [37, 62] });
+const EL_B = mixP(FRONT, { e: [74, 29], w: [83, 28], e2: [46, 29], w2: [37, 28] });
+Object.assign(POSES, {
+  sumo: [SUMO_A, SUMO_B], sumo_h: [SUMO_A, SUMO_B], sumo_b: [SUMO_A, SUMO_B],
+  curtsy: [FRONT, CUR_B], curtsy_h: [FRONT, CUR_B],
+  hydrant: [QUAD, mixP(QUAD, { k2: [52, 60], f2: [40, 61] })], hydrant_b: [QUAD, mixP(QUAD, { k2: [52, 60], f2: [40, 61] })],
+  clam: [CLAM_A, mixP(CLAM_A, { k: [54, 51] })], clam_b: [CLAM_A, mixP(CLAM_A, { k: [54, 51] })],
+  pontmarche: [PM_A, mixP(PM_A, { k2: [46, 41], f2: [57, 43] })],
+  adducteurs: POSES.abduction,
+  dips: [DIP_A, mixP(DIP_A, { h: [48, 31], n: [47, 40], p: [47, 59], k: [64, 56], e: [38, 42] })],
+  dips_h: [OH_A, OH_B], dips_b: [OH_A, OH_B],
+  deadbug: [DBUG_A, mixP(DBUG_A, { k: [55, 62], f: [68, 66], e: [13, 64], w: [4, 66] })],
+  perinee: [PER_A, mixP(PER_A, { w: [37, 60], w2: [37, 60] })],
+  elevlat: [FRONT, EL_B], elevlat_h: [FRONT, EL_B], elevlat_b: [FRONT, EL_B],
+  c_marche: [mixP(ST, { k: [66, 50], f: [65, 62], e: [55, 33], w: [58, 41], e2: [65, 33], w2: [70, 27] }), mixP(ST, { k2: [64, 50], f2: [63, 62], e: [65, 33], w: [70, 27], e2: [55, 33], w2: [58, 41] })],
+  c_boxe: [mixP(ST, { e: [66, 30], w: [64, 22], e2: [64, 31], w2: [62, 23], k2: [56, 58], f2: [52, 71] }), mixP(ST, { e: [72, 24], w: [82, 22], e2: [64, 31], w2: [62, 23], k2: [56, 58], f2: [52, 71] })],
+  c_chasse: [mixP(FRONT, { k: [64, 58], f: [64, 71], k2: [56, 58], f2: [56, 71] }), mixP(FRONT, { h: [64, 17], n: [64, 26], p: [64, 46], sh: [70, 28], sh2: [58, 28], hp: [67, 46], hp2: [61, 46], k: [71, 59], f: [74, 71], k2: [59, 59], f2: [58, 71], e: [72, 37], w: [73, 46], e2: [56, 37], w2: [55, 46] })],
+  c_jack: [FRONT, mixP(FRONT, { k: [68, 58], f: [72, 71], e: [70, 17], w: [74, 7], e2: [50, 17], w2: [46, 7] })],
+  c_squatpas: POSES.w_squat,
+  c_step: [mixP(ST, { k: [68, 53], f: [72, 61] }), mixP(shiftP(ST, -10), { f: [72, 61], k: [69, 47], k2: [64, 50], f2: [62, 61] })],
+  c_danse: [mixP(FRONT, { e: [72, 22], w: [70, 12], e2: [52, 38], w2: [50, 46], k: [66, 57], f: [66, 71] }), mixP(FRONT, { e: [68, 38], w: [70, 46], e2: [48, 22], w2: [50, 12], k2: [54, 57], f2: [54, 71], h: [58, 16] })],
+});
+Object.assign(PROPS, {
+  sumo_h: DBW, sumo_b: [{ t: 'band', a: { f: 'hp', to: 'k', u: 0.85 }, b: { f: 'hp2', to: 'k2', u: 0.85 }, sw: 2.4 }],
+  curtsy_h: [{ t: 'db', at: 'w' }, { t: 'db', at: 'w2' }],
+  hydrant_b: [{ t: 'cuff', a: 'p', b: 'k', u: 0.75 }], clam_b: [{ t: 'cuff', a: 'p', b: 'k', u: 0.7 }],
+  dips_h: DBW, dips_b: [{ t: 'band', a: 'w', b: 'f' }],
+  elevlat: [{ t: 'db', at: 'w' }, { t: 'db', at: 'w2' }], elevlat_h: [{ t: 'db', at: 'w' }, { t: 'db', at: 'w2' }],
+  elevlat_b: [{ t: 'band', a: 'w', b: 'f' }, { t: 'band', a: 'w2', b: 'f2' }],
+});
+const FIG_CHAIR = { dips: 1 };
+const FIG_STEP = { c_step: 1 };
 const FIG_WALL = { pompes: 88, developpe: 88, kickback_b: 77 };
 const FIG_WALL_L = { pompes_b: 30, developpe_b: 30, mollets_f_h: 40, mollets_f: 40, w_glisses: 52, p_menton: 52, p_pecs: 46 };
 const FIG_MAT = { hipthrust_h: 1, hipthrust_b: 1, frogpump_h: 1, pompes_h: 1, developpe_h: 1, tirage_h: 1, rowing_b: 1, rotext_h: 1, p_thor: 1, p_fente: 1, w_catcow: 1, w_book: 1, hipthrust: 1, frogpump: 1, rowing: 1, yausol: 1, tirage: 1, planche: 1, kickback: 1, rotext: 1, abduction: 1, gainage_l: 1 };
@@ -1146,7 +1322,8 @@ function figHTML(id, size) {
   if (!POSES[id]) return '';
   const wall = FIG_WALL[id] != null ? `<rect class="fwall" x="${FIG_WALL[id]}" y="-60" width="80" height="133"/>` : FIG_WALL_L[id] != null ? `<rect class="fwall" x="${FIG_WALL_L[id] - 100}" y="-60" width="100" height="133"/>` : '';
   const mat = FIG_MAT[id] ? '<rect class="fmat" x="4" y="71.5" width="112" height="3" rx="1.5"/>' : '';
-  return `<span class="fig-box ${size || 'sm'}"><svg class="fig" viewBox="${figBox(id)}" data-ex="${id}" aria-hidden="true" focusable="false">${wall}<line class="ffloor" x1="-60" y1="74.5" x2="180" y2="74.5"/>${mat}<g class="who">${figBody(figPoses(id)[0], id)}</g></svg></span>`;
+  const furn = (FIG_CHAIR[id] ? '<rect class="fwall" x="24" y="50" width="18" height="3" rx="1"/><rect class="fwall" x="25" y="53" width="2" height="21.5"/><rect class="fwall" x="39" y="53" width="2" height="21.5"/>' : '') + (FIG_STEP[id] ? '<rect class="fwall" x="64" y="61" width="22" height="13.5" rx="1.5"/>' : '');
+  return `<span class="fig-box ${size || 'sm'}"><svg class="fig" viewBox="${figBox(id)}" data-ex="${id}" aria-hidden="true" focusable="false">${wall}<line class="ffloor" x1="-60" y1="74.5" x2="180" y2="74.5"/>${mat}${furn}<g class="who">${figBody(figPoses(id)[0], id)}</g></svg></span>`;
 }
 const FIG_RM = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } })();
 let figLast = 0;
@@ -1172,13 +1349,14 @@ function eqChips() {
 }
 function ovPreview() {
   const pv = UI.prev; if (!pv) return '';
-  const P = progInfo(); const busy = pv.type !== 'C' && !!S.settings.busy;
+  const P = progInfo(); const busy = isBusy(pv.type);
   const steps = buildSteps(pv.type, busy, P.before ? 1 : P.cw);
   const list = steps.filter((s) => s.kind === 'ex').flatMap((s) => s.ex);
   const cards = list.map((e) => { const ex = EX[e.id];
     return `<section class="card" id="pv-${e.id}">
       <div class="ex-top"><span class="ex-n num">${esc(e.label)}</span><div class="stack" style="gap:4px"><h2>${esc(ex.name)}</h2><p class="small muted">${esc(ex.muscles)}</p>${eqBadge(ex)}</div></div>
       ${figHTML(e.id, 'lg')}
+      ${camOK() ? `<button class="btn sm" data-action="cam-mirror" data-ex="${e.id}">Me voir à côté du dessin (caméra)</button>` : ''}
       <div class="presc"><div><b>${e.sets}</b><span>${plural(e.sets, 'série')}</span></div><div><b>${repsTxt(e.reps[0], e.reps[1], '')}</b><span>${ex.unit === 's' ? 's' : 'rép'}${esc(ex.side)}</span></div><div><b>${esc(ex.tempo)}</b><span>tempo</span></div><div><b>${ex.rest ? esc(ex.restTxt || ex.rest + ' s') : 'aucun'}</b><span>repos</span></div></div>
       <div><p class="cue-l">Comment faire</p><p class="cue">${esc(ex.cue)}</p></div>
       ${ex.fem ? `<div class="fem"><p class="cue-l">Pensé pour toi</p><p class="small">${esc(ex.fem)}</p></div>` : ''}
@@ -1189,14 +1367,15 @@ function ovPreview() {
   <footer class="ov-foot"><div class="wrap"><div class="btn-row"><button class="btn" data-action="close-overlay">Fermer</button><button class="btn primary" data-action="start-session" data-type="${pv.type}">${S.draft ? 'Reprendre la séance' : 'Commencer la séance'}</button></div></div></footer>`;
 }
 function sessionCard(type, eyebrow) {
-  const P = progInfo(); const busy = !!S.settings.busy && type !== 'C';
+  const P = progInfo(); const busy = isBusy(type);
   const steps = buildSteps(type, busy, P.before ? 1 : P.cw);
   const nEx = steps.filter((x) => x.kind === 'ex').reduce((a, x) => a + x.ex.length, 0);
-  const mins = type === 'C' || busy ? 25 : 50;
+  const mins = sessMins(type);
   return `<article class="card feature">
     <div class="sess-top"><div><p class="eyebrow">${eyebrow}${busy ? ' · express' : ''}</p><h2 class="sess-h">${esc(PLAN[type].name)}</h2><p class="small muted">${esc(PLAN[type].focus)}</p></div><span class="sess-letter" aria-hidden="true">${type}</span></div>
     <p class="meta-line"><span>${ICON.timer}${mins} min</span><span>${nEx} exercices</span></p>
     <button class="btn primary block big" data-action="start-session" data-type="${type}">Début</button>
+    ${moodHTML()}
     ${eqChips()}
     <h3 class="list-h">Exercices</h3>
     ${exListHTML(steps, type)}
@@ -1250,7 +1429,7 @@ function viewToday() {
   const now = new Date(); const k = keyOf(now); const P = progInfo(now); const h = getHab(k);
   const planned = S.settings.days.includes(now.getDay());
   const doneToday = sessionsOn(k);
-  const nt = nextType(); const busy = !!S.settings.busy;
+  const nt = nextType(); const busy = isBusy(nt);
   let title; let lead;
   if (P.before) { title = P.daysToStart === 1 ? 'Départ demain' : `Départ dans ${P.daysToStart} jours`; lead = `Le programme commence ${esc(fmtDate(parseKey(S.settings.startDate)))}. En attendant : mesures de départ et routine posture.`; }
   else if (P.cw === 13) { title = 'Semaine de décharge'; lead = 'Fin du cycle : mêmes exercices, moitié des séries. Le cycle suivant part des variantes plus difficiles.'; }
@@ -1271,6 +1450,7 @@ function viewToday() {
     (planned || doneToday.length || S.draft) ? { time: '17h00', title: doneToday.length ? `Séance ${doneToday[doneToday.length - 1].type} faite` : `Séance ${S.draft ? S.draft.type : nt}`, sub: busy ? 'Express, 25 min' : '50 min', done: doneToday.length > 0, act: doneToday.length ? '' : `<button class="btn sm" data-action="${S.draft ? 'resume-session' : 'start-session'}" data-type="${nt}">${S.draft ? 'Reprendre' : 'Lancer'}</button>` } : null,
     { time: '21h00', title: 'Écrans coupés', sub: 'Coucher à 22h au plus tard', done: !!h.ecrans, act: tickBtn('ecrans', h.ecrans, 'Écrans coupés') },
     { time: 'Repas', title: 'Protéines', sub: `${protRange()} sur la journée`, done: !!h.prot, act: tickBtn('prot', h.prot, 'Protéines atteintes') },
+    { time: 'Cardio', title: 'Cardio', sub: `${cardioWeek()} min sur 150 cette semaine`, done: (h.cardio || 0) > 0, act: '<button class="btn sm" data-action="tab" data-tab="seances">Choisir</button>' },
   ].filter(Boolean);
   const doneN = items.filter((i) => i.done).length;
   const dayline = `<section class="day-sec">
@@ -1431,6 +1611,7 @@ function viewSuivi() {
   const ins = insights(); const nSess = Object.keys(S.sessions).length;
   return `<div class="stack">
   <section class="sec-head"><p class="eyebrow">Suivi</p><h1 class="h1">Tes progrès</h1><p class="lead">Chaque dimanche matin, 10 minutes, à jeun, dans les mêmes conditions. Compare les photos toutes les 4 semaines.</p></section>
+  ${photoCard()}
   <section class="card"><div><p class="eyebrow">${L.length ? 'Dernière mesure : ' + esc(fmtShort(parseKey(last.date))) : 'Aucune mesure pour l\'instant'}</p><h2>Mesures du dimanche</h2></div>
     ${UI.measureOpen ? measureFormHTML(todayM, prev) : `<button class="btn primary block" data-action="measure-toggle">${todayM ? 'Modifier les mesures du jour' : L.length ? 'Saisir les mesures du jour' : 'Saisir mes mesures de départ'}</button>`}
   </section>
@@ -1464,7 +1645,7 @@ function exGuide() {
     if (t === 'B' && id === 'sauts') return `<div class="fiche"><p class="fiche-h"><span class="num">${lbl}</span><b>${esc(ex.name)}</b><span class="small muted">comme en séance A</span></p></div>`;
     return `<div class="fiche"><p class="fiche-h"><span class="num">${lbl}</span><b>${esc(ex.name)}</b><span class="small muted">${ex.kind === 'acc' ? 2 : 3} × ${repsTxt(ex.reps[0], ex.reps[1], ex.unit)}${esc(ex.side)} · tempo ${esc(ex.tempo)} · repos ${ex.rest ? esc(ex.restTxt || ex.rest + ' s') : 'aucun'}</span></p>${figHTML(id, 'sm')}<p class="small muted">${esc(ex.muscles)}</p><p class="small">${esc(ex.cue)}</p>${ex.fem ? `<p class="small"><b>Pensé pour toi :</b> ${esc(ex.fem)}</p>` : ''}<p class="small"><b>Plus facile :</b> ${esc(ex.easy)}</p><p class="small"><b>Plus difficile :</b> ${esc(ex.hard)}</p></div>`;
   }).join('')).join('');
-  return `<p><b>Matériel choisi : ${esc(eqLabel(S.settings.equipment))}.</b> Change-le sur l'accueil ou dans les réglages : les exercices ci-dessous et tes séances s'adaptent tout de suite.</p><p class="small muted">Échauffement commun de 5 min avant chaque séance : cercles de bras, chat-vache, livre ouvert, pont fessier, squat, glissés au mur.</p>${part('A')}${part('B')}`;
+  return `<p><b>Matériel choisi : ${esc(eqLabel(S.settings.equipment))}.</b> Change-le sur l'accueil ou dans les réglages : les exercices ci-dessous et tes séances s'adaptent tout de suite.</p><p class="small muted">Échauffement commun de 5 min avant chaque séance : cercles de bras, chat-vache, livre ouvert, pont fessier, squat, glissés au mur.</p>${part('F')}${part('A')}${part('B')}`;
 }
 function diagGuide() {
   return `<p><b>Ta posture correspond au syndrome croisé supérieur</b> : l'avant du corps et le haut des épaules sont trop tendus, le cou profond et le milieu du dos trop faibles. Rester assise toute la journée crée le même déséquilibre aux hanches.</p>
@@ -1506,6 +1687,8 @@ function alertGuide() {
 }
 function femmesGuide() {
   return `<p><b>Les principes de la musculation sont les mêmes pour les femmes et pour les hommes</b> : en proportion, les femmes gagnent autant de muscle et de force. Ce qui change, ce sont les objectifs et quelques points de santé.</p>
+  <h3>La séance F et le cardio</h3>
+  <ul class="plain"><li><b>Séance F</b> (onglet Séances, 40 min) : squat sumo, fente croisée, pont en marche, dips, fire hydrant, élévations latérales, coquillage, adducteurs, dead bug et ascenseur du périnée. Elle cible ce que les programmes classiques oublient : côté des hanches, intérieur des cuisses, arrière des bras, ventre sans crunch et périnée. Fais-la en plus de A et B, ou à la place de C.</li><li><b>Cardio</b> : 4 séances guidées, dont une sans aucun saut (périnée et genoux protégés) et une sur ta musique. Vise 150 minutes par semaine ; l'appli les compte.</li><li><b>Énergie du jour</b> : sur l'accueil, dis si tu es fatiguée, si tu as peu dormi ou si tes règles sont douloureuses : la séance passe toute seule en express et en version facile.</li></ul>
   <h3>Pensé pour le corps des femmes</h3>
   <ul class="plain"><li><b>Périnée</b> : à chaque effort, tu expires en serrant le périnée (comme pour retenir un pipi), sans bloquer ta respiration. Pas de relevés de buste (crunchs), qui poussent les organes vers le bas : le gainage, le bird-dog et le pull-over au sol travaillent les abdominaux profonds à la place.</li><li><b>Bassin plus large</b> : les genoux ont tendance à rentrer vers l'intérieur. Les consignes rappellent de garder le genou au-dessus du 2e orteil, on préfère les fentes arrière, et le moyen fessier (abduction, marche latérale avec mini-bande) est travaillé à chaque séance B.</li><li><b>Poitrine</b> : chaque exercice à plat ventre a une version debout ou penchée (élastique, haltères). Pour les sauts, une brassière bien maintenue.</li><li><b>Haut du corps</b> : la progression part de là où tu en es (mur, table, genoux, sol ; développé au sol avec haltères ; tirage à l'élastique qui prépare la traction).</li><li><b>Grossesse et après l'accouchement</b> : demande l'avis d'une sage-femme ou d'un médecin. Après un accouchement, la rééducation du périnée passe avant les sauts et les charges ; un ventre en « dôme » pendant l'effort (diastasis) demande des versions plus faciles.</li></ul>
   <h3>Ce qui a changé dans ton programme</h3>
@@ -1544,8 +1727,9 @@ function render() {
   const P = progInfo();
   $('#topMeta').textContent = P.before ? `Départ le ${fmtShort(parseKey(S.settings.startDate))}` : `${P.cycle > 1 ? 'Cycle ' + P.cycle + ' · ' : ''}Semaine ${P.cw} · ${P.phase.name}`;
   const v = $('#view');
-  v.innerHTML = UI.tab === 'posture' ? viewPosture() : UI.tab === 'suivi' ? viewSuivi() : UI.tab === 'guide' ? viewGuide() : viewToday();
-  document.body.classList.toggle('home', !['posture', 'suivi', 'guide'].includes(UI.tab));
+  v.innerHTML = UI.tab === 'posture' ? viewPosture() : UI.tab === 'seances' ? viewSeances() : UI.tab === 'suivi' ? viewSuivi() : UI.tab === 'guide' ? viewGuide() : viewToday();
+  document.body.classList.toggle('home', !['posture', 'seances', 'suivi', 'guide'].includes(UI.tab));
+  if (UI.tab === 'suivi') photoFill();
   document.querySelectorAll('.tab').forEach((b) => b.setAttribute('aria-current', b.dataset.tab === UI.tab ? 'page' : 'false'));
 }
 
@@ -1557,7 +1741,7 @@ function newDraft(type, express) {
     if (st.kind !== 'ex') return;
     st.ex.forEach((e) => {
       const last = lastEntry(e.id);
-      d.entries[e.id] = { variant: last && last.variant ? last.variant : (EX[e.id].start || 'n'), load: last && last.load != null ? last.load : null, sets: Array.from({ length: e.sets }, () => null), done: Array.from({ length: e.sets }, () => false), target: { sets: e.sets, lo: e.reps[0], hi: e.reps[1] } };
+      d.entries[e.id] = { variant: moodOf() === 'regles' ? 'f' : last && last.variant ? last.variant : (EX[e.id].start || 'n'), load: last && last.load != null ? last.load : null, sets: Array.from({ length: e.sets }, () => null), done: Array.from({ length: e.sets }, () => false), target: { sets: e.sets, lo: e.reps[0], hi: e.reps[1] } };
     });
   });
   return d;
@@ -1572,7 +1756,7 @@ function setStep(i) {
   const n = buildSteps(d.type, d.express, d.cw, d.eq || 'aucun').length;
   d.step = Math.max(0, Math.min(n - 1, i)); RT.hold = null; saveLocal(); renderOverlay();
 }
-function startRest(secs, label) { RT.rest = { until: Date.now() + secs * 1000, total: secs * 1000, label, warned: false }; }
+function startRest(secs, label) { RT.rest = { until: Date.now() + secs * 1000, total: secs * 1000, label, warned: false }; RV.card = pickCard(); RV.shown = false; }
 function warmHTML(d) {
   return `<section class="card"><div><p class="eyebrow">5 minutes</p><h2>Échauffement</h2></div>
     <ul class="checklist">${WARMUP.map(([t, s], i) => `<li><button class="check-row" data-action="warm" data-i="${i}" aria-pressed="${!!d.warm[i]}"><span class="box">${ICON.check}</span><span><b>${esc(t)}</b><small>${esc(s)}</small></span></button></li>`).join('')}</ul>
@@ -1651,6 +1835,7 @@ function pQueue(d) {
   return q;
 }
 function pEnter() {
+  tempoStop();
   const d = S.draft; if (!d) return;
   const q = pQueue(d); d.qi = Math.max(0, Math.min(q.length - 1, d.qi || 0));
   RT.warm = null; RT.hold = null;
@@ -1674,7 +1859,7 @@ function pFinishItem() {
   RT.rest = null; RT.hold = null; RT.warm = null;
   if (rest > 0) startRest(rest, 'Repos');
   chime('step');
-  pEnter(); renderOverlay();
+  pEnter(); renderOverlay(); pAnnounce();
 }
 function pVal(id, i) { const en = S.draft.entries[id]; return en.sets[i] != null ? en.sets[i] : suggest(id, i); }
 function pRing(rem, total, n, label, rest) {
@@ -1698,7 +1883,7 @@ function ovPlayer(d) {
     const rem = Math.max(0, RT.rest.until - Date.now()); const t = pItemTitle(it);
     body = `<div class="p-hero center"><p class="eyebrow">Repos</p><h1 class="h1">Respire</h1></div>
       ${pRing(rem, RT.rest.total, Math.ceil(rem / 1000), 'secondes', true)}
-      <div class="p-next">${t.fig ? figHTML(t.fig, 'sm') : ''}<div><p class="eyebrow">Ensuite</p><p class="p-next-n">${esc(t.name)}</p><p class="small muted">${esc(t.sub)}</p></div></div>`;
+      <div class="p-next">${t.fig ? figHTML(t.fig, 'sm') : ''}<div><p class="eyebrow">Ensuite</p><p class="p-next-n">${esc(t.name)}</p><p class="small muted">${esc(t.sub)}</p></div></div>${revHTML()}`;
     foot = `<div class="p-foot3"><button class="btn" data-action="p-rest-add" data-s="-15">−15 s</button><button class="btn" data-action="p-rest-add" data-s="15">+15 s</button><button class="btn primary" data-action="p-rest-skip">Passer</button></div>`;
   } else if (it.k === 'warm') {
     const w = RT.warm; const rem = w ? (w.paused ? w.rem : Math.max(0, w.until - Date.now())) : WARM_S * 1000;
@@ -1718,6 +1903,7 @@ function ovPlayer(d) {
     body = `<div class="p-hero"><p class="eyebrow">Exercice ${ids.indexOf(id) + 1} sur ${ids.length} · Série ${it.i + 1} sur ${it.e.sets}</p><h1 class="p-name">${esc(ex.name)}</h1>${it.sup ? `<p class="small muted">En alternance avec : ${esc(it.sup.join(', '))}</p>` : ''}</div>
       ${figHTML(id, 'lg')}
       ${target}
+      ${tempoParse(ex.tempo) && !ex.timed ? `<button class="btn block" data-action="${TP.on && TP.ex === id && TP.i === it.i ? 'tempo-stop' : 'tempo'}" data-ex="${id}" data-i="${it.i}">${TP.on && TP.ex === id && TP.i === it.i ? 'Arrêter le tempo guidé' : 'Tempo guidé : je compte pour toi'}</button>` : ''}
       <details class="p-how"${it.i === 0 && !running ? ' open' : ''}><summary>Comment faire</summary><div class="stack" style="gap:10px;padding-top:6px"><p class="cue">${esc(ex.cue)}</p>${ex.fem ? `<div class="fem"><p class="cue-l">Pensé pour toi</p><p class="small">${esc(ex.fem)}</p></div>` : ''}
         <div class="seg" role="group" aria-label="Version de l'exercice">${[['f', 'Plus facile'], ['n', 'Standard'], ['d', 'Plus difficile']].map(([k, l]) => `<button data-action="variant" data-ex="${id}" data-v="${k}" aria-pressed="${en.variant === k}">${l}</button>`).join('')}</div>
         <p class="small">${esc(varTxt)}</p>
@@ -1734,7 +1920,7 @@ function tickPlayer(now) {
   const d = S.draft;
   if (RT.rest) {
     const rem = RT.rest.until - now;
-    if (rem <= 0) { RT.rest = null; chime('end'); pEnter(); renderOverlay(); return; }
+    if (rem <= 0) { RT.rest = null; chime('end'); pEnter(); renderOverlay(); pAnnounce(); return; }
     if (!RT.rest.warned && rem <= 3000) { RT.rest.warned = true; chime('tick'); }
     const t = document.getElementById('pT'); if (t) t.textContent = Math.ceil(rem / 1000);
     const r = document.getElementById('pRing'); if (r) r.setAttribute('stroke-dashoffset', (RING_C * (1 - rem / RT.rest.total)).toFixed(1));
@@ -1796,32 +1982,36 @@ function ovSummary() {
 
 /* ---------- Routine et micro-pauses guidées ---------- */
 const RING_C = 2 * Math.PI * 54;
-function gpStart(kind) {
-  const list = kind === 'routine' ? ROUTINE : MICRO;
-  GP = { kind, list, i: 0, j: 0, paused: false, remaining: 0, done: false, segEnd: Date.now() + list[0].segs[0].s * 1000 };
-  UI.overlay = 'guided'; audio(); renderOverlay();
+function gpStart(kind, cid) {
+  const list = kind === 'routine' ? ROUTINE : kind === 'cardio' ? CARDIO[cid].steps : MICRO;
+  GP = { kind, cid, list, i: 0, j: 0, paused: false, remaining: 0, done: false, started: Date.now(), segEnd: Date.now() + list[0].segs[0].s * 1000 };
+  UI.overlay = 'guided'; audio(); renderOverlay(); say(`${list[0].t}. ${list[0].segs[0].l}.`);
 }
 function gpAdvance() {
   const st = GP.list[GP.i]; GP.j++;
   if (GP.j >= st.segs.length) { GP.i++; GP.j = 0; if (GP.i >= GP.list.length) { gpFinish(); return; } chime('step'); }
   else chime(GP.list[GP.i].segs[GP.j].rest ? 'soft' : 'tick');
   GP.segEnd = Date.now() + GP.list[GP.i].segs[GP.j].s * 1000;
+  { const st2 = GP.list[GP.i]; const sg = st2.segs[GP.j]; if (GP.j === 0) say(`${st2.t}. ${sg.l}.`); else if (sg.s >= 10) say(sg.l); }
   renderOverlay({ keep: true });
 }
 function gpFinish() {
   GP.done = true; chime('end');
   const k = keyOf();
-  if (GP.kind === 'routine') setHab(k, { posture: true }); else setHab(k, { pauses: (getHab(k).pauses || 0) + 1 });
+  if (GP.kind === 'routine') setHab(k, { posture: true });
+  else if (GP.kind === 'cardio') { GP.mins = Math.max(1, Math.min(CARDIO[GP.cid].mins, Math.round((Date.now() - GP.started) / 60000))); setHab(k, { cardio: (getHab(k).cardio || 0) + GP.mins }); }
+  else setHab(k, { pauses: (getHab(k).pauses || 0) + 1 });
+  say('Bravo, c\'est terminé.');
   renderOverlay(); render();
 }
 function ovGuided() {
   const G = GP; if (!G) return '';
-  const label = G.kind === 'routine' ? 'Routine du matin' : 'Micro-pause';
+  const label = G.kind === 'routine' ? 'Routine du matin' : G.kind === 'cardio' ? CARDIO[G.cid].name : 'Micro-pause';
   if (G.done) {
     const resume = G.kind === 'pause' && S.study && S.study.fired ? `<button class="btn plumb block" data-action="study-start">Reprendre ${S.study.mins} min d'étude</button>` : '';
-    const sub = G.kind === 'routine' ? `Routine : ${postureStreak()} ${plural(postureStreak(), 'jour')} de suite.` : `${getHab(keyOf()).pauses || 0} micro-pause(s) sur 4 aujourd'hui.`;
+    const sub = G.kind === 'cardio' ? `+${G.mins || 0} min de cardio · ${cardioWeek()} min sur 150 cette semaine.` : G.kind === 'routine' ? `Routine : ${postureStreak()} ${plural(postureStreak(), 'jour')} de suite.` : `${getHab(keyOf()).pauses || 0} micro-pause(s) sur 4 aujourd'hui.`;
     return `<header class="ov-head"><div class="wrap"><div class="ov-row"><div class="ov-title"><p class="eyebrow">${label}</p><h2>Terminé</h2></div><button class="icon-btn" data-action="gp-close" aria-label="Fermer">${ICON.x}</button></div></div></header>
-    <div class="ov-body"><div class="wrap stack"><section class="card feature center"><h1 class="h1">${G.kind === 'routine' ? 'Routine faite' : 'Micro-pause faite'}</h1><p class="muted">${sub}</p></section>${resume}</div></div>
+    <div class="ov-body"><div class="wrap stack"><section class="card feature center"><h1 class="h1">${G.kind === 'routine' ? 'Routine faite' : G.kind === 'cardio' ? 'Cardio fait' : 'Micro-pause faite'}</h1><p class="muted">${sub}</p></section>${resume}</div></div>
     <footer class="ov-foot"><div class="wrap"><button class="btn primary block" data-action="gp-close">Fermer</button></div></footer>`;
   }
   const st = G.list[G.i]; const sg = st.segs[G.j];
@@ -1852,6 +2042,8 @@ function ovSettings() {
     <section class="card">
       <button class="switch-row" data-action="set-busy" aria-pressed="${!!st.busy}"><span><b>Semaine chargée</b><small>Séances express de 25 min, 2 séries par exercice</small></span><span class="switch"></span></button>
       <button class="switch-row" data-action="set-sound" aria-pressed="${!st.mute}"><span><b>Sons et vibrations</b><small>Fin de repos, chronos, fin du bloc d'étude</small></span><span class="switch"></span></button>
+      <button class="switch-row" data-action="set-voice" aria-pressed="${!!st.voice}"><span><b>Coach vocal</b><small>Une voix annonce les exercices, les séries, les repos et compte le tempo</small></span><span class="switch"></span></button>
+      <button class="switch-row" data-action="set-revise" aria-pressed="${st.revise !== false}"><span><b>Réviser pendant les repos</b><small>Une carte de tes révisions XamXam (ou une triade) à chaque repos</small></span><span class="switch"></span></button>
     </section>
     <section class="card"><h3>Sauvegarde</h3><p class="small" id="syncState">${esc(syncText())}</p>
       <p class="small muted">Garde une copie de tes données dans un fichier (changement de téléphone, nettoyage du navigateur), puis remets-la ici avec « Importer ».</p>
@@ -1864,23 +2056,40 @@ function ovSettings() {
 /* ---------- Superposition ---------- */
 function renderOverlay(opts = {}) {
   const ov = $('#overlay');
-  if (!UI.overlay) { ov.hidden = true; ov.innerHTML = ''; document.documentElement.classList.remove('lock'); wakeSync(); return; }
+  if (!UI.overlay) { camStop(); tempoStop(); ov.hidden = true; ov.innerHTML = ''; document.documentElement.classList.remove('lock'); wakeSync(); return; }
   const oldBody = ov.querySelector('.ov-body'); const top = opts.keep && oldBody ? oldBody.scrollTop : 0;
-  const html = UI.overlay === 'session' ? ovSession() : UI.overlay === 'guided' ? ovGuided() : UI.overlay === 'preview' ? ovPreview() : ovSettings();
+  const html = UI.overlay === 'session' ? ovSession() : UI.overlay === 'guided' ? ovGuided() : UI.overlay === 'preview' ? ovPreview() : UI.overlay === 'camera' ? ovCamera() : ovSettings();
   if (!html) { UI.overlay = null; renderOverlay(); return; }
   ov.innerHTML = html; ov.hidden = false; document.documentElement.classList.add('lock');
   const nb = ov.querySelector('.ov-body'); if (nb) nb.scrollTop = top;
+  if (UI.overlay === 'camera') camAttach(); else camStop();
   if (UI.overlay === 'preview' && UI.prev && UI.prev.focus) { const el = document.getElementById('pv-' + UI.prev.focus); if (el && nb) nb.scrollTop = Math.max(0, el.offsetTop - 12); UI.prev.focus = null; }
   const cur = ov.querySelector('.step-chip.cur');
   if (cur) { const row = cur.parentElement; row.scrollLeft = Math.max(0, cur.offsetLeft - row.clientWidth / 2 + cur.clientWidth / 2); }
   wakeSync();
 }
-function closeOverlay() { UI.overlay = null; UI.confirm = null; renderOverlay(); render(); }
+function closeOverlay() { camStop(); tempoStop(); UI.cam = null; UI.overlay = null; UI.confirm = null; renderOverlay(); render(); }
 
 /* ---------- Actions ---------- */
 const A = {
   tab(b) { UI.tab = b.dataset.tab; UI.confirm = null; render(); window.scrollTo(0, 0); },
   'open-settings'() { UI.overlay = 'settings'; renderOverlay(); },
+  mood(b) { const k = keyOf(); const cur = getHab(k).mood; setHab(k, { mood: cur === b.dataset.k ? '' : b.dataset.k }); render(); if (UI.overlay) renderOverlay({ keep: true }); },
+  tempo(b) { tempoStart(b.dataset.ex, +b.dataset.i); },
+  'tempo-stop'() { tempoStop(); renderOverlay({ keep: true }); },
+  'rv-show'() { if (RV.shown) { RV.card = pickCard(); RV.shown = false; } else RV.shown = true; renderOverlay({ keep: true }); },
+  'cardio-start'(b) { gpStart('cardio', b.dataset.id); },
+  'cam-photo'() { camOpen('photo'); },
+  'cam-mirror'(b) { camOpen('mirror', b.dataset.ex); },
+  'cam-close'() { camClose(); },
+  'cam-flip'() { if (!UI.cam) return; UI.cam.facing = UI.cam.facing === 'user' ? 'environment' : 'user'; renderOverlay({ keep: true }); camStart(); },
+  'cam-timer'() {
+    if (!UI.cam || UI.cam.count) return; UI.cam.count = 10; say('Photo dans 10 secondes. Mets-toi de profil.'); renderOverlay({ keep: true });
+    CAM.iv = setInterval(() => { if (!UI.cam) { clearInterval(CAM.iv); CAM.iv = null; return; } UI.cam.count -= 1; const el = document.getElementById('camCount'); if (el) el.textContent = UI.cam.count > 0 ? UI.cam.count : ''; if (UI.cam.count > 0 && UI.cam.count <= 3) beep(880, 0.1, 0, 0.2); if (UI.cam.count <= 0) { clearInterval(CAM.iv); CAM.iv = null; camShot(); } }, 1000);
+  },
+  'ph-del'(b) { phDel(b.dataset.id).then(photoFill).catch(() => {}); toast('Photo supprimée'); },
+  'set-voice'() { S.settings.voice = !S.settings.voice; touch('settings'); renderOverlay({ keep: true }); if (S.settings.voice) say('Coach vocal activé.'); },
+  'set-revise'() { S.settings.revise = !S.settings.revise; touch('settings'); renderOverlay({ keep: true }); },
   preview(b) { UI.prev = { type: b.dataset.type || nextType(), focus: b.dataset.ex || null }; UI.overlay = 'preview'; renderOverlay(); },
   'close-overlay'() { closeOverlay(); },
   'go-measure'() { UI.tab = 'suivi'; UI.measureOpen = true; render(); window.scrollTo(0, 0); },
@@ -1892,11 +2101,11 @@ const A = {
   'start-session'(b) {
     if (S.draft) { UI.overlay = 'session'; if (!UI.detail) pEnter(); renderOverlay(); return; }
     const type = b.dataset.type || nextType();
-    S.draft = newDraft(type, type !== 'C' && !!S.settings.busy);
+    S.draft = newDraft(type, isBusy(type));
     RT.rest = null; RT.hold = null; UI.summaryId = null; UI.confirm = null; saveLocal(); audio();
-    UI.overlay = 'session'; if (!UI.detail) pEnter(); renderOverlay();
+    UI.overlay = 'session'; if (!UI.detail) pEnter(); renderOverlay(); if (!UI.detail) pAnnounce();
   },
-  'resume-session'() { if (!S.draft) return; UI.confirm = null; UI.overlay = 'session'; audio(); if (!UI.detail) pEnter(); renderOverlay(); },
+  'resume-session'() { if (!S.draft) return; UI.confirm = null; UI.overlay = 'session'; audio(); if (!UI.detail) pEnter(); renderOverlay(); if (!UI.detail) pAnnounce(); },
   'p-mode'() { UI.detail = !UI.detail; UI.confirm = null; RT.rest = null; RT.hold = null; RT.warm = null; if (!UI.detail) pEnter(); renderOverlay(); },
   'p-done'() {
     const d = S.draft; if (!d) return; const it = pQueue(d)[d.qi];
@@ -2102,6 +2311,168 @@ function tick() {
   const k = keyOf(); if (k !== lastDay) { lastDay = k; render(); }
 }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { wakeSync(); tick(); } });
+
+const TRI = [["Triade de l'accès palustre", ["Frissons", "Chaleur (fièvre à 40 °C)", "Sueurs"], "Accès palustre (paludisme) : les trois stades successifs de l'accès typique"], ["Triade de la méningite bactérienne", ["Fièvre", "Raideur de nuque", "Troubles de la conscience"], "Méningite bactérienne (méningocoque, pneumocoque) ; le Sénégal est dans la ceinture africaine de la méningite"], ["Trépied méningitique", ["Céphalées", "Vomissements (en jet)", "Constipation (diarrhée chez le nourrisson)"], "Signes fonctionnels du syndrome méningé"], ["Triade du purpura fulminans", ["Fièvre", "Purpura extensif (au moins une tache nécrotique de plus de 3 mm)", "État de choc"], "Méningococcémie fulminante (Neisseria meningitidis)"], ["Triade catarrhale de la rougeole (les « 3 C »)", ["Coryza (rhinite)", "Conjonctivite (yeux rouges, larmoyants)", "Toux (« cough »)"], "Phase d'invasion de la rougeole, avant l'éruption ; signe de Köplik associé"], ["Triade de la quinte de coqueluche", ["Quinte de toux en salves, sans reprise respiratoire", "Reprise inspiratoire bruyante (« chant du coq »)", "Vomissements ou rejet de mucus en fin de quinte"], "Coqueluche (Bordetella pertussis)"], ["Triade du tétanos généralisé", ["Trismus (contracture des mâchoires)", "Contractures généralisées permanentes", "Paroxysmes (spasmes douloureux) déclenchés par les stimuli"], "Tétanos (Clostridium tetani), conscience normale"], ["Triade de la fièvre jaune", ["Ictère", "Hémorragies", "Albuminurie (atteinte rénale)"], "Fièvre jaune (forme grave, phase toxique) ; arbovirose transmise par Aedes"], ["Triade de la maladie de Weil", ["Ictère", "Insuffisance rénale aiguë", "Hémorragies"], "Leptospirose ictéro-hémorragique (contact avec l'eau ou la boue souillées par l'urine des rats)"], ["Triade de la fièvre de Katayama", ["Fièvre", "Urticaire (prurit)", "Hyperéosinophilie"], "Phase d'invasion de la bilharziose (2 à 6 semaines après la baignade)"], ["Triade de Fontan", ["Hépatomégalie douloureuse", "Fièvre", "Douleur de l'hypochondre droit irradiant à l'épaule droite"], "Abcès amibien du foie (Entamoeba histolytica)"], ["Triade du syndrome de Löffler", ["Toux sèche (parfois sifflante)", "Opacités pulmonaires labiles et fugaces", "Hyperéosinophilie"], "Migration larvaire pulmonaire de l'ascaris (et d'autres helminthes : ankylostomes, anguillule)"], ["Triade du kala-azar", ["Fièvre prolongée irrégulière", "Splénomégalie importante", "Pâleur (anémie, pancytopénie)"], "Leishmaniose viscérale (Leishmania donovani, infantum)"], ["Triade de l'onchocercose", ["Onchocercomes (nodules sous-cutanés)", "Onchodermatite (gale filarienne, prurit)", "Atteinte oculaire (kératite, cécité)"], "Onchocercose (« cécité des rivières »), Onchocerca volvulus transmise par les simulies"], ["Signes cardinaux de la lèpre (OMS)", ["Tache cutanée hypopigmentée ou rougeâtre avec perte de sensibilité", "Nerf périphérique hypertrophié, avec troubles sensitifs ou moteurs", "Bacilles acido-alcoolo-résistants au frottis cutané"], "Lèpre (Mycobacterium leprae) ; un seul signe suffit au diagnostic"], ["Triade de Pott", ["Gibbosité (cyphose angulaire)", "Abcès froid", "Paraplégie (compression médullaire)"], "Mal de Pott (tuberculose vertébrale)"], ["Les « 3 A » de l'altération de l'état général", ["Asthénie", "Anorexie", "Amaigrissement"], "Altération de l'état général : tuberculose, VIH, cancers, hémopathies"], ["Triade d'Austrian (d'Osler)", ["Pneumonie", "Méningite", "Endocardite"], "Infection invasive à pneumocoque, classiquement chez l'alcoolique"], ["Triade de Fiessinger-Leroy-Reiter", ["Urétrite (ou diarrhée)", "Conjonctivite", "Arthrite"], "Arthrite réactionnelle après une infection génitale (Chlamydia) ou digestive (Shigella, Salmonella, Yersinia, Campylobacter)"], ["Triade de Sabin", ["Hydrocéphalie (ou microcéphalie)", "Choriorétinite", "Calcifications intracrâniennes"], "Toxoplasmose congénitale"], ["Triade de Gregg", ["Cataracte", "Surdité", "Cardiopathie (persistance du canal artériel)"], "Rubéole congénitale (infection au 1er trimestre)"], ["Triade de Hutchinson", ["Kératite interstitielle", "Surdité (atteinte du VIII)", "Dents de Hutchinson (incisives en tournevis, échancrées)"], "Syphilis congénitale tardive"], ["Triade de l'hypertension intracrânienne", ["Céphalées (matinales, en casque)", "Vomissements en jet", "Troubles visuels (flou visuel, œdème papillaire au fond d'œil)"], "Hypertension intracrânienne : tumeur, abcès, hématome, hydrocéphalie"], ["Triade de Cushing", ["Hypertension artérielle", "Bradycardie", "Troubles respiratoires (respiration irrégulière)"], "HTIC sévère avec menace d'engagement cérébral"], ["Triade parkinsonienne", ["Tremblement de repos", "Akinésie (bradykinésie)", "Hypertonie plastique (roue dentée)"], "Syndrome parkinsonien (maladie de Parkinson, neuroleptiques)"], ["Triade de Hakim-Adams", ["Troubles de la marche (marche à petits pas, « aimantée »)", "Troubles cognitifs", "Incontinence urinaire"], "Hydrocéphalie à pression normale du sujet âgé"], ["Triade de Gayet-Wernicke", ["Confusion", "Ataxie (troubles de l'équilibre)", "Troubles oculomoteurs (nystagmus, ophtalmoplégie)"], "Encéphalopathie de Gayet-Wernicke : carence en vitamine B1 (alcoolisme, vomissements gravidiques, dénutrition)"], ["Triade de Korsakoff", ["Amnésie antérograde (oubli à mesure)", "Fabulations", "Fausses reconnaissances"], "Syndrome de Korsakoff, séquelle d'une encéphalopathie de Gayet-Wernicke (alcoolisme)"], ["Triade de Charcot (neurologique)", ["Nystagmus", "Tremblement intentionnel", "Parole scandée"], "Sclérose en plaques (atteinte cérébelleuse)"], ["Triade de Claude Bernard-Horner", ["Myosis", "Ptosis", "Énophtalmie"], "Atteinte de la voie sympathique oculaire : cancer de l'apex pulmonaire (Pancoast), dissection carotidienne, Wallenberg"], ["Triade de Foster Kennedy", ["Atrophie optique du côté de la tumeur", "Œdème papillaire du côté opposé", "Anosmie"], "Tumeur de la base du lobe frontal (méningiome olfactif)"], ["Triade de Melkersson-Rosenthal", ["Paralysie faciale périphérique récidivante", "Œdème oro-facial (lèvres)", "Langue plicaturée (scrotale)"], "Syndrome de Melkersson-Rosenthal (granulomatose oro-faciale)"], ["Triade de Vogt", ["Épilepsie", "Déficience intellectuelle", "Angiofibromes de la face (« adénomes sébacés »)"], "Sclérose tubéreuse de Bourneville"], ["Triade de l'encéphalite", ["Fièvre", "Troubles de la conscience ou du comportement", "Crises convulsives ou signes focaux"], "Méningo-encéphalite (herpès, autres virus) ; en zone d'endémie, neuropaludisme"], ["Triade de Beck", ["Hypotension artérielle", "Turgescence des veines jugulaires", "Assourdissement des bruits du cœur"], "Tamponnade (épanchement péricardique compressif)"], ["Triade de Virchow", ["Stase veineuse", "Lésion de la paroi vasculaire (endothélium)", "Hypercoagulabilité"], "Mécanismes de la thrombose veineuse (phlébite, embolie pulmonaire)"], ["Triade du rétrécissement aortique", ["Angor d'effort", "Syncope d'effort", "Dyspnée d'effort"], "Rétrécissement aortique serré symptomatique"], ["Triade de la dissection aortique", ["Douleur thoracique brutale, déchirante, migratrice (dos)", "Asymétrie des pouls ou de la tension aux deux bras", "Élargissement du médiastin à la radiographie"], "Dissection aortique (HTA mal contrôlée, Marfan)"], ["Triade de la rupture d'anévrisme de l'aorte abdominale", ["Douleur abdominale ou lombaire brutale", "Masse abdominale pulsatile", "État de choc (hypotension)"], "Anévrisme de l'aorte abdominale rompu"], ["Triade de Leriche", ["Claudication intermittente des fesses et des cuisses", "Impuissance (dysfonction érectile)", "Abolition des pouls fémoraux"], "Syndrome de Leriche : occlusion athéromateuse de la bifurcation aortique"], ["Triade (phases) du phénomène de Raynaud", ["Phase blanche (syncopale)", "Phase bleue (asphyxique)", "Phase rouge (hyperhémique, douloureuse)"], "Syndrome de Raynaud (primitif ou secondaire à une sclérodermie)"], ["Triade de Fallot", ["Sténose pulmonaire", "Communication interauriculaire", "Hypertrophie ventriculaire droite"], "Cardiopathie congénitale cyanogène (à distinguer de la tétralogie de Fallot)"], ["Triade de l'embolie pulmonaire", ["Dyspnée brutale", "Douleur thoracique (de type pleural)", "Hémoptysie"], "Embolie pulmonaire (souvent après une phlébite)"], ["Triade létale du traumatisé", ["Hypothermie", "Acidose", "Coagulopathie"], "Polytraumatisé en choc hémorragique"], ["Triade de Kartagener", ["Situs inversus", "Sinusite chronique", "Bronchectasies (dilatation des bronches)"], "Dyskinésie ciliaire primitive"], ["Triade de Widal (Fernand-Widal)", ["Asthme", "Polypose naso-sinusienne", "Intolérance à l'aspirine et aux AINS"], "Maladie respiratoire exacerbée par l'aspirine"], ["Triade de Löfgren", ["Érythème noueux", "Adénopathies hilaires bilatérales", "Arthralgies (chevilles) et fièvre"], "Sarcoïdose aiguë (syndrome de Löfgren)"], ["Triade de Pancoast-Tobias", ["Névralgie cervico-brachiale C8-T1 (bord interne du bras)", "Syndrome de Claude Bernard-Horner", "Lyse des premières côtes"], "Cancer de l'apex pulmonaire"], ["Triade de l'embolie graisseuse", ["Détresse respiratoire", "Troubles neurologiques (confusion, coma)", "Pétéchies (aisselles, conjonctives, thorax)"], "Embolie graisseuse, 24 à 72 heures après une fracture des os longs (fémur)"], ["Triade de Charcot (biliaire)", ["Douleur de l'hypochondre droit", "Fièvre (frissons)", "Ictère"], "Angiocholite (lithiase de la voie biliaire principale), signes apparaissant dans cet ordre en 24 à 48 heures"], ["Triade de Whipple", ["Symptômes évocateurs d'hypoglycémie", "Glycémie basse mesurée au même moment", "Disparition des symptômes après correction de la glycémie"], "Définition d'une hypoglycémie vraie ; évoque un insulinome si elle survient à jeun chez un non-diabétique"], ["Triade de Saint", ["Lithiase biliaire", "Diverticulose colique", "Hernie hiatale"], "Association fréquente chez le sujet âgé occidentalisé"], ["Triade de Sandblom", ["Hémorragie digestive", "Douleur biliaire", "Ictère"], "Hémobilie (saignement dans les voies biliaires : traumatisme du foie, biopsie, tumeur)"], ["Triade de l'invagination intestinale aiguë", ["Douleurs abdominales paroxystiques (crises de pleurs, pâleur)", "Vomissements", "Rectorragies (selles « gelée de groseille »)"], "Invagination intestinale aiguë du nourrisson (souvent après une infection virale)"], ["Triade de la sténose hypertrophique du pylore", ["Vomissements en jet, alimentaires, sans bile", "Olive pylorique palpable", "Ondulations péristaltiques visibles"], "Sténose hypertrophique du pylore (nourrisson de 3 à 6 semaines, garçon premier-né)"], ["Triade de Plummer-Vinson (Kelly-Paterson)", ["Dysphagie haute", "Anémie ferriprive", "Membranes (anneaux) œsophagiennes"], "Syndrome de Plummer-Vinson (femme d'âge moyen)"], ["Triade de la pancréatite chronique", ["Calcifications pancréatiques", "Diabète", "Stéatorrhée (insuffisance pancréatique exocrine)"], "Pancréatite chronique évoluée (alcoolique ; forme tropicale en Afrique)"], ["Triade de Zollinger-Ellison", ["Ulcères peptiques sévères, multiples ou atypiques", "Hypersécrétion acide gastrique", "Gastrinome (tumeur pancréatique ou duodénale)"], "Syndrome de Zollinger-Ellison"], ["Triade de l'hémochromatose", ["Cirrhose (hépatomégalie)", "Diabète", "Mélanodermie (peau bronzée)"], "Hémochromatose génétique évoluée (« diabète bronzé »)"], ["Triade de Budd-Chiari", ["Douleur abdominale (hypochondre droit)", "Ascite", "Hépatomégalie"], "Obstruction des veines sus-hépatiques (syndrome de Budd-Chiari)"], ["Triade du syndrome carcinoïde", ["Flush (bouffées vasomotrices)", "Diarrhée", "Atteinte valvulaire cardiaque droite"], "Tumeur neuroendocrine sécrétant de la sérotonine (métastases hépatiques)"], ["Triade de Courvoisier-Terrier", ["Ictère cholestatique progressif, sans fièvre", "Grosse vésicule palpable", "Absence de douleur"], "Obstacle tumoral de la voie biliaire principale (cancer de la tête du pancréas, ampullome)"], ["Triade de Dieulafoy", ["Hyperesthésie cutanée de la fosse iliaque droite", "Défense de la fosse iliaque droite", "Douleur au point de McBurney"], "Appendicite aiguë"], ["Triade de l'insuffisance médullaire", ["Syndrome anémique (pâleur, dyspnée, asthénie)", "Syndrome infectieux (infections par neutropénie)", "Syndrome hémorragique (purpura par thrombopénie)"], "Insuffisance médullaire : leucémie aiguë, aplasie médullaire, envahissement de la moelle"], ["Les trois grandes manifestations de la drépanocytose", ["Anémie hémolytique chronique", "Crises vaso-occlusives douloureuses", "Infections graves (asplénie fonctionnelle : pneumocoque, salmonelles)"], "Drépanocytose (syndrome drépanocytaire majeur), très fréquente au Sénégal"], ["Triade du syndrome hémolytique et urémique", ["Anémie hémolytique mécanique (schizocytes)", "Thrombopénie", "Insuffisance rénale aiguë"], "Microangiopathie thrombotique, surtout chez l'enfant après une diarrhée (E. coli producteur de shigatoxine, Shigella)"], ["Les signes B (triade)", ["Fièvre inexpliquée (> 38 °C)", "Sueurs nocturnes profuses", "Amaigrissement (> 10 % en 6 mois)"], "Lymphomes (Hodgkin et non hodgkiniens) : signes de mauvais pronostic"], ["Triade de Wiskott-Aldrich", ["Eczéma", "Thrombopénie (petites plaquettes)", "Infections récidivantes (déficit immunitaire)"], "Syndrome de Wiskott-Aldrich (garçon, lié à l'X)"], ["Triade de Felty", ["Polyarthrite rhumatoïde", "Splénomégalie", "Neutropénie"], "Syndrome de Felty (polyarthrite rhumatoïde ancienne)"], ["Triade du syndrome néphritique aigu", ["Hématurie (urines « coca-cola »)", "Hypertension artérielle", "Œdèmes"], "Glomérulonéphrite aiguë post-infectieuse (après une angine ou une infection cutanée à streptocoque), fréquente chez l'enfant africain"], ["Triade du cancer du rein", ["Hématurie", "Douleur lombaire", "Masse du flanc palpable"], "Cancer du rein (adénocarcinome à cellules claires), triade tardive et rare"], ["Triade de la pyélonéphrite aiguë", ["Fièvre (frissons)", "Douleur lombaire", "Signes urinaires (brûlures, pollakiurie)"], "Pyélonéphrite aiguë"], ["Triade d'Alport", ["Néphropathie hématurique évoluant vers l'insuffisance rénale", "Surdité de perception", "Anomalies oculaires (lenticône)"], "Syndrome d'Alport (anomalie du collagène IV, souvent lié à l'X)"], ["Triade du prune-belly", ["Absence de la musculature abdominale", "Cryptorchidie bilatérale", "Anomalies de l'appareil urinaire (dilatations)"], "Syndrome de prune-belly (garçon)"], ["Syndrome cardinal du diabète", ["Polyurie", "Polydipsie", "Polyphagie (avec amaigrissement)"], "Diabète déséquilibré (hyperglycémie importante)"], ["Triade de Ménard", ["Céphalées", "Sueurs", "Palpitations"], "Phéochromocytome (surtout lors de poussées d'HTA)"], ["Triade de Basedow", ["Goitre diffus vasculaire", "Exophtalmie", "Thyrotoxicose"], "Maladie de Basedow (auto-immune, anticorps anti-récepteurs de la TSH)"], ["Triade de Conn", ["Hypertension artérielle", "Hypokaliémie", "Alcalose métabolique"], "Hyperaldostéronisme primaire (adénome de Conn)"], ["Triade de la femme athlète", ["Déficit énergétique (troubles alimentaires)", "Aménorrhée", "Ostéoporose (fractures de fatigue)"], "Sportive de haut niveau, danseuse"], ["Triade de la pré-éclampsie", ["Hypertension artérielle", "Protéinurie", "Œdèmes"], "Pré-éclampsie (après 20 semaines d'aménorrhée)"], ["Triade du HELLP syndrome", ["Hémolyse (Hemolysis)", "Cytolyse hépatique (Elevated Liver enzymes)", "Thrombopénie (Low Platelets)"], "Complication de la pré-éclampsie"], ["Triade de la grossesse extra-utérine", ["Retard de règles (aménorrhée)", "Douleurs pelviennes", "Métrorragies (peu abondantes, noirâtres)"], "Grossesse extra-utérine"], ["Triade de l'hématome rétroplacentaire", ["Douleur abdominale brutale, permanente (« coup de poignard »)", "Métrorragies noirâtres peu abondantes", "Contracture utérine (« utérus de bois »)"], "Hématome rétroplacentaire (souvent sur pré-éclampsie)"], ["Triade du placenta prævia", ["Hémorragie de sang rouge", "Indolore", "Utérus souple (relâché entre les contractions)"], "Placenta prævia (insertion basse du placenta), au 3e trimestre"], ["Triade de pré-rupture utérine", ["Contractions violentes et subintrantes", "Anneau de Bandl (utérus en sablier)", "Signe de Frommel (ligaments ronds tendus en cordes)"], "Syndrome de pré-rupture utérine au cours d'un travail dystocique"], ["Triade de la chorioamniotite", ["Fièvre maternelle", "Tachycardie fœtale", "Liquide amniotique fétide ou utérus douloureux"], "Infection intra-amniotique (rupture prolongée des membranes)"], ["Triade de la môle hydatiforme", ["Métrorragies du 1er trimestre", "Utérus trop gros pour l'âge de la grossesse", "βhCG très élevées"], "Môle hydatiforme (maladie trophoblastique)"], ["Triade de Demons-Meigs", ["Tumeur bénigne de l'ovaire (fibrome)", "Ascite", "Épanchement pleural"], "Syndrome de Demons-Meigs"], ["Triade de Stein-Leventhal", ["Troubles des règles (spanioménorrhée, aménorrhée)", "Hirsutisme (hyperandrogénie)", "Obésité"], "Syndrome des ovaires polykystiques"], ["Triade de l'endométriose", ["Dysménorrhée (règles douloureuses)", "Dyspareunie profonde", "Infertilité"], "Endométriose"], ["Triade du bébé secoué", ["Hématome sous-dural", "Hémorragies rétiniennes", "Encéphalopathie (troubles de conscience, convulsions)"], "Syndrome du bébé secoué (maltraitance)"], ["Triade de Pierre Robin", ["Micrognathie (rétrognathie)", "Glossoptose (langue qui tombe en arrière)", "Fente palatine"], "Séquence de Pierre Robin (nouveau-né)"], ["Triade du kwashiorkor", ["Œdèmes bilatéraux prenant le godet", "Lésions cutanées et des cheveux (dépigmentation, desquamation)", "Apathie et anorexie"], "Malnutrition aiguë sévère œdémateuse (après le sevrage)"], ["Triade atopique", ["Dermatite atopique (eczéma)", "Asthme", "Rhinite allergique (rhino-conjonctivite)"], "Terrain atopique (« marche atopique » de l'enfant)"], ["Triade malheureuse de O'Donoghue", ["Rupture du ligament croisé antérieur", "Lésion du ligament collatéral médial", "Lésion du ménisque médial"], "Entorse grave du genou (valgus-flexion-rotation externe, football)"], ["Triade terrible du coude", ["Luxation du coude", "Fracture de la tête radiale", "Fracture de la coronoïde"], "Traumatisme grave du coude (chute sur la main)"], ["Triade de Gougerot-Sjögren", ["Sécheresse oculaire (kératoconjonctivite sèche)", "Sécheresse buccale (xérostomie)", "Polyarthrite (ou autre connectivite)"], "Syndrome de Gougerot-Sjögren"], ["Triade de Behçet", ["Aphtose buccale récidivante", "Aphtose génitale", "Uvéite"], "Maladie de Behçet (vascularite)"], ["Triade de Ménière", ["Vertiges rotatoires en crises", "Acouphènes (et plénitude de l'oreille)", "Hypoacousie (surdité de perception fluctuante)"], "Maladie de Ménière (hydrops endolymphatique)"], ["Triade de Gradenigo", ["Otite moyenne suppurée", "Paralysie du VI (diplopie)", "Douleur rétro-orbitaire (névralgie du V)"], "Pétrosite (infection de la pointe du rocher)"], ["Triade de Trotter", ["Surdité de transmission (otite séreuse unilatérale)", "Névralgie mandibulaire (V3)", "Immobilité du voile du palais"], "Cancer du rhinopharynx (cavum)"], ["Triade de Jacod", ["Ophtalmoplégie (atteinte des nerfs oculomoteurs)", "Amaurose (cécité)", "Névralgie du trijumeau"], "Extension d'un cancer du rhinopharynx vers la base du crâne (syndrome du carrefour pétro-sphénoïdal)"], ["Triade du glaucome aigu", ["Œil rouge très douloureux", "Baisse brutale de la vision (halos colorés)", "Mydriase aréactive (œil dur)"], "Glaucome aigu par fermeture de l'angle"], ["Triade de l'intoxication aux opiacés", ["Coma (troubles de la conscience)", "Myosis serré (en tête d'épingle)", "Dépression respiratoire (bradypnée)"], "Intoxication aux opioïdes (héroïne, morphine, tramadol)"], ["Triade du syndrome cholinergique", ["Signes muscariniques (myosis, hypersécrétions, bradycardie, diarrhée)", "Signes nicotiniques (fasciculations, paralysies)", "Signes centraux (confusion, convulsions, coma)"], "Intoxication aux insecticides organophosphorés ou carbamates (fréquente en milieu agricole)"], ["Triade du syndrome sérotoninergique", ["Troubles mentaux (agitation, confusion)", "Dysautonomie (sueurs, tachycardie, hyperthermie)", "Anomalies neuromusculaires (myoclonies, clonus, hyperréflexie)"], "Excès de sérotonine (association d'antidépresseurs, tramadol)"], ["Triade du syndrome malin des neuroleptiques", ["Hyperthermie", "Rigidité musculaire", "Troubles de la conscience (avec dysautonomie)"], "Syndrome malin des neuroleptiques"], ["Triade cognitive de Beck", ["Vision négative de soi", "Vision négative du monde", "Vision négative de l'avenir"], "Dépression (modèle cognitif)"], ["Triade de Macdonald", ["Énurésie tardive", "Pyromanie", "Cruauté envers les animaux"], "Signes de l'enfance associés aux comportements violents futurs (valeur prédictive discutée)"]];
+/* ---------- Énergie du jour : la séance s'adapte toute seule ---------- */
+const MOODS = [['forme', 'En forme'], ['fatigue', 'Fatiguée'], ['sommeil', 'Nuit courte'], ['regles', 'Règles douloureuses']];
+const moodOf = () => getHab(keyOf()).mood || '';
+const moodLight = () => ['fatigue', 'sommeil', 'regles'].includes(moodOf());
+function isBusy(type) { return type !== 'C' && type !== 'F' && (!!S.settings.busy || moodLight()); }
+function moodHTML() {
+  const m = moodOf();
+  const note = m === 'regles' ? 'Séance express en version facile, sans sauts. Bouger un peu soulage souvent les crampes.' : m === 'fatigue' || m === 'sommeil' ? 'Séance express de 25 min : tu gardes le rythme sans t\'épuiser.' : m === 'forme' ? 'Séance complète. Profites-en pour viser le haut de la fourchette.' : 'Touche ce qui te correspond : la séance s\'adapte toute seule.';
+  return `<div class="field"><span>Aujourd'hui, je suis</span><div class="chips eq-chips" role="group" aria-label="Énergie du jour">${MOODS.map(([k, l]) => `<button class="chip" data-action="mood" data-k="${k}" aria-pressed="${m === k}">${esc(l)}</button>`).join('')}</div><small>${esc(note)}</small></div>`;
+}
+
+/* ---------- Coach vocal ---------- */
+let VOICE = null;
+function frVoice() { try { const vs = window.speechSynthesis.getVoices(); return vs.find((v) => /^fr/i.test(v.lang) && /google|natural|premium|enhanced/i.test(v.name)) || vs.find((v) => /^fr/i.test(v.lang)) || null; } catch (e) { return null; } }
+try { if ('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged = () => { VOICE = frVoice(); }; } catch (e) { /* rien */ }
+function say(txt) {
+  if (!S.settings.voice || S.settings.mute || !('speechSynthesis' in window)) return;
+  try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(txt); u.lang = 'fr-FR'; const v = VOICE || (VOICE = frVoice()); if (v) u.voice = v; u.rate = 1.03; window.speechSynthesis.speak(u); } catch (e) { /* voix indisponible */ }
+}
+const sideSay = (ex) => (!ex.side ? '' : ex.side.includes('jambe') ? ' par jambe' : ex.side.includes('bras') ? ' par bras' : ex.side.includes('pas') ? ' pas' : ' par côté');
+function pAnnounce() {
+  const d = S.draft; if (!d) return; const q = pQueue(d); const it = q[d.qi]; if (!it) return;
+  if (RT.rest) { const t = pItemTitle(it); say(`Repos. Ensuite : ${t.name}.`); return; }
+  if (it.k === 'warm') say(`Échauffement. ${WARMUP[it.i][0]}.`);
+  else if (it.k === 'set') { const ex = EX[it.e.id]; say(`${ex.name}. Série ${it.i + 1} sur ${it.e.sets}. ${it.e.reps[0]} à ${it.e.reps[1]} ${ex.unit === 's' ? 'secondes' : 'répétitions'}${sideSay(ex)}.`); }
+  else say('Dernière étape. Bravo, la séance est finie.');
+}
+
+/* ---------- Tempo guidé : l'appli compte chaque répétition au bon rythme ---------- */
+const TP = { on: false, timers: [], ex: null, i: 0 };
+const tempoParse = (s) => { const m = String(s).match(/^(\d)-(\d)-(\d)-(\d)$/); return m ? m.slice(1).map(Number) : null; };
+function tempoStop() { TP.timers.forEach(clearTimeout); TP.timers = []; TP.on = false; }
+function tempoStart(id, i) {
+  const ex = EX[id]; const tp = tempoParse(ex.tempo); const d = S.draft; if (!tp || !d) return;
+  tempoStop(); TP.on = true; TP.ex = id; TP.i = i;
+  const target = d.entries[id].target.hi; let t = 1600; const at = (ms, fn) => TP.timers.push(setTimeout(fn, ms));
+  say(`Tempo ${tp.join(', ')}. Je compte pour toi.`);
+  for (let r = 1; r <= target; r++) {
+    for (let s = 0; s < tp[0]; s++) { at(t, () => beep(392, 0.09, 0, 0.14)); t += 1000; }
+    for (let s = 0; s < tp[1]; s++) { at(t, () => beep(330, 0.06, 0, 0.08)); t += 1000; }
+    at(t, () => beep(784, 0.16, 0, 0.2)); t += Math.max(1, tp[2]) * 1000;
+    t += tp[3] * 1000;
+    const rr = r; at(t - 250, () => { const en = S.draft && S.draft.entries[id]; if (en) en.sets[i] = rr; const o = document.getElementById(`v-${id}-${i}`); if (o) o.textContent = rr; say(String(rr)); });
+  }
+  at(t + 300, () => { tempoStop(); chime('end'); say('Série terminée. Touche Fini.'); renderOverlay({ keep: true }); });
+  renderOverlay({ keep: true });
+}
+
+/* ---------- Révise pendant tes repos : tes cartes XamXam, ou les triades ---------- */
+const RV = { card: null, shown: false };
+function xxCards() {
+  try { const d = JSON.parse(localStorage.getItem('xamxam.v1') || 'null'); if (!d || !d.cards) return [];
+    return Object.values(d.cards).filter((c) => c && !c.suspended && (c.type === 'qa' || c.type === 'cloze') && c.front && String(c.front).length < 600); } catch (e) { return []; }
+}
+function pickCard() {
+  if (S.settings.revise === false) return null;
+  const all = xxCards(); const now = Date.now();
+  if (all.length) { const due = all.filter((c) => c.srs && c.srs.state !== 'new' && c.srs.due <= now); const pool = due.length ? due : all; const c = pool[Math.floor(Math.random() * pool.length)]; return { src: 'xamxam', front: c.front, back: c.back || '', type: c.type }; }
+  const t = TRI[Math.floor(Math.random() * TRI.length)];
+  return { src: 'tri', front: 'Quelle triade associe :\n- ' + t[1].join('\n- '), back: '**' + t[0] + '**\n' + t[2], type: 'qa' };
+}
+function mdLite(s, reveal) {
+  let h = esc(String(s || ''));
+  h = h.replace(/\{\{c\d+::(.*?)(?:::(.*?))?\}\}/g, (m, a, hint) => (reveal ? `<b>${a}</b>` : `[ ${hint || '…'} ]`));
+  h = h.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  return h.split('\n').map((l) => (l.startsWith('- ') ? '• ' + l.slice(2) : l)).join('<br>');
+}
+function revHTML() {
+  const c = RV.card; if (!c) return '';
+  const ans = c.type === 'cloze' ? mdLite(c.front, true) + (c.back ? '<br>' + mdLite(c.back, true) : '') : mdLite(c.back, true);
+  return `<section class="card rv"><p class="eyebrow">Révise pendant ton repos · ${c.src === 'xamxam' ? 'tes cartes XamXam' : 'triades'}</p>
+    <div class="rv-q">${mdLite(c.front, false)}</div>${RV.shown ? `<div class="rv-a">${ans}</div>` : ''}
+    <button class="btn sm" data-action="rv-show">${RV.shown ? 'Une autre carte' : 'Voir la réponse'}</button></section>`;
+}
+
+/* ---------- Caméra : photo d'aplomb et miroir ---------- */
+const CAM = { stream: null, iv: null };
+const camOK = () => !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+function camStop() { if (CAM.iv) { clearInterval(CAM.iv); CAM.iv = null; } if (CAM.stream) { CAM.stream.getTracks().forEach((t) => t.stop()); CAM.stream = null; } }
+function camAttach() { const v = document.getElementById('camV'); if (v && CAM.stream && v.srcObject !== CAM.stream) { v.srcObject = CAM.stream; v.play().catch(() => {}); } }
+async function camStart() {
+  camStop();
+  try { CAM.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: UI.cam.facing, width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false }); UI.cam.err = ''; camAttach(); }
+  catch (e) { if (UI.cam) { UI.cam.err = "Caméra indisponible : autorise l'accès à la caméra pour Aplomb dans ton navigateur."; renderOverlay({ keep: true }); } }
+}
+function camOpen(mode, ex) {
+  if (!camOK()) { toast("Ton navigateur ne donne pas accès à la caméra."); return; }
+  UI.cam = { mode, ex: ex || null, facing: 'user', count: 0, err: '', back: UI.overlay === 'preview' ? 'preview' : null };
+  UI.overlay = 'camera'; renderOverlay(); camStart();
+}
+function camClose() { camStop(); const back = UI.cam && UI.cam.back; UI.cam = null; if (back === 'preview' && UI.prev) { UI.overlay = 'preview'; renderOverlay({ keep: true }); } else closeOverlay(); }
+function ovCamera() {
+  const c = UI.cam; if (!c) return ''; const photo = c.mode === 'photo'; const ex = c.ex ? EX[c.ex] : null;
+  return `<header class="ov-head"><div class="wrap"><div class="ov-row"><div class="ov-title"><p class="eyebrow">${photo ? "Photo d'aplomb · reste sur ton téléphone" : "Miroir · rien n'est enregistré"}</p><h2>${photo ? 'De profil, bras le long du corps' : esc(ex ? ex.name : 'Miroir')}</h2></div><button class="icon-btn" data-action="cam-close" aria-label="Fermer">${ICON.x}</button></div></div></header>
+  <div class="ov-body"><div class="wrap stack">
+    <div class="cam-wrap"><video id="camV" playsinline muted autoplay class="${c.facing === 'user' ? 'mir' : ''}"></video>
+      ${photo ? '<div class="plumb"><i></i><b></b></div>' : `<div class="cam-fig">${figHTML(c.ex, 'sm')}</div>`}
+      <div class="cam-count" id="camCount">${c.count || ''}</div></div>
+    ${c.err ? `<p class="small" style="color:var(--crit)">${esc(c.err)}</p>` : `<p class="small muted">${photo ? "Pose le téléphone à hauteur de hanche, à 2 ou 3 m, et mets-toi de profil. Place ta cheville sur la ligne : l'oreille, l'épaule, la hanche et le genou devraient tomber dessus. Une photo toutes les 4 semaines suffit pour voir tes progrès." : 'Pose le téléphone face à toi, fais le mouvement et compare-toi au dessin en haut à droite. La vidéo reste sur ton téléphone, rien n\'est enregistré ni envoyé.'}</p>`}
+  </div></div>
+  <footer class="ov-foot"><div class="wrap"><div class="btn-row"><button class="btn" data-action="cam-flip">Changer de caméra</button>${photo ? `<button class="btn primary" data-action="cam-timer">${c.count ? 'Photo dans ' + c.count + ' s…' : 'Photo dans 10 s'}</button>` : ''}</div></div></footer>`;
+}
+function camShot() {
+  const v = document.getElementById('camV'); if (!v || !v.videoWidth) { toast('La caméra n\'est pas prête.'); return; }
+  const k = Math.min(1, 960 / Math.max(v.videoWidth, v.videoHeight)); const W = Math.round(v.videoWidth * k); const H = Math.round(v.videoHeight * k);
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  if (UI.cam.facing === 'user') { g.translate(W, 0); g.scale(-1, 1); }
+  g.drawImage(v, 0, 0, W, H); g.setTransform(1, 0, 0, 1, 0, 0);
+  g.strokeStyle = '#E9A21A'; g.lineWidth = Math.max(2, W / 260); g.beginPath(); g.moveTo(W / 2, 0); g.lineTo(W / 2, H); g.stroke();
+  g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(0, H - 34, W, 34); g.fillStyle = '#fff'; g.font = '600 17px sans-serif'; g.fillText('Aplomb · ' + fmtDate(new Date()), 12, H - 11);
+  chime('end');
+  c.toBlob(async (b) => { if (!b) return; try { await phPut({ id: Date.now().toString(36), t: Date.now(), blob: b }); toast("Photo d'aplomb enregistrée sur ton téléphone"); } catch (e) { toast("Enregistrement impossible sur ce navigateur."); } camStop(); UI.cam = null; UI.overlay = null; renderOverlay(); UI.tab = 'suivi'; render(); window.scrollTo(0, 0); }, 'image/jpeg', 0.8);
+}
+const PH = { db: null, urls: [] };
+function phDB() { return new Promise((res, rej) => { if (PH.db) { res(PH.db); return; } const r = indexedDB.open('aplomb-photos', 1); r.onupgradeneeded = () => r.result.createObjectStore('p', { keyPath: 'id' }); r.onsuccess = () => { PH.db = r.result; res(PH.db); }; r.onerror = () => rej(r.error); }); }
+async function phAll() { const db = await phDB(); return new Promise((res, rej) => { const q = db.transaction('p').objectStore('p').getAll(); q.onsuccess = () => res((q.result || []).sort((a, b) => a.t - b.t)); q.onerror = () => rej(q.error); }); }
+async function phPut(o) { const db = await phDB(); return new Promise((res, rej) => { const tx = db.transaction('p', 'readwrite'); tx.objectStore('p').put(o); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); }); }
+async function phDel(id) { const db = await phDB(); return new Promise((res, rej) => { const tx = db.transaction('p', 'readwrite'); tx.objectStore('p').delete(id); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); }); }
+async function photoFill() {
+  const el = document.getElementById('photoBox'); if (!el) return;
+  let list = []; try { list = await phAll(); } catch (e) { el.innerHTML = '<p class="small muted">Les photos ne peuvent pas être gardées sur ce navigateur.</p>'; return; }
+  PH.urls.forEach((u) => URL.revokeObjectURL(u)); PH.urls = [];
+  const url = (p) => { const u = URL.createObjectURL(p.blob); PH.urls.push(u); return u; };
+  const fig = (p, cap) => `<figure><img src="${url(p)}" alt="${esc(cap)}"><figcaption>${esc(cap)}</figcaption></figure>`;
+  if (!list.length) { el.innerHTML = '<p class="small muted">Pas encore de photo. La première sert de point de départ.</p>'; return; }
+  const first = list[0]; const last = list[list.length - 1];
+  el.innerHTML = (list.length > 1 ? `<div class="ph-pair">${fig(first, 'Avant · ' + fmtShort(new Date(first.t)))}${fig(last, 'Maintenant · ' + fmtShort(new Date(last.t)))}</div>` : `<div class="ph-pair one">${fig(first, fmtShort(new Date(first.t)))}</div>`)
+    + `<details class="p-how"><summary>Toutes tes photos (${list.length})</summary><div class="ph-grid">${list.map((p) => `<figure><img src="${url(p)}" alt=""><figcaption>${esc(fmtShort(new Date(p.t)))} · <button class="link-btn danger" data-action="ph-del" data-id="${p.id}">Supprimer</button></figcaption></figure>`).join('')}</div></details>`;
+}
+function photoCard() {
+  return `<section class="card"><div><p class="eyebrow">Photo d'aplomb</p><h2>Ta ligne d'aplomb</h2></div>
+    <p class="small muted">De profil, une ligne verticale doit passer par l'oreille, l'épaule, la hanche, le genou et la cheville. L'appli trace la ligne pour toi et compare ta première photo à la dernière. Les photos restent sur ton téléphone.</p>
+    <div id="photoBox"><p class="small muted">Chargement…</p></div>
+    <button class="btn primary block" data-action="cam-photo">Prendre ma photo de profil</button></section>`;
+}
+
+/* ---------- Séances : musculation, séance F, cardio ---------- */
+function weekStart(d = new Date()) { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); return addDays(x, -((x.getDay() + 6) % 7)); }
+function cardioWeek() { const s = weekStart(); let m = 0; for (let i = 0; i < 7; i++) m += getHab(keyOf(addDays(s, i))).cardio || 0; return m; }
+const sessMins = (t) => (isBusy(t) ? 25 : t === 'C' ? 25 : t === 'F' ? 40 : 50);
+function viewSeances() {
+  const P = progInfo(); const cw = P.before ? 1 : P.cw; const cm = cardioWeek();
+  const card = (t, badge) => { const steps = buildSteps(t, isBusy(t), cw); const n = steps.filter((x) => x.kind === 'ex').reduce((a, x) => a + x.ex.length, 0);
+    return `<article class="card${t === 'F' ? ' feature' : ''}"><div class="sess-top"><div><p class="eyebrow">${esc(badge)}</p><h2>${esc(PLAN[t].name)}</h2><p class="small muted">${esc(PLAN[t].focus)}</p></div><span class="sess-letter" aria-hidden="true">${t}</span></div>
+      <p class="meta-line"><span>${ICON.timer}${sessMins(t)} min</span><span>${n} exercices</span></p>
+      <div class="btn-row"><button class="btn" data-action="preview" data-type="${t}">Voir les exercices</button><button class="btn primary" data-action="start-session" data-type="${t}">${S.draft && S.draft.type === t ? 'Reprendre' : 'Lancer'}</button></div></article>`; };
+  const uniq = (steps) => steps.filter((s, i) => steps.findIndex((x) => x.t === s.t) === i);
+  return `<div class="stack">
+  <section class="sec-head"><p class="eyebrow">Séances</p><h1 class="h1">Bouger</h1><p class="lead">Musculation pensée pour les femmes et cardio. Regarde les exercices avant de te lancer, rien ne démarre tant que tu n'as pas touché « Lancer ».</p></section>
+  <section class="card">${eqChips()}${moodHTML()}</section>
+  <h2 class="list-h">Musculation</h2>
+  ${card('F', 'Nouveau · pensée pour les femmes')}${card('A', 'Ton programme · séance A')}${card('B', 'Ton programme · séance B')}${card('C', 'Posture · 25 min')}
+  <h2 class="list-h">Cardio</h2>
+  <section class="card"><div><p class="eyebrow">Cette semaine</p><h2>${cm} min <span class="muted small">sur 150</span></h2></div><div class="prog" role="img" aria-label="${cm} minutes de cardio sur 150"><i style="width:${Math.min(100, Math.round(cm / 1.5))}%"></i></div>
+    <p class="small muted">L'OMS conseille 150 minutes de cardio modéré par semaine (essoufflée mais capable de parler), ou 75 minutes intenses. Les minutes s'ajoutent toutes seules à la fin de chaque séance.</p></section>
+  ${Object.entries(CARDIO).map(([id, c]) => `<article class="card"><div><p class="eyebrow">${esc(c.tag)} · ${c.mins} min</p><h2>${esc(c.name)}</h2><p class="small">${esc(c.desc)}</p></div>
+    <details class="p-how"><summary>Voir les mouvements</summary><ol class="ex-list">${uniq(c.steps).map((s) => `<li>${figHTML(s.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(s.t)}</span><span class="muted small">${esc(s.how)}</span></div><span></span></li>`).join('')}</ol></details>
+    <button class="btn primary block" data-action="cardio-start" data-id="${id}">Lancer · ${c.mins} min</button></article>`).join('')}
+  </div>`;
+}
 
 /* ---------- Démarrage ---------- */
 const saved = loadLocal();
