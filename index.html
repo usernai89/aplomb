@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Aplomb</title>
 <meta name="description" content="Aplomb : séances de musculation à la maison, routine posture, suivi.">
-<meta name="theme-color" content="#EDF0F5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0C1019" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F1EA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131017" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Aplomb">
@@ -16,40 +16,40 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 </head>
 <body>
 <style>
 /* Mise en page : sur l'accueil, un fil à plomb vertical porte la journée (3h05 → coucher) ; cartes par rôle ; onglets fixes en bas ; séances et routines en plein écran. */
 :root{
-  --bg:#EDF0F5;--surface:#FFFFFF;--surface-2:#F3F5F9;--ink:#131A2C;--muted:#586176;--line:#D5DBE5;
-  --accent:#E9A21A;--accent-ink:#8A5800;--on-accent:#1D1403;--accent-soft:rgba(233,162,26,.18);
-  --plumb:#2E3D92;--on-plumb:#FFFFFF;--plumb-soft:rgba(46,61,146,.10);
-  --good:#1C8754;--good-soft:rgba(28,135,84,.12);--warn:#A86200;--warn-soft:rgba(168,98,0,.12);--crit:#BF3428;--crit-soft:rgba(191,52,40,.10);
-  --ph-fond:#A4AEDB;--ph-constr:#2E3D92;--ph-dech:#B8BFCB;--ph-int:#E9A21A;
-  --shadow:0 1px 2px rgba(19,26,44,.05),0 8px 24px rgba(19,26,44,.07);
-  --f-display:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif;
-  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --r:14px;--nav-h:62px;
+  --bg:#F6F1EA;--surface:#FFFFFF;--surface-2:#F2ECE4;--ink:#211B29;--muted:#655D70;--line:#E4DBD0;
+  --accent:#EE8458;--accent-ink:#A3401A;--on-accent:#2A1006;--accent-soft:rgba(238,132,88,.18);
+  --plumb:#4A2D7F;--on-plumb:#FFFFFF;--plumb-soft:rgba(74,45,127,.10);
+  --good:#23845A;--good-soft:rgba(35,132,90,.12);--warn:#A85F00;--warn-soft:rgba(168,95,0,.12);--crit:#BF3428;--crit-soft:rgba(191,52,40,.10);
+  --ph-fond:#C8BBE6;--ph-constr:#4A2D7F;--ph-dech:#D8CEC3;--ph-int:#EE8458;
+  --shadow:0 1px 2px rgba(33,27,41,.05),0 10px 28px rgba(74,45,127,.08);
+  --f-display:"Outfit","Plus Jakarta Sans",system-ui,sans-serif;
+  --f-body:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --r:18px;--nav-h:64px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0C1019;--surface:#151B29;--surface-2:#1C2334;--ink:#E7EBF4;--muted:#9BA4B8;--line:#2A3249;
-    --accent:#F2B23D;--accent-ink:#F5C569;--on-accent:#1D1403;--accent-soft:rgba(242,178,61,.16);
-    --plumb:#97A6FF;--on-plumb:#0C1019;--plumb-soft:rgba(151,166,255,.14);
-    --good:#4CC68A;--good-soft:rgba(76,198,138,.15);--warn:#F2A64B;--warn-soft:rgba(242,166,75,.15);--crit:#F26C5F;--crit-soft:rgba(242,108,95,.15);
-    --ph-fond:#4B5893;--ph-constr:#97A6FF;--ph-dech:#4A5268;--ph-int:#F2B23D;
+    --bg:#131017;--surface:#1D1922;--surface-2:#27212E;--ink:#F0EAF5;--muted:#A99FB5;--line:#372F40;
+    --accent:#F4A07A;--accent-ink:#F7B696;--on-accent:#2A1006;--accent-soft:rgba(244,160,122,.16);
+    --plumb:#BBA5F2;--on-plumb:#150F1D;--plumb-soft:rgba(187,165,242,.14);
+    --good:#56C78F;--good-soft:rgba(86,199,143,.15);--warn:#F2A64B;--warn-soft:rgba(242,166,75,.15);--crit:#F26C5F;--crit-soft:rgba(242,108,95,.15);
+    --ph-fond:#5A4888;--ph-constr:#BBA5F2;--ph-dech:#4A4253;--ph-int:#F4A07A;
     --shadow:0 1px 2px rgba(0,0,0,.35);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0C1019;--surface:#151B29;--surface-2:#1C2334;--ink:#E7EBF4;--muted:#9BA4B8;--line:#2A3249;
-  --accent:#F2B23D;--accent-ink:#F5C569;--on-accent:#1D1403;--accent-soft:rgba(242,178,61,.16);
-  --plumb:#97A6FF;--on-plumb:#0C1019;--plumb-soft:rgba(151,166,255,.14);
-  --good:#4CC68A;--good-soft:rgba(76,198,138,.15);--warn:#F2A64B;--warn-soft:rgba(242,166,75,.15);--crit:#F26C5F;--crit-soft:rgba(242,108,95,.15);
-  --ph-fond:#4B5893;--ph-constr:#97A6FF;--ph-dech:#4A5268;--ph-int:#F2B23D;
+  --bg:#131017;--surface:#1D1922;--surface-2:#27212E;--ink:#F0EAF5;--muted:#A99FB5;--line:#372F40;
+  --accent:#F4A07A;--accent-ink:#F7B696;--on-accent:#2A1006;--accent-soft:rgba(244,160,122,.16);
+  --plumb:#BBA5F2;--on-plumb:#150F1D;--plumb-soft:rgba(187,165,242,.14);
+  --good:#56C78F;--good-soft:rgba(86,199,143,.15);--warn:#F2A64B;--warn-soft:rgba(242,166,75,.15);--crit:#F26C5F;--crit-soft:rgba(242,108,95,.15);
+  --ph-fond:#5A4888;--ph-constr:#BBA5F2;--ph-dech:#4A4253;--ph-int:#F4A07A;
   --shadow:0 1px 2px rgba(0,0,0,.35);
   color-scheme:dark;
 }
@@ -347,7 +347,7 @@ td.num{font-size:16px;white-space:nowrap}
 
 /* Illustrations d'exercices et liste à vignettes */
 .fig-box{display:block;background:var(--surface-2);border-radius:12px;aspect-ratio:3/2;overflow:hidden;flex:none;
-  --f-skin:#8B5A3C;--f-skin2:#6A412A;--f-leg:#2E3D92;--f-leg2:#1C2662;--f-top:#E9A21A;--f-hair:#1A1210;--f-mat:rgba(46,61,146,.16);--f-wall:rgba(19,26,44,.06)}
+  --f-skin:#8B5A3C;--f-skin2:#6A412A;--f-leg:#4A2D7F;--f-leg2:#2F1B55;--f-top:#EE8458;--f-hair:#1A1210;--f-mat:rgba(74,45,127,.16);--f-wall:rgba(19,26,44,.06)}
 .fig{display:block;width:100%;height:100%}
 .fig line,.fig path{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .fig .sk{stroke:var(--f-skin)}.fig .sk-f{fill:var(--f-skin)}
@@ -361,8 +361,8 @@ td.num{font-size:16px;white-space:nowrap}
 .fig .fwall{fill:var(--f-wall);stroke:var(--line);stroke-width:1}
 .fig-box.sm{width:88px}
 .fig-box.lg{width:100%;max-width:340px;margin-inline:auto}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fig-box{--f-leg:#5B6CD6;--f-leg2:#3D4AA0;--f-hair:#050302;--f-mat:rgba(151,166,255,.16);--f-wall:rgba(255,255,255,.05)}}
-:root[data-theme="dark"] .fig-box{--f-leg:#5B6CD6;--f-leg2:#3D4AA0;--f-hair:#050302;--f-mat:rgba(151,166,255,.16);--f-wall:rgba(255,255,255,.05)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fig-box{--f-leg:#8466C9;--f-leg2:#5C4396;--f-hair:#050302;--f-mat:rgba(187,165,242,.16);--f-wall:rgba(255,255,255,.05)}}
+:root[data-theme="dark"] .fig-box{--f-leg:#8466C9;--f-leg2:#5C4396;--f-hair:#050302;--f-mat:rgba(187,165,242,.16);--f-wall:rgba(255,255,255,.05)}
 .ex-list{padding:4px 0 0;border-top:0}
 .ex-list li{grid-template-columns:88px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .ex-list li:last-child{border-bottom:0}
@@ -415,8 +415,8 @@ details.p-how summary{cursor:pointer;font-weight:600;color:var(--plumb);padding:
 .cam-wrap video{width:100%;height:100%;object-fit:cover;display:block}
 .cam-wrap video.mir{transform:scaleX(-1)}
 .plumb{position:absolute;inset:0;pointer-events:none}
-.plumb i{position:absolute;left:50%;top:0;bottom:22px;width:2px;margin-left:-1px;background:#E9A21A;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
-.plumb b{position:absolute;left:50%;bottom:6px;width:14px;height:18px;margin-left:-7px;background:#E9A21A;clip-path:polygon(0 0,100% 0,50% 100%)}
+.plumb i{position:absolute;left:50%;top:0;bottom:22px;width:2px;margin-left:-1px;background:#EE8458;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+.plumb b{position:absolute;left:50%;bottom:6px;width:14px;height:18px;margin-left:-7px;background:#EE8458;clip-path:polygon(0 0,100% 0,50% 100%)}
 .cam-fig{position:absolute;right:8px;top:8px;width:44%;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.92)}
 .cam-fig .fig-box{width:100%}
 .cam-count{position:absolute;inset:0;display:grid;place-items:center;font:700 120px/1 var(--f-display);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.6);pointer-events:none}
@@ -426,6 +426,50 @@ figure{margin:0}figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}
 .ph-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
 .rv{border-color:var(--plumb)}.rv-q{font-size:16px;line-height:1.5}.rv-a{background:var(--good-soft);border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.5}
 .tabs .wrap{grid-template-columns:repeat(5,minmax(0,1fr))}.tab{font-size:11px}
+/* ---- Refonte : écritures plus lisibles, cartes plus douces ---- */
+body{font-size:16px;line-height:1.55}
+.small{font-size:14px}.dl-sub,.tile .dl-sub{font-size:13.5px}
+.eyebrow{font-size:11.5px;letter-spacing:.1em;font-weight:700}
+.brand{font:800 25px/1 var(--f-display);letter-spacing:-.01em}
+.h1{font:700 34px/1.05 var(--f-display);letter-spacing:-.02em}
+.h1 .of{font-size:.55em}
+h2,.h2{font:700 21px/1.15 var(--f-display);letter-spacing:-.01em}
+.sess-h{font-size:28px}
+.sess-letter{font:800 54px/.85 var(--f-display);color:var(--accent);opacity:.9}
+.p-name{font:700 28px/1.1 var(--f-display);letter-spacing:-.01em}
+.list-h,details.acc>summary,.mgroup h3{font-family:var(--f-display);font-weight:700;letter-spacing:-.01em}
+details.acc>summary{font-size:19px}
+.presc b{font:700 19px/1.05 var(--f-display)}
+.stepper.big output{font-size:54px}.ring-n{font-size:64px}
+.stats b{font-size:36px}.chart-v{font-size:26px}.study-n{font-size:54px}
+.card{border-radius:var(--r);border-color:transparent;box-shadow:0 1px 2px rgba(33,27,41,.04)}
+.card.feature{box-shadow:var(--shadow)}
+.btn{border-radius:14px;font-weight:700}
+.btn.primary{box-shadow:0 6px 16px rgba(238,132,88,.28)}
+.btn.big{border-radius:16px}
+.chip{font-weight:600}
+.chip[aria-pressed="true"]{box-shadow:0 4px 12px rgba(74,45,127,.22)}
+.tile{border-top-width:3px;border-color:transparent;border-top-color:var(--plumb);box-shadow:0 1px 2px rgba(33,27,41,.04)}
+.tabs{box-shadow:0 -6px 20px rgba(33,27,41,.06);border-top-color:transparent}
+.tab[aria-current="page"] svg{background:var(--plumb-soft);border-radius:999px;padding:3px 10px;box-sizing:content-box;margin:-3px -10px}
+.ex-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 6px;margin:0 -2px;scrollbar-width:none}
+.ex-strip::-webkit-scrollbar{display:none}
+.ex-tile{flex:0 0 136px;scroll-snap-align:start;display:flex;flex-direction:column;gap:3px;text-align:left;background:var(--surface-2);border:0;border-radius:14px;padding:8px 8px 10px;color:inherit;font:inherit;position:relative;cursor:pointer}
+.ex-tile .fig-box.sm{width:100%;background:var(--surface)}
+.et-n{position:absolute;top:12px;left:14px;font:800 15px var(--f-display);color:var(--accent-ink)}
+.et-name{font-weight:700;font-size:13.5px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:3px}
+.et-sub{font-size:12.5px;color:var(--muted)}
+.strip-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.opt-pill{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--plumb-soft);border:0;border-radius:14px;padding:11px 14px;color:var(--ink);font:inherit;font-size:14.5px;text-align:left;cursor:pointer}
+.opt-pill .lk{font-weight:700;color:var(--plumb);white-space:nowrap}
+.opts-panel{display:flex;flex-direction:column;gap:12px;padding:4px 2px}
+.troph{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:10px}
+.troph>div{background:var(--surface-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px;opacity:.6}
+.troph>div.on{background:var(--accent-soft);opacity:1}
+.troph b{font:700 15px/1.2 var(--f-display)}.troph i{font-style:normal;font-size:22px}.troph small{font-size:12.5px;color:var(--muted)}
+.wk-sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.wk-sum>div{background:var(--surface-2);border-radius:14px;padding:12px}
+.wk-sum b{display:block;font:700 26px/1.05 var(--f-display)}.wk-sum span{font-size:13px;color:var(--muted)}
 [hidden]{display:none!important}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:90;max-width:calc(100% - 32px);text-align:center;transition:opacity .2s,transform .2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -1341,8 +1385,16 @@ function figLoop(ts) {
 }
 requestAnimationFrame(figLoop);
 function exListHTML(steps, type) {
-  const inner = (e) => `${figHTML(e.id, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(EX[e.id].name)}</span><span class="muted num">${e.sets} × ${repsTxt(e.reps[0], e.reps[1], EX[e.id].unit)}${esc(EX[e.id].side)}</span>${eqBadge(EX[e.id])}${type ? '<span class="see">Voir l\'exercice</span>' : ''}</div><span class="num ex-li-n">${esc(e.label)}</span>`;
+  const inner = (e) => `${figHTML(e.id, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(EX[e.id].name)}</span><span class="muted num">${e.sets} × ${repsTxt(e.reps[0], e.reps[1], EX[e.id].unit)}${esc(EX[e.id].side)}</span>${eqBadge(EX[e.id])}</div><span class="num ex-li-n">${esc(e.label)}</span>`;
   return `<ol class="ex-list">${steps.filter((s) => s.kind === 'ex').map((s) => s.ex.map((e) => (type ? `<li class="lk"><button class="ex-row" data-action="preview" data-type="${type}" data-ex="${e.id}">${inner(e)}</button></li>` : `<li>${inner(e)}</li>`)).join('')).join('')}</ol>`;
+}
+function exStrip(steps, type) {
+  const list = steps.filter((s) => s.kind === 'ex').flatMap((s) => s.ex);
+  return `<div class="ex-strip" aria-label="Exercices de la séance">${list.map((e) => `<button class="ex-tile" data-action="preview" data-type="${type}" data-ex="${e.id}">${figHTML(e.id, 'sm')}<span class="et-n">${esc(e.label)}</span><span class="et-name">${esc(EX[e.id].name)}</span><span class="et-sub num">${e.sets} × ${repsTxt(e.reps[0], e.reps[1], EX[e.id].unit)}${esc(EX[e.id].side)}</span></button>`).join('')}</div>`;
+}
+function optsHTML() {
+  const m = MOODS.find((x) => x[0] === moodOf());
+  return `<button class="opt-pill" data-action="opts-toggle" aria-expanded="${!!UI.optsOpen}"><span><b>${esc(eqLabel(S.settings.equipment))}</b> · ${m ? esc(m[1]) : 'énergie normale'}</span><span class="lk">${UI.optsOpen ? 'Fermer' : 'Modifier'}</span></button>${UI.optsOpen ? `<div class="opts-panel">${eqChips()}${moodHTML()}</div>` : ''}`;
 }
 function eqChips() {
   return `<div class="field"><span>Ton matériel <em>· les exercices changent tout de suite</em></span><div class="chips eq-chips" role="group" aria-label="Matériel">${EQUIP.map(([k, l]) => `<button class="chip" data-action="set-equip" data-k="${k}" aria-pressed="${S.settings.equipment === k}">${esc(l)}</button>`).join('')}</div></div>`;
@@ -1374,12 +1426,10 @@ function sessionCard(type, eyebrow) {
   return `<article class="card feature">
     <div class="sess-top"><div><p class="eyebrow">${eyebrow}${busy ? ' · express' : ''}</p><h2 class="sess-h">${esc(PLAN[type].name)}</h2><p class="small muted">${esc(PLAN[type].focus)}</p></div><span class="sess-letter" aria-hidden="true">${type}</span></div>
     <p class="meta-line"><span>${ICON.timer}${mins} min</span><span>${nEx} exercices</span></p>
-    <button class="btn primary block big" data-action="start-session" data-type="${type}">Début</button>
-    ${moodHTML()}
-    ${eqChips()}
-    <h3 class="list-h">Exercices</h3>
-    ${exListHTML(steps, type)}
-    <button class="btn block" data-action="preview" data-type="${type}">Voir les exercices en détail</button>
+    ${exStrip(steps, type)}
+    ${optsHTML()}
+    <button class="btn primary block big" data-action="start-session" data-type="${type}">Commencer la séance</button>
+    <button class="btn block" data-action="preview" data-type="${type}">Voir les ${nEx} exercices en détail</button>
     ${type !== 'C' ? `<button class="toggle-line" data-action="set-busy" aria-pressed="${busy}"><span class="switch"></span>Semaine chargée : version express</button>` : '<p class="small muted">Seulement après une nuit d\'au moins 6 h.</p>'}
   </article>`;
 }
@@ -1388,8 +1438,8 @@ function prepCard(type) {
   const hasM = S.measures.list.length > 0;
   return `<article class="card feature">
     <div class="sess-top"><div><p class="eyebrow">Première séance · ${esc(fmtDate(parseKey(S.settings.startDate)))}</p><h2>${esc(PLAN[type].name)}</h2><p class="small muted">${esc(PLAN[type].focus)}</p></div><span class="sess-letter" aria-hidden="true">${type}</span></div>
-    ${eqChips()}
-    ${exListHTML(steps, type)}
+    ${exStrip(steps, type)}
+    ${optsHTML()}
     <button class="btn block" data-action="preview" data-type="${type}">Voir les exercices en détail</button>
     <h3>Pour être prête</h3>
     <ul class="checklist">${PREP.map(([k, t, s]) => { const on = k === 'p-mesures' ? (hasM || !!S.settings.setup[k]) : !!S.settings.setup[k]; return `<li><button class="check-row" data-action="setup" data-k="${k}" aria-pressed="${on}"><span class="box">${ICON.check}</span><span><b>${esc(t)}</b><small>${esc(s)}</small></span></button></li>`; }).join('')}</ul>
@@ -1418,8 +1468,8 @@ function restCard(type) {
   return `<article class="card">
     <p class="eyebrow">Jour de repos</p><h2>Récupération</h2>
     <p class="small muted">Routine posture et micro-pauses quand même. Prochaine séance : ${esc(PLAN[type].name)}.</p>
-    ${eqChips()}
-    ${exListHTML(buildSteps(type, !!S.settings.busy, progInfo().before ? 1 : progInfo().cw), type)}
+    ${exStrip(buildSteps(type, isBusy(type), progInfo().before ? 1 : progInfo().cw), type)}
+    ${optsHTML()}
     <button class="btn block" data-action="preview" data-type="${type}">Voir les exercices en détail</button>
     <button class="btn block" data-action="start-session" data-type="${type}">Faire la séance ${type} aujourd'hui</button>
   </article>`;
@@ -1450,6 +1500,7 @@ function viewToday() {
     (planned || doneToday.length || S.draft) ? { time: '17h00', title: doneToday.length ? `Séance ${doneToday[doneToday.length - 1].type} faite` : `Séance ${S.draft ? S.draft.type : nt}`, sub: busy ? 'Express, 25 min' : '50 min', done: doneToday.length > 0, act: doneToday.length ? '' : `<button class="btn sm" data-action="${S.draft ? 'resume-session' : 'start-session'}" data-type="${nt}">${S.draft ? 'Reprendre' : 'Lancer'}</button>` } : null,
     { time: '21h00', title: 'Écrans coupés', sub: 'Coucher à 22h au plus tard', done: !!h.ecrans, act: tickBtn('ecrans', h.ecrans, 'Écrans coupés') },
     { time: 'Repas', title: 'Protéines', sub: `${protRange()} sur la journée`, done: !!h.prot, act: tickBtn('prot', h.prot, 'Protéines atteintes') },
+    { time: 'Eau', title: 'Hydratation', sub: `${h.eau || 0} verres sur 8 (2 L)`, done: (h.eau || 0) >= 8, act: '<div class="mini-step"><button data-action="eau" data-d="-1" aria-label="Retirer un verre">−</button><button data-action="eau" data-d="1" aria-label="Ajouter un verre">+</button></div>' },
     { time: 'Cardio', title: 'Cardio', sub: `${cardioWeek()} min sur 150 cette semaine`, done: (h.cardio || 0) > 0, act: '<button class="btn sm" data-action="tab" data-tab="seances">Choisir</button>' },
   ].filter(Boolean);
   const doneN = items.filter((i) => i.done).length;
@@ -1611,6 +1662,7 @@ function viewSuivi() {
   const ins = insights(); const nSess = Object.keys(S.sessions).length;
   return `<div class="stack">
   <section class="sec-head"><p class="eyebrow">Suivi</p><h1 class="h1">Tes progrès</h1><p class="lead">Chaque dimanche matin, 10 minutes, à jeun, dans les mêmes conditions. Compare les photos toutes les 4 semaines.</p></section>
+  ${weekCard()}
   ${photoCard()}
   <section class="card"><div><p class="eyebrow">${L.length ? 'Dernière mesure : ' + esc(fmtShort(parseKey(last.date))) : 'Aucune mesure pour l\'instant'}</p><h2>Mesures du dimanche</h2></div>
     ${UI.measureOpen ? measureFormHTML(todayM, prev) : `<button class="btn primary block" data-action="measure-toggle">${todayM ? 'Modifier les mesures du jour' : L.length ? 'Saisir les mesures du jour' : 'Saisir mes mesures de départ'}</button>`}
@@ -2042,6 +2094,7 @@ function ovSettings() {
     <section class="card">
       <button class="switch-row" data-action="set-busy" aria-pressed="${!!st.busy}"><span><b>Semaine chargée</b><small>Séances express de 25 min, 2 séries par exercice</small></span><span class="switch"></span></button>
       <button class="switch-row" data-action="set-sound" aria-pressed="${!st.mute}"><span><b>Sons et vibrations</b><small>Fin de repos, chronos, fin du bloc d'étude</small></span><span class="switch"></span></button>
+      <div class="field"><span>Apparence</span><div class="chips">${[['auto', 'Automatique'], ['light', 'Clair'], ['dark', 'Sombre']].map(([k, l]) => `<button class="chip" data-action="set-theme" data-k="${k}" aria-pressed="${(st.theme || 'auto') === k}">${l}</button>`).join('')}</div></div>
       <button class="switch-row" data-action="set-voice" aria-pressed="${!!st.voice}"><span><b>Coach vocal</b><small>Une voix annonce les exercices, les séries, les repos et compte le tempo</small></span><span class="switch"></span></button>
       <button class="switch-row" data-action="set-revise" aria-pressed="${st.revise !== false}"><span><b>Réviser pendant les repos</b><small>Une carte de tes révisions XamXam (ou une triade) à chaque repos</small></span><span class="switch"></span></button>
     </section>
@@ -2090,6 +2143,9 @@ const A = {
   'ph-del'(b) { phDel(b.dataset.id).then(photoFill).catch(() => {}); toast('Photo supprimée'); },
   'set-voice'() { S.settings.voice = !S.settings.voice; touch('settings'); renderOverlay({ keep: true }); if (S.settings.voice) say('Coach vocal activé.'); },
   'set-revise'() { S.settings.revise = !S.settings.revise; touch('settings'); renderOverlay({ keep: true }); },
+  'opts-toggle'() { UI.optsOpen = !UI.optsOpen; render(); },
+  eau(b) { const k = keyOf(); setHab(k, { eau: Math.max(0, Math.min(20, (getHab(k).eau || 0) + (+b.dataset.d))) }); render(); if ((getHab(k).eau || 0) === 8) toast('2 litres : bravo !'); },
+  'set-theme'(b) { S.settings.theme = b.dataset.k; touch('settings'); applyTheme(); renderOverlay({ keep: true }); },
   preview(b) { UI.prev = { type: b.dataset.type || nextType(), focus: b.dataset.ex || null }; UI.overlay = 'preview'; renderOverlay(); },
   'close-overlay'() { closeOverlay(); },
   'go-measure'() { UI.tab = 'suivi'; UI.measureOpen = true; render(); window.scrollTo(0, 0); },
@@ -2421,7 +2477,7 @@ function camShot() {
   const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
   if (UI.cam.facing === 'user') { g.translate(W, 0); g.scale(-1, 1); }
   g.drawImage(v, 0, 0, W, H); g.setTransform(1, 0, 0, 1, 0, 0);
-  g.strokeStyle = '#E9A21A'; g.lineWidth = Math.max(2, W / 260); g.beginPath(); g.moveTo(W / 2, 0); g.lineTo(W / 2, H); g.stroke();
+  g.strokeStyle = '#EE8458'; g.lineWidth = Math.max(2, W / 260); g.beginPath(); g.moveTo(W / 2, 0); g.lineTo(W / 2, H); g.stroke();
   g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(0, H - 34, W, 34); g.fillStyle = '#fff'; g.font = '600 17px sans-serif'; g.fillText('Aplomb · ' + fmtDate(new Date()), 12, H - 11);
   chime('end');
   c.toBlob(async (b) => { if (!b) return; try { await phPut({ id: Date.now().toString(36), t: Date.now(), blob: b }); toast("Photo d'aplomb enregistrée sur ton téléphone"); } catch (e) { toast("Enregistrement impossible sur ce navigateur."); } camStop(); UI.cam = null; UI.overlay = null; renderOverlay(); UI.tab = 'suivi'; render(); window.scrollTo(0, 0); }, 'image/jpeg', 0.8);
@@ -2458,7 +2514,7 @@ function viewSeances() {
   const card = (t, badge) => { const steps = buildSteps(t, isBusy(t), cw); const n = steps.filter((x) => x.kind === 'ex').reduce((a, x) => a + x.ex.length, 0);
     return `<article class="card${t === 'F' ? ' feature' : ''}"><div class="sess-top"><div><p class="eyebrow">${esc(badge)}</p><h2>${esc(PLAN[t].name)}</h2><p class="small muted">${esc(PLAN[t].focus)}</p></div><span class="sess-letter" aria-hidden="true">${t}</span></div>
       <p class="meta-line"><span>${ICON.timer}${sessMins(t)} min</span><span>${n} exercices</span></p>
-      <div class="btn-row"><button class="btn" data-action="preview" data-type="${t}">Voir les exercices</button><button class="btn primary" data-action="start-session" data-type="${t}">${S.draft && S.draft.type === t ? 'Reprendre' : 'Lancer'}</button></div></article>`; };
+      <div class="btn-row"><button class="btn" data-action="preview" data-type="${t}">Aperçu</button><button class="btn primary" data-action="start-session" data-type="${t}">${S.draft && S.draft.type === t ? 'Reprendre' : 'Lancer'}</button></div></article>`; };
   const uniq = (steps) => steps.filter((s, i) => steps.findIndex((x) => x.t === s.t) === i);
   return `<div class="stack">
   <section class="sec-head"><p class="eyebrow">Séances</p><h1 class="h1">Bouger</h1><p class="lead">Musculation pensée pour les femmes et cardio. Regarde les exercices avant de te lancer, rien ne démarre tant que tu n'as pas touché « Lancer ».</p></section>
@@ -2474,10 +2530,44 @@ function viewSeances() {
   </div>`;
 }
 
+function applyTheme() { const th = S.settings.theme || 'auto'; if (th === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', th); }
+/* ---------- Bilan de la semaine et trophées ---------- */
+function weekSummary() {
+  const s = weekStart(); let post = 0, prot = 0, eau = 0, cardio = 0; const keys = [];
+  for (let i = 0; i < 7; i++) { const k = keyOf(addDays(s, i)); keys.push(k); const h = getHab(k); if (h.posture) post++; if (h.prot) prot++; if ((h.eau || 0) >= 8) eau++; cardio += h.cardio || 0; }
+  const sess = Object.values(S.sessions).filter((x) => keys.includes(x.date)).length;
+  return { sess, post, prot, eau, cardio };
+}
+function trophies() {
+  const all = Object.values(S.sessions); const days = S.habits.days; const vals = Object.values(days);
+  const postDays = vals.filter((h) => h.posture).length; const eauDays = vals.filter((h) => (h.eau || 0) >= 8).length;
+  const byWeek = {}; Object.entries(days).forEach(([k, h]) => { if (h.cardio) { const w = keyOf(weekStart(parseKey(k))); byWeek[w] = (byWeek[w] || 0) + h.cardio; } });
+  const bestCardio = Math.max(0, ...Object.values(byWeek)); const cardioTot = vals.reduce((a, h) => a + (h.cardio || 0), 0);
+  return [
+    ['🌱', 'Première séance', all.length >= 1, `${Math.min(all.length, 1)}/1`],
+    ['💪', '10 séances', all.length >= 10, `${Math.min(all.length, 10)}/10`],
+    ['🏅', '30 séances', all.length >= 30, `${Math.min(all.length, 30)}/30`],
+    ['🌸', 'Séance F découverte', all.some((x) => x.type === 'F'), all.some((x) => x.type === 'F') ? 'faite' : 'à faire'],
+    ['🧍🏾‍♀️', '7 routines posture', postDays >= 7, `${Math.min(postDays, 7)}/7`],
+    ['🔥', 'Posture 14 jours de suite', postureStreak() >= 14, `${Math.min(postureStreak(), 14)}/14`],
+    ['❤️', '150 min de cardio en une semaine', bestCardio >= 150, `${Math.min(bestCardio, 150)}/150`],
+    ['🏃🏾‍♀️', '10 heures de cardio', cardioTot >= 600, `${Math.min(Math.round(cardioTot / 60), 10)}/10 h`],
+    ['💧', '2 L d\'eau 7 jours', eauDays >= 7, `${Math.min(eauDays, 7)}/7`],
+    ['📏', '4 dimanches de mesures', S.measures.list.length >= 4, `${Math.min(S.measures.list.length, 4)}/4`],
+  ];
+}
+function weekCard() {
+  const w = weekSummary(); const tr = trophies(); const got = tr.filter((x) => x[2]).length;
+  return `<section class="card"><div><p class="eyebrow">Cette semaine</p><h2>Ton bilan</h2></div>
+    <div class="wk-sum"><div><b>${w.sess}</b><span>séance${w.sess > 1 ? 's' : ''} de musculation</span></div><div><b>${w.cardio} min</b><span>de cardio sur 150</span></div><div><b>${w.post}/7</b><span>routines posture</span></div><div><b>${w.eau}/7</b><span>jours à 2 L d'eau</span></div></div></section>
+  <section class="card"><div class="row-between"><div><p class="eyebrow">Trophées</p><h2>${got} sur ${tr.length}</h2></div></div>
+    <div class="troph">${tr.map(([ic, n, on, p]) => `<div class="${on ? 'on' : ''}"><i aria-hidden="true">${ic}</i><b>${esc(n)}</b><small>${on ? 'Obtenu' : esc(p)}</small></div>`).join('')}</div></section>`;
+}
 /* ---------- Démarrage ---------- */
 const saved = loadLocal();
 if (saved) { ['settings', 'habits', 'measures', 'sessions', 'draft', 'study'].forEach((k) => { if (saved[k] !== undefined) S[k] = saved[k]; }); }
 ensureDefaults();
+applyTheme();
 render();
 setInterval(tick, 250);
 cloudInit();
