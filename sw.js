@@ -1,6 +1,6 @@
 // Aplomb : fonctionnement hors ligne.
 // Changer VERSION à chaque mise à jour de l'appli pour rafraîchir le cache.
-const VERSION = 'aplomb-v6';
+const VERSION = 'aplomb-v7';
 const FONTS = 'aplomb-fonts-1';
 const KEEP = [VERSION, FONTS];
 const SHELL = ['./', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-512-maskable.png', 'icons/apple-touch-icon.png'];
@@ -25,7 +25,7 @@ self.addEventListener('fetch', e => {
   if (req.mode === 'navigate') {
     e.respondWith((async () => {
       const cache = await caches.open(VERSION);
-      const net = fetch(req).then(res => { if (res.ok && !res.redirected) cache.put('./', res.clone()); return res; });
+      const net = fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }).then(res => { if (res.ok && !res.redirected) cache.put('./', res.clone()); return res; });
       try {
         return await Promise.race([net, new Promise((_, no) => setTimeout(() => no(new Error('lent')), 3000))]);
       } catch (err) {

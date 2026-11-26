@@ -483,6 +483,8 @@ details.acc>summary{font-size:19px}
 .demo-play svg{width:30px;height:30px;margin-left:3px}
 .demo-lab{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:999px;background:rgba(33,27,41,.72);color:#fff;font-weight:700;font-size:.8125rem}
 .demo-fallback{display:none}
+.demo-nothumb .demo-poster img{visibility:hidden}
+.demo-nothumb .demo-poster{background:linear-gradient(135deg,var(--plumb),#7A5BB5)}
 .demo-off .demo-poster{display:none}
 .demo-off .demo-fallback{display:block}
 .demo-fallback p{text-align:center;margin:6px 0 0}
@@ -2124,6 +2126,7 @@ function ovSettings() {
       <div class="btn-row"><button class="btn sm" data-action="data-export">Exporter mes données</button><button class="btn sm" data-action="data-import">Importer un fichier</button></div>
       <input type="file" id="importFile" accept="application/json,.json,text/plain" data-change="data-import" hidden></section>
     <section class="card"><h3>Rappels du calendrier</h3>${remindersGuide()}</section>
+    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos de démonstration)</p>
   </div></div>`;
 }
 
@@ -2157,7 +2160,7 @@ function demoHTML(id) {
   const name = esc(EX[id].name);
   return `<div class="demo${navigator.onLine === false ? ' demo-off' : ''}">
     <button class="demo-poster" data-action="demo-play" data-ex="${id}" aria-label="Voir la démonstration en vidéo : ${name}">
-      <img src="https://i.ytimg.com/vi/${v}/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.demo').classList.add('demo-off')">
+      <img src="https://i.ytimg.com/vi/${v}/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.demo').classList.add(navigator.onLine === false ? 'demo-off' : 'demo-nothumb')">
       <span class="demo-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
       <span class="demo-lab">Voir la démonstration</span></button>
     <div class="demo-fallback">${figHTML(id, 'lg')}<p class="small muted">Sans Internet, le dessin remplace la vidéo de démonstration.</p></div>
@@ -2172,7 +2175,7 @@ function demoOpen(id) {
     <div class="demo-head"><div><p class="eyebrow">Démonstration</p><b>${esc(EX[id].name)}</b></div><button class="icon-btn" data-action="demo-close" aria-label="Fermer la vidéo">${ICON.x}</button></div>
     <div class="demo-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="Démonstration : ${esc(EX[id].name)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <p class="small muted">${mine ? 'Ta vidéo, choisie par toi.' : 'Vidéo choisie pour cet exercice, hébergée par YouTube.'} Si elle ne te convient pas, change-la.</p>
-    <div class="btn-row"><a class="btn" href="${ytSearch(id)}" target="_blank" rel="noopener">Autres vidéos</a><button class="btn" data-action="demo-set" data-ex="${id}">Changer la vidéo</button>${mine ? `<button class="btn ghost" data-action="demo-reset" data-ex="${id}">Remettre celle d'origine</button>` : ''}</div>
+    <div class="btn-row"><a class="btn" href="https://www.youtube.com/watch?v=${v}" target="_blank" rel="noopener">Ouvrir dans YouTube</a><a class="btn" href="${ytSearch(id)}" target="_blank" rel="noopener">Autres vidéos</a><button class="btn" data-action="demo-set" data-ex="${id}">Changer la vidéo</button>${mine ? `<button class="btn ghost" data-action="demo-reset" data-ex="${id}">Remettre celle d'origine</button>` : ''}</div>
   </div>`;
   m.hidden = false;
 }
@@ -2634,7 +2637,24 @@ cloudInit();
 })();
 </script>
 <script>
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {}); }); }
+const APLOMB_VER = 7;
+if ('serviceWorker' in navigator) {
+  const hadCtrl = !!navigator.serviceWorker.controller; let reloading = false;
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', { scope: './' }).then((reg) => {
+      const check = () => { try { reg.update(); } catch (e) { /* hors ligne */ } };
+      check(); setInterval(check, 30 * 60000);
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+    }).catch(() => {});
+  });
+  // nouvelle version installée : on recharge tout de suite, sauf pendant une séance (après, dès qu'elle est fermée)
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadCtrl || reloading) return;
+    const go = () => { if (reloading) return; reloading = true; location.reload(); };
+    if (!document.querySelector('.ov-head')) go();
+    else { try { toast('Nouvelle version d\'Aplomb : elle s\'installe dès que tu fermes cet écran.'); } catch (e) { /* rien */ } const iv = setInterval(() => { if (!document.querySelector('.ov-head')) { clearInterval(iv); go(); } }, 3000); }
+  });
+}
 </script>
 </body>
 </html>
