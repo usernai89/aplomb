@@ -500,6 +500,9 @@ details.acc>summary{font-size:19px}
 .demo-box .btn-row .btn{flex:1 1 auto;text-decoration:none}
 .demo-mini{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;margin-top:6px;min-height:32px;padding:0 12px 0 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--accent-ink);font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer}
 .demo-mini svg{width:14px;height:14px;flex:none}
+.warm-li{display:flex;align-items:center;gap:8px}
+.warm-li .check-row{flex:1;min-width:0}
+.warm-li .demo-mini{margin-top:0;flex:none;align-self:center}
 .toast{z-index:210}
 </style>
 
@@ -1835,7 +1838,7 @@ function setStep(i) {
 function startRest(secs, label) { RT.rest = { until: Date.now() + secs * 1000, total: secs * 1000, label, warned: false }; RV.card = pickCard(); RV.shown = false; }
 function warmHTML(d) {
   return `<section class="card"><div><p class="eyebrow">5 minutes</p><h2>Échauffement</h2></div>
-    <ul class="checklist">${WARMUP.map(([t, s], i) => `<li><button class="check-row" data-action="warm" data-i="${i}" aria-pressed="${!!d.warm[i]}"><span class="box">${ICON.check}</span><span><b>${esc(t)}</b><small>${esc(s)}</small></span></button></li>`).join('')}</ul>
+    <ul class="checklist">${WARMUP.map(([t, s], i) => `<li class="warm-li"><button class="check-row" data-action="warm" data-i="${i}" aria-pressed="${!!d.warm[i]}"><span class="box">${ICON.check}</span><span><b>${esc(t)}</b><small>${esc(s)}</small></span></button>${demoBtnHTML(WARM_VID[i])}</li>`).join('')}</ul>
     <button class="btn block" data-action="warm-all">Tout cocher</button></section>
     <section class="card"><h3>Au programme</h3>${exListHTML(buildSteps(d.type, d.express, d.cw, d.eq || 'aucun'))}</section>`;
 }
@@ -1900,6 +1903,7 @@ function renderFoot() { const f = document.getElementById('sessFoot'); if (f && 
 /* ---------- Lecteur de séance : tout s'enchaîne, on n'appuie que sur « Fini » ---------- */
 const WARM_S = 40;
 const WARM_FIG = ['w_cercles', 'w_catcow', 'w_book', 'hipthrust', 'w_squat', 'w_glisses'];
+const WARM_VID = ['w:cercles', 'w:catcow', 'w:book', 'w:pont', 'w:squat', 'w:glisses'];
 function pQueue(d) {
   const q = WARMUP.map((w, i) => ({ k: 'warm', i }));
   buildSteps(d.type, d.express, d.cw, d.eq || 'aucun').forEach((st, si) => {
@@ -1964,7 +1968,7 @@ function ovPlayer(d) {
   } else if (it.k === 'warm') {
     const w = RT.warm; const rem = w ? (w.paused ? w.rem : Math.max(0, w.until - Date.now())) : WARM_S * 1000;
     body = `<div class="p-hero"><p class="eyebrow">Échauffement · ${it.i + 1} sur ${WARMUP.length}</p><h1 class="p-name">${esc(WARMUP[it.i][0])}</h1><p class="how">${esc(WARMUP[it.i][1])}</p></div>
-      ${figHTML(WARM_FIG[it.i], 'lg')}
+      ${demoHTML(WARM_VID[it.i], true, WARM_FIG[it.i])}
       ${pRing(rem, WARM_S * 1000, Math.ceil(rem / 1000), w && w.paused ? 'en pause' : 'secondes', false)}`;
     foot = `<div class="p-foot3"><button class="btn" data-action="p-prev" ${d.qi === 0 ? 'disabled' : ''}>Retour</button><button class="btn" data-action="p-warm-pause">${w && w.paused ? 'Reprendre' : 'Pause'}</button><button class="btn primary" data-action="p-done">Suivant</button></div>`;
   } else if (it.k === 'set') {
@@ -2127,7 +2131,7 @@ function ovSettings() {
       <div class="btn-row"><button class="btn sm" data-action="data-export">Exporter mes données</button><button class="btn sm" data-action="data-import">Importer un fichier</button></div>
       <input type="file" id="importFile" accept="application/json,.json,text/plain" data-change="data-import" hidden></section>
     <section class="card"><h3>Rappels du calendrier</h3>${remindersGuide()}</section>
-    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos du cardio)</p>
+    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos de l'échauffement)</p>
   </div></div>`;
 }
 
@@ -2155,13 +2159,16 @@ const DEMO = { sauts: 'c2LBofIzUqs', hipthrust: '9Wma4mC8wpw', splitsquat: 'k4VW
   /* routine posture du matin et micro-pauses */
   w_glisses: 'ti_FUZZz_7k', p_pecs: 'Q6KfoKo0lSo', p_trap: 'vfoWMKhx4v4', p_fente: '5M6zv6hGskQ', p_w: 'ojlpnRGzZIk', p_hipstand: 'WtTAT6lSm3E',
   /* cardio */
-  'c:marche': '0U_Gi19HiGo', 'c:boxe': 'J4j3AOVWuHE', 'c:chasse': 'bCnTJulHGq4', 'c:jack': 'doj3IIyhwvs', 'c:squatpas': '6l9sgi6tOjk', 'c:step': '_yuq0-rJ9sM', 'c:genoux': 'gXW4c0eM8t0', 'c:patineur': 'ZW1G5aWLqXc', 'c:danse': 'ooDqhArCi_A', 'c:rapide': 'hiRQ4CUw42M' };
+  'c:marche': '0U_Gi19HiGo', 'c:boxe': 'J4j3AOVWuHE', 'c:chasse': 'bCnTJulHGq4', 'c:jack': 'doj3IIyhwvs', 'c:squatpas': '6l9sgi6tOjk', 'c:step': '_yuq0-rJ9sM', 'c:genoux': 'gXW4c0eM8t0', 'c:patineur': 'ZW1G5aWLqXc', 'c:danse': 'ooDqhArCi_A', 'c:rapide': 'hiRQ4CUw42M',
+  /* échauffement */
+  'w:cercles': 'goaXpTMg3QI', 'w:catcow': 'eatqmfLWvuE', 'w:book': 'rDviWORCWEw', 'w:pont': '9Wma4mC8wpw', 'w:squat': 'hNOGNlTKIYg', 'w:glisses': 'ti_FUZZz_7k' };
 const demoMine = () => (S.settings.demo && typeof S.settings.demo === 'object') ? S.settings.demo : {};
 const demoId = (id) => demoMine()[id] || DEMO[id] || '';
 const ytId = (txt) => { const m = String(txt || '').match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/) || String(txt || '').trim().match(/^([A-Za-z0-9_-]{11})$/); return m ? m[1] : ''; };
 const demoCM = (id) => (/^c:/.test(id) && CM[id.slice(2)]) || null;
-const demoName = (id) => (EX[id] && EX[id].name) || (demoCM(id) || {}).t || (ROUTINE.concat(MICRO).find((r) => r.fig === id) || {}).t || id;
-const ytSearch = (id) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(demoName(id) + (demoCM(id) ? ' cardio tuto' : ' exercice tuto'));
+const demoWarm = (id) => { const i = WARM_VID.indexOf(id); return i >= 0 ? WARMUP[i][0] : ''; };
+const demoName = (id) => (EX[id] && EX[id].name) || (demoCM(id) || {}).t || demoWarm(id) || (ROUTINE.concat(MICRO).find((r) => r.fig === id) || {}).t || id;
+const ytSearch = (id) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(demoName(id) + (demoCM(id) ? ' cardio tuto' : demoWarm(id) ? ' échauffement' : ' exercice tuto'));
 function demoHTML(id, compact, fig) {
   fig = fig || id;
   const v = demoId(id); if (!v) return figHTML(fig, 'lg');
@@ -2191,14 +2198,16 @@ function demoOpen(id) {
 /* pendant la routine ou une micro-pause, la vidéo met le minuteur en pause (il ne tourne pas pendant qu'on regarde) */
 let demoHeld = false;
 function demoHold() {
-  if (UI.overlay !== 'guided' || !GP || GP.done || GP.paused) return;
-  GP.remaining = Math.max(0, GP.segEnd - Date.now()); GP.paused = true; demoHeld = true;
+  if (UI.overlay === 'guided' && GP && !GP.done && !GP.paused) { GP.remaining = Math.max(0, GP.segEnd - Date.now()); GP.paused = true; }
+  else if (UI.overlay === 'session' && RT.warm && !RT.warm.paused && !RT.rest) { RT.warm.rem = Math.max(0, RT.warm.until - Date.now()); RT.warm.paused = true; }
+  else return;
+  demoHeld = true;
   try { window.speechSynthesis.cancel(); } catch (e) { /* pas de voix */ }
   renderOverlay({ keep: true });
 }
 function demoClose() {
   const m = document.getElementById('demoModal'); if (m) { m.innerHTML = ''; m.hidden = true; }
-  if (demoHeld) { demoHeld = false; if (UI.overlay === 'guided' && GP && GP.paused && !GP.done) toast('Minuteur en pause : appuie sur « Reprendre » quand tu es en place.'); }
+  if (demoHeld) { demoHeld = false; if ((UI.overlay === 'guided' && GP && GP.paused && !GP.done) || (UI.overlay === 'session' && RT.warm && RT.warm.paused)) toast('Minuteur en pause : appuie sur « Reprendre » quand tu es en place.'); }
 }
 function demoBtnHTML(id) {
   if (!demoId(id)) return '';
@@ -2661,7 +2670,7 @@ cloudInit();
 })();
 </script>
 <script>
-const APLOMB_VER = 10;
+const APLOMB_VER = 11;
 if ('serviceWorker' in navigator) {
   const hadCtrl = !!navigator.serviceWorker.controller; let reloading = false;
   window.addEventListener('load', () => {
