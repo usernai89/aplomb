@@ -897,13 +897,14 @@ const CM = {
   rapide: { fig: 'c_marche', t: 'Marche rapide', target: 'Cœur, endurance', how: "Dehors ou dans un couloir. Rythme où tu peux parler mais pas chanter. Les grandes chaleurs : tôt le matin ou après 17h, avec de l'eau." },
   tresrapide: { fig: 'c_step', t: 'Très rapide ou escaliers', target: 'Cœur, fessiers', how: "Accélère au maximum en marchant, ou monte des escaliers. Tu dois avoir du mal à parler." },
 };
+Object.keys(CM).forEach((k) => { CM[k].mv = 'c:' + k; });
 const cStep = (m, secs, label, rest) => Object.assign({}, CM[m], { dose: `${secs} s`, segs: [{ l: label || 'Effort', s: secs }].concat(rest ? [{ l: 'Récupère en marchant', s: rest, rest: true }] : []) });
 const cBlock = (m, mins, label) => Object.assign({}, CM[m], { dose: `${mins} min`, segs: [{ l: label, s: mins * 60 }] });
 const DOUX = ['marche', 'boxe', 'chasse', 'jack', 'squatpas', 'step'];
 const HIIT = ['squatpas', 'boxe', 'genoux', 'patineur'];
 const CARDIO = {
   doux: { name: 'Cardio sans sauts', mins: 18, tag: 'Périnée et genoux protégés', desc: "6 mouvements sans aucun saut, 40 s d'effort et 20 s de marche, deux tours. Idéal pour commencer, les jours de règles ou si tu as des fuites en sautant.",
-    steps: [cBlock('marche', 3, 'Échauffement : de plus en plus vite')].concat(DOUX.map((m) => cStep(m, 40, 'Effort · tour 1', 20)), [Object.assign({}, CM.marche, { t: 'Pause entre les tours', dose: '1 min', segs: [{ l: 'Marche tranquille, bois un peu', s: 60, rest: true }] })], DOUX.map((m) => cStep(m, 40, 'Effort · tour 2', 20)), [cBlock('marche', 2, 'Retour au calme, respire lentement')]) },
+    steps: [cBlock('marche', 3, 'Échauffement : de plus en plus vite')].concat(DOUX.map((m) => cStep(m, 40, 'Effort · tour 1', 20)), [Object.assign({}, CM.marche, { mv: '', t: 'Pause entre les tours', dose: '1 min', segs: [{ l: 'Marche tranquille, bois un peu', s: 60, rest: true }] })], DOUX.map((m) => cStep(m, 40, 'Effort · tour 2', 20)), [cBlock('marche', 2, 'Retour au calme, respire lentement')]) },
   hiit: { name: 'HIIT express', mins: 12, tag: 'Court et intense', desc: "8 fois 30 s à fond et 30 s de récupération. Version sans saut par défaut ; ajoute des sauts seulement si tu n'as aucune fuite urinaire.",
     steps: [cBlock('marche', 1, 'Échauffement'), Object.assign({}, CM.jack, { dose: '1 min', segs: [{ l: 'Échauffement', s: 60 }] })].concat(HIIT.concat(HIIT).map((m, i) => cStep(m, 30, `À fond · ${i + 1} sur 8`, 30)), [cBlock('marche', 2, 'Retour au calme')]) },
   danse: { name: 'Cardio danse', mins: 21, tag: 'Sur ta musique', desc: "Mets ta musique préférée (mbalax, sabar, afro…). 4 blocs de 3 min de danse intense, avec 1 min de marche entre chaque. Le plus fun pour tenir sur la durée.",
@@ -2096,7 +2097,7 @@ function ovGuided() {
   <div class="ov-body"><div class="wrap stack">
     <div><p class="eyebrow">${esc(st.target)} · ${esc(st.dose)}</p><h1 class="h1">${esc(st.t)}</h1></div>
     <p class="how">${esc(st.how)}</p>
-    ${st.fig ? demoHTML(st.fig, true) : ''}
+    ${st.fig ? demoHTML(st.mv || st.fig, true, st.fig) : ''}
     <div class="ring-wrap${st.fig ? ' sm' : ''}${sg.rest ? ' is-rest' : ''}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="54"/><circle class="ring-fg" id="gpRing" cx="60" cy="60" r="54" stroke-dasharray="${RING_C.toFixed(1)}" stroke-dashoffset="${(RING_C * (1 - rem / (sg.s * 1000))).toFixed(1)}"/></svg><div class="ring-txt"><span class="ring-n" id="gpT">${Math.ceil(rem / 1000)}</span><span class="ring-l">${esc(sg.l)}</span></div></div>
     <p class="small muted center">${G.paused ? 'En pause.' : next ? 'Ensuite : ' + esc(next.t) : 'Dernière étape.'}</p>
   </div></div>
@@ -2126,7 +2127,7 @@ function ovSettings() {
       <div class="btn-row"><button class="btn sm" data-action="data-export">Exporter mes données</button><button class="btn sm" data-action="data-import">Importer un fichier</button></div>
       <input type="file" id="importFile" accept="application/json,.json,text/plain" data-change="data-import" hidden></section>
     <section class="card"><h3>Rappels du calendrier</h3>${remindersGuide()}</section>
-    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos de la routine posture)</p>
+    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos du cardio)</p>
   </div></div>`;
 }
 
@@ -2152,21 +2153,25 @@ function closeOverlay() { camStop(); tempoStop(); UI.cam = null; UI.overlay = nu
 /* ---------- Vraies démonstrations : une vidéo YouTube par exercice (hébergée par YouTube) ; le dessin seulement hors ligne ---------- */
 const DEMO = { sauts: 'c2LBofIzUqs', hipthrust: '9Wma4mC8wpw', splitsquat: 'k4VWW0-Pwxg', pompes: '9O5upq-dK5k', rowing: 'JdwsVHc6oQ4', yausol: 'DQFTp5n0uh0', mollets_t: 'uqk_Dvw5OoY', planche: '19DEhXTzeU4', rdl: 'DPFnfAUCvTA', fente: 'Zz8DrsAUIZo', developpe: 'ZUuYbRgcHmg', tirage: 'P_s1PLsCRgQ', rotext: '4p7Re3JfSGI', abduction: 'CTmFNSDJTR8', gainage_l: '7WSeMsvEfZ8', mollets_f: 'C3tLEvqrW4E', frogpump: '0TlXxojK7Y4', kickback: '09HYaKHwiII',
   /* routine posture du matin et micro-pauses */
-  w_glisses: 'ti_FUZZz_7k', p_pecs: 'Q6KfoKo0lSo', p_trap: 'vfoWMKhx4v4', p_fente: '5M6zv6hGskQ', p_w: 'ojlpnRGzZIk', p_hipstand: 'WtTAT6lSm3E' };
+  w_glisses: 'ti_FUZZz_7k', p_pecs: 'Q6KfoKo0lSo', p_trap: 'vfoWMKhx4v4', p_fente: '5M6zv6hGskQ', p_w: 'ojlpnRGzZIk', p_hipstand: 'WtTAT6lSm3E',
+  /* cardio */
+  'c:marche': '0U_Gi19HiGo', 'c:boxe': 'J4j3AOVWuHE', 'c:chasse': 'bCnTJulHGq4', 'c:jack': 'doj3IIyhwvs', 'c:squatpas': '6l9sgi6tOjk', 'c:step': '_yuq0-rJ9sM', 'c:genoux': 'gXW4c0eM8t0', 'c:patineur': 'ZW1G5aWLqXc', 'c:danse': 'ooDqhArCi_A', 'c:rapide': 'hiRQ4CUw42M' };
 const demoMine = () => (S.settings.demo && typeof S.settings.demo === 'object') ? S.settings.demo : {};
 const demoId = (id) => demoMine()[id] || DEMO[id] || '';
 const ytId = (txt) => { const m = String(txt || '').match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/) || String(txt || '').trim().match(/^([A-Za-z0-9_-]{11})$/); return m ? m[1] : ''; };
-const demoName = (id) => (EX[id] && EX[id].name) || (ROUTINE.concat(MICRO).find((r) => r.fig === id) || {}).t || id;
-const ytSearch = (id) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(demoName(id) + ' exercice tuto');
-function demoHTML(id, compact) {
-  const v = demoId(id); if (!v) return figHTML(id, 'lg');
+const demoCM = (id) => (/^c:/.test(id) && CM[id.slice(2)]) || null;
+const demoName = (id) => (EX[id] && EX[id].name) || (demoCM(id) || {}).t || (ROUTINE.concat(MICRO).find((r) => r.fig === id) || {}).t || id;
+const ytSearch = (id) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(demoName(id) + (demoCM(id) ? ' cardio tuto' : ' exercice tuto'));
+function demoHTML(id, compact, fig) {
+  fig = fig || id;
+  const v = demoId(id); if (!v) return figHTML(fig, 'lg');
   const name = esc(demoName(id));
   return `<div class="demo${compact ? ' demo-sm' : ''}${navigator.onLine === false ? ' demo-off' : ''}">
     <button class="demo-poster" data-action="demo-play" data-ex="${id}" aria-label="Voir la démonstration en vidéo : ${name}">
       <img src="https://i.ytimg.com/vi/${v}/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.demo').classList.add(navigator.onLine === false ? 'demo-off' : 'demo-nothumb')">
       <span class="demo-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
       <span class="demo-lab">Voir la démonstration</span></button>
-    <div class="demo-fallback">${figHTML(id, 'lg')}<p class="small muted">Sans Internet, le dessin remplace la vidéo de démonstration.</p></div>
+    <div class="demo-fallback">${figHTML(fig, 'lg')}<p class="small muted">Sans Internet, le dessin remplace la vidéo de démonstration.</p></div>
   </div>`;
 }
 function demoOpen(id) {
@@ -2597,7 +2602,7 @@ function viewSeances() {
     return `<article class="card${t === 'F' ? ' feature' : ''}"><div class="sess-top"><div><p class="eyebrow">${esc(badge)}</p><h2>${esc(PLAN[t].name)}</h2><p class="small muted">${esc(PLAN[t].focus)}</p></div><span class="sess-letter" aria-hidden="true">${t}</span></div>
       <p class="meta-line"><span>${ICON.timer}${sessMins(t)} min</span><span>${n} exercices</span></p>
       <div class="btn-row"><button class="btn" data-action="preview" data-type="${t}">Aperçu</button><button class="btn primary" data-action="start-session" data-type="${t}">${S.draft && S.draft.type === t ? 'Reprendre' : 'Lancer'}</button></div></article>`; };
-  const uniq = (steps) => steps.filter((s, i) => steps.findIndex((x) => x.t === s.t) === i);
+  const uniq = (steps) => steps.filter((s) => !s.segs.every((g) => g.rest)).filter((s, i, a) => a.findIndex((x) => (x.mv || x.t) === (s.mv || s.t)) === i);
   return `<div class="stack">
   <section class="sec-head"><p class="eyebrow">Séances</p><h1 class="h1">Bouger</h1><p class="lead">Musculation pensée pour les femmes et cardio. Regarde les exercices avant de te lancer, rien ne démarre tant que tu n'as pas touché « Lancer ».</p></section>
   <section class="card">${eqChips()}${moodHTML()}</section>
@@ -2607,7 +2612,7 @@ function viewSeances() {
   <section class="card"><div><p class="eyebrow">Cette semaine</p><h2>${cm} min <span class="muted small">sur 150</span></h2></div><div class="prog" role="img" aria-label="${cm} minutes de cardio sur 150"><i style="width:${Math.min(100, Math.round(cm / 1.5))}%"></i></div>
     <p class="small muted">L'OMS conseille 150 minutes de cardio modéré par semaine (essoufflée mais capable de parler), ou 75 minutes intenses. Les minutes s'ajoutent toutes seules à la fin de chaque séance.</p></section>
   ${Object.entries(CARDIO).map(([id, c]) => `<article class="card"><div><p class="eyebrow">${esc(c.tag)} · ${c.mins} min</p><h2>${esc(c.name)}</h2><p class="small">${esc(c.desc)}</p></div>
-    <details class="p-how"><summary>Voir les mouvements</summary><ol class="ex-list">${uniq(c.steps).map((s) => `<li>${figHTML(s.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(s.t)}</span><span class="muted small">${esc(s.how)}</span></div><span></span></li>`).join('')}</ol></details>
+    <details class="p-how"><summary>Voir les mouvements</summary><ol class="ex-list">${uniq(c.steps).map((s) => `<li>${figHTML(s.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(s.t)}</span><span class="muted small">${esc(s.how)}</span>${demoBtnHTML(s.mv || s.fig)}</div><span></span></li>`).join('')}</ol></details>
     <button class="btn primary block" data-action="cardio-start" data-id="${id}">Lancer · ${c.mins} min</button></article>`).join('')}
   </div>`;
 }
@@ -2656,7 +2661,7 @@ cloudInit();
 })();
 </script>
 <script>
-const APLOMB_VER = 9;
+const APLOMB_VER = 10;
 if ('serviceWorker' in navigator) {
   const hadCtrl = !!navigator.serviceWorker.controller; let reloading = false;
   window.addEventListener('load', () => {
