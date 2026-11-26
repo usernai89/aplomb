@@ -474,6 +474,27 @@ details.acc>summary{font-size:19px}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:90;max-width:calc(100% - 32px);text-align:center;transition:opacity .2s,transform .2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* Démonstrations vidéo */
+.demo{width:100%;max-width:420px;margin-inline:auto}
+.demo-poster{position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;border:0;border-radius:14px;overflow:hidden;background:var(--surface-2);cursor:pointer}
+.demo-poster img{width:100%;height:100%;object-fit:cover;display:block}
+.demo-play{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;display:grid;place-items:center;background:rgba(33,27,41,.72);color:#fff}
+.demo-play svg{width:30px;height:30px;margin-left:3px}
+.demo-lab{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:999px;background:rgba(33,27,41,.72);color:#fff;font-weight:700;font-size:.8125rem}
+.demo-fallback{display:none}
+.demo-off .demo-poster{display:none}
+.demo-off .demo-fallback{display:block}
+.demo-fallback p{text-align:center;margin:6px 0 0}
+.demo-modal{position:fixed;inset:0;z-index:200;background:rgba(15,12,20,.72);display:grid;place-items:center;padding:16px}
+.demo-modal[hidden]{display:none}
+.demo-box{width:100%;max-width:720px;background:var(--surface);color:var(--ink);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.demo-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.demo-head .eyebrow{margin:0}
+.demo-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.demo-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.demo-box .btn-row{display:flex;flex-wrap:wrap;gap:8px}
+.demo-box .btn-row .btn{flex:1 1 auto;text-decoration:none}
 </style>
 
 <header class="top">
@@ -1407,7 +1428,7 @@ function ovPreview() {
   const cards = list.map((e) => { const ex = EX[e.id];
     return `<section class="card" id="pv-${e.id}">
       <div class="ex-top"><span class="ex-n num">${esc(e.label)}</span><div class="stack" style="gap:4px"><h2>${esc(ex.name)}</h2><p class="small muted">${esc(ex.muscles)}</p>${eqBadge(ex)}</div></div>
-      ${figHTML(e.id, 'lg')}
+      ${demoHTML(e.id)}
       ${camOK() ? `<button class="btn sm" data-action="cam-mirror" data-ex="${e.id}">Me voir à côté du dessin (caméra)</button>` : ''}
       <div class="presc"><div><b>${e.sets}</b><span>${plural(e.sets, 'série')}</span></div><div><b>${repsTxt(e.reps[0], e.reps[1], '')}</b><span>${ex.unit === 's' ? 's' : 'rép'}${esc(ex.side)}</span></div><div><b>${esc(ex.tempo)}</b><span>tempo</span></div><div><b>${ex.rest ? esc(ex.restTxt || ex.rest + ' s') : 'aucun'}</b><span>repos</span></div></div>
       <div><p class="cue-l">Comment faire</p><p class="cue">${esc(ex.cue)}</p></div>
@@ -1822,7 +1843,7 @@ function exBlockHTML(d, e) {
   const placeholder = 'Ex. 4';
   return `<section class="card">
     <div class="ex-top"><span class="ex-n num">${esc(e.label)}</span><div><h2>${esc(ex.name)}</h2><p class="small muted">${esc(ex.muscles)}</p></div></div>
-    ${figHTML(e.id, 'lg')}
+    ${demoHTML(e.id)}
     <div class="presc"><div><b>${e.sets}</b><span>${plural(e.sets, 'série')}</span></div><div><b>${repsTxt(e.reps[0], e.reps[1], '')}</b><span>${unit}${esc(ex.side)}</span></div><div><b>${esc(ex.tempo)}</b><span>tempo</span></div><div><b>${ex.rest ? esc(ex.restTxt || ex.rest + ' s') : 'aucun'}</b><span>repos</span></div></div>
     <div><p class="cue-l">Consigne</p><p class="cue">${esc(ex.cue)}</p></div>
     <div class="seg" role="group" aria-label="Version de l'exercice">${[['f', 'Plus facile'], ['n', 'Standard'], ['d', 'Plus difficile']].map(([v, l]) => `<button data-action="variant" data-ex="${e.id}" data-v="${v}" aria-pressed="${en.variant === v}">${l}</button>`).join('')}</div>
@@ -1953,7 +1974,7 @@ function ovPlayer(d) {
     if (ex.timed && running) { const rem = Math.max(0, RT.hold.target * 1000 - (Date.now() - RT.hold.start)); target = pRing(rem, RT.hold.target * 1000, Math.ceil(rem / 1000), 'Tiens bon', false); }
     else target = `<div class="p-target"><p class="small muted">Objectif : ${repsTxt(it.e.reps[0], it.e.reps[1], '')} ${unitTxt}${esc(ex.side)}</p><div class="stepper big"><button data-action="rep" data-d="-1" data-ex="${id}" data-i="${it.i}" aria-label="Moins">−</button><output id="v-${id}-${it.i}" aria-live="polite">${v}</output><button data-action="rep" data-d="1" data-ex="${id}" data-i="${it.i}" aria-label="Plus">+</button></div><p class="small muted">${ex.timed ? 'Durée du chrono, en secondes' : 'Ajuste au nombre que tu as vraiment fait'}</p></div>`;
     body = `<div class="p-hero"><p class="eyebrow">Exercice ${ids.indexOf(id) + 1} sur ${ids.length} · Série ${it.i + 1} sur ${it.e.sets}</p><h1 class="p-name">${esc(ex.name)}</h1>${it.sup ? `<p class="small muted">En alternance avec : ${esc(it.sup.join(', '))}</p>` : ''}</div>
-      ${figHTML(id, 'lg')}
+      ${demoHTML(id)}
       ${target}
       ${tempoParse(ex.tempo) && !ex.timed ? `<button class="btn block" data-action="${TP.on && TP.ex === id && TP.i === it.i ? 'tempo-stop' : 'tempo'}" data-ex="${id}" data-i="${it.i}">${TP.on && TP.ex === id && TP.i === it.i ? 'Arrêter le tempo guidé' : 'Tempo guidé : je compte pour toi'}</button>` : ''}
       <details class="p-how"${it.i === 0 && !running ? ' open' : ''}><summary>Comment faire</summary><div class="stack" style="gap:10px;padding-top:6px"><p class="cue">${esc(ex.cue)}</p>${ex.fem ? `<div class="fem"><p class="cue-l">Pensé pour toi</p><p class="small">${esc(ex.fem)}</p></div>` : ''}
@@ -2124,6 +2145,41 @@ function renderOverlay(opts = {}) {
 function closeOverlay() { camStop(); tempoStop(); UI.cam = null; UI.overlay = null; UI.confirm = null; renderOverlay(); render(); }
 
 /* ---------- Actions ---------- */
+
+/* ---------- Vraies démonstrations : une vidéo YouTube par exercice (hébergée par YouTube) ; le dessin seulement hors ligne ---------- */
+const DEMO = { sauts: 'c2LBofIzUqs', hipthrust: '9Wma4mC8wpw', splitsquat: 'k4VWW0-Pwxg', pompes: '9O5upq-dK5k', rowing: 'JdwsVHc6oQ4', yausol: 'DQFTp5n0uh0', mollets_t: 'uqk_Dvw5OoY', planche: '19DEhXTzeU4', rdl: 'DPFnfAUCvTA', fente: 'Zz8DrsAUIZo', developpe: 'ZUuYbRgcHmg', tirage: 'P_s1PLsCRgQ', rotext: '4p7Re3JfSGI', abduction: 'CTmFNSDJTR8', gainage_l: '7WSeMsvEfZ8', mollets_f: 'C3tLEvqrW4E', frogpump: '0TlXxojK7Y4', kickback: '09HYaKHwiII' };
+const demoMine = () => (S.settings.demo && typeof S.settings.demo === 'object') ? S.settings.demo : {};
+const demoId = (id) => demoMine()[id] || DEMO[id] || '';
+const ytId = (txt) => { const m = String(txt || '').match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/) || String(txt || '').trim().match(/^([A-Za-z0-9_-]{11})$/); return m ? m[1] : ''; };
+const ytSearch = (id) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent((EX[id] ? EX[id].name : id) + ' exercice tuto');
+function demoHTML(id) {
+  const v = demoId(id); if (!v || !EX[id]) return figHTML(id, 'lg');
+  const name = esc(EX[id].name);
+  return `<div class="demo${navigator.onLine === false ? ' demo-off' : ''}">
+    <button class="demo-poster" data-action="demo-play" data-ex="${id}" aria-label="Voir la démonstration en vidéo : ${name}">
+      <img src="https://i.ytimg.com/vi/${v}/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.demo').classList.add('demo-off')">
+      <span class="demo-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
+      <span class="demo-lab">Voir la démonstration</span></button>
+    <div class="demo-fallback">${figHTML(id, 'lg')}<p class="small muted">Sans Internet, le dessin remplace la vidéo de démonstration.</p></div>
+  </div>`;
+}
+function demoOpen(id) {
+  const v = demoId(id); if (!v) return;
+  let m = document.getElementById('demoModal');
+  if (!m) { m = document.createElement('div'); m.id = 'demoModal'; m.className = 'demo-modal'; document.body.appendChild(m); }
+  const mine = !!demoMine()[id];
+  m.innerHTML = `<div class="demo-box" role="dialog" aria-modal="true" aria-label="Démonstration : ${esc(EX[id].name)}">
+    <div class="demo-head"><div><p class="eyebrow">Démonstration</p><b>${esc(EX[id].name)}</b></div><button class="icon-btn" data-action="demo-close" aria-label="Fermer la vidéo">${ICON.x}</button></div>
+    <div class="demo-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="Démonstration : ${esc(EX[id].name)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <p class="small muted">${mine ? 'Ta vidéo, choisie par toi.' : 'Vidéo choisie pour cet exercice, hébergée par YouTube.'} Si elle ne te convient pas, change-la.</p>
+    <div class="btn-row"><a class="btn" href="${ytSearch(id)}" target="_blank" rel="noopener">Autres vidéos</a><button class="btn" data-action="demo-set" data-ex="${id}">Changer la vidéo</button>${mine ? `<button class="btn ghost" data-action="demo-reset" data-ex="${id}">Remettre celle d'origine</button>` : ''}</div>
+  </div>`;
+  m.hidden = false;
+}
+function demoClose() { const m = document.getElementById('demoModal'); if (m) { m.innerHTML = ''; m.hidden = true; } }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { const m = document.getElementById('demoModal'); if (m && !m.hidden) demoClose(); } });
+document.addEventListener('click', (e) => { const m = document.getElementById('demoModal'); if (m && !m.hidden && e.target === m) demoClose(); });
+
 const A = {
   tab(b) { UI.tab = b.dataset.tab; UI.confirm = null; render(); window.scrollTo(0, 0); },
   'open-settings'() { UI.overlay = 'settings'; renderOverlay(); },
@@ -2134,6 +2190,10 @@ const A = {
   'cardio-start'(b) { gpStart('cardio', b.dataset.id); },
   'cam-photo'() { camOpen('photo'); },
   'cam-mirror'(b) { camOpen('mirror', b.dataset.ex); },
+  'demo-play'(b) { if (navigator.onLine === false) { toast('Pas de connexion : la vidéo de démonstration a besoin d\'Internet.'); return; } demoOpen(b.dataset.ex); },
+  'demo-close'() { demoClose(); },
+  'demo-set'(b) { const id = b.dataset.ex; const t = window.prompt('Colle le lien de la vidéo YouTube à utiliser pour « ' + EX[id].name + ' » :'); if (t == null) return; const v = ytId(t); if (!v) { toast('Je ne reconnais pas ce lien YouTube.'); return; } S.settings.demo = Object.assign({}, demoMine(), { [id]: v }); touch('settings'); demoOpen(id); renderOverlay({ keep: true }); toast('Vidéo enregistrée pour cet exercice.'); },
+  'demo-reset'(b) { const id = b.dataset.ex; const d = Object.assign({}, demoMine()); delete d[id]; S.settings.demo = d; touch('settings'); demoOpen(id); renderOverlay({ keep: true }); toast('Vidéo d\'origine remise.'); },
   'cam-close'() { camClose(); },
   'cam-flip'() { if (!UI.cam) return; UI.cam.facing = UI.cam.facing === 'user' ? 'environment' : 'user'; renderOverlay({ keep: true }); camStart(); },
   'cam-timer'() {
