@@ -483,6 +483,7 @@ details.acc>summary{font-size:19px}
 .demo-play svg{width:30px;height:30px;margin-left:3px}
 .demo-lab{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:999px;background:rgba(33,27,41,.72);color:#fff;font-weight:700;font-size:.8125rem}
 .demo-fallback{display:none}
+.demo-sm{max-width:300px}
 .demo-nothumb .demo-poster img{visibility:hidden}
 .demo-nothumb .demo-poster{background:linear-gradient(135deg,var(--plumb),#7A5BB5)}
 .demo-off .demo-poster{display:none}
@@ -497,6 +498,9 @@ details.acc>summary{font-size:19px}
 .demo-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .demo-box .btn-row{display:flex;flex-wrap:wrap;gap:8px}
 .demo-box .btn-row .btn{flex:1 1 auto;text-decoration:none}
+.demo-mini{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;margin-top:6px;min-height:32px;padding:0 12px 0 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--accent-ink);font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer}
+.demo-mini svg{width:14px;height:14px;flex:none}
+.toast{z-index:210}
 </style>
 
 <header class="top">
@@ -1514,7 +1518,7 @@ function viewToday() {
   const pauses = h.pauses || 0;
   const items = [
     { time: '3h05', title: 'Routine posture', sub: "9 min, avant de t'asseoir", done: !!h.posture, act: `<button class="btn sm" data-action="routine-start">${h.posture ? 'Refaire' : 'Lancer'}</button>` },
-    { time: '3h-7h', title: 'Micro-pauses', sub: `${pauses} sur 4 · 90 s toutes les 50 min`, done: pauses >= 4, act: '<div class="mini-step"><button data-action="pauses" data-d="-1" aria-label="Retirer une micro-pause">−</button><button data-action="pauses" data-d="1" aria-label="Ajouter une micro-pause">+</button></div>' },
+    { time: '3h-7h', title: 'Micro-pauses', sub: `${pauses} sur 4 · 75 s toutes les 50 min`, done: pauses >= 4, act: '<div class="mini-step"><button data-action="pauses" data-d="-1" aria-label="Retirer une micro-pause">−</button><button data-action="pauses" data-d="1" aria-label="Ajouter une micro-pause">+</button></div>' },
     { time: '13h30', title: 'Sieste', sub: '20 à 30 min, pas après 16h', done: !!h.sieste, act: tickBtn('sieste', h.sieste, 'Sieste faite') },
     (planned || doneToday.length || S.draft) ? { time: '17h00', title: doneToday.length ? `Séance ${doneToday[doneToday.length - 1].type} faite` : `Séance ${S.draft ? S.draft.type : nt}`, sub: busy ? 'Express, 25 min' : '50 min', done: doneToday.length > 0, act: doneToday.length ? '' : `<button class="btn sm" data-action="${S.draft ? 'resume-session' : 'start-session'}" data-type="${nt}">${S.draft ? 'Reprendre' : 'Lancer'}</button>` } : null,
     { time: '21h00', title: 'Écrans coupés', sub: 'Coucher à 22h au plus tard', done: !!h.ecrans, act: tickBtn('ecrans', h.ecrans, 'Écrans coupés') },
@@ -1548,22 +1552,22 @@ function studyHTML() {
     <p class="small muted">Garde l'appli ouverte pour entendre l'alerte. L'écran reste allumé si ton téléphone le permet.</p>`;
   }
   if (st && st.fired) {
-    return `${head}<p><b>C'est l'heure de ta micro-pause.</b> 90 secondes debout.</p>
+    return `${head}<p><b>C'est l'heure de ta micro-pause.</b> 75 secondes debout.</p>
     <div class="btn-row"><button class="btn primary" data-action="pause-start">Faire la micro-pause</button><button class="btn" data-action="study-start">Reprendre ${st.mins} min d'étude</button></div>
     <button class="link-btn" data-action="study-stop">Arrêter le minuteur</button>`;
   }
-  return `${head}<p class="small muted">Un minuteur d'étude qui sonne quand il faut te lever pour 90 secondes de mouvements :</p>
-    <ol class="ex-list">${MICRO.map((r, i) => `<li>${figHTML(r.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(r.t)}</span><span class="muted small">${esc(r.dose)}</span></div><span class="num ex-li-n">${i + 1}</span></li>`).join('')}</ol>
+  return `${head}<p class="small muted">Un minuteur d'étude qui sonne quand il faut te lever pour 75 secondes de mouvements :</p>
+    <ol class="ex-list">${MICRO.map((r, i) => `<li>${figHTML(r.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(r.t)}</span><span class="muted small">${esc(r.dose)}</span>${demoBtnHTML(r.fig)}</div><span class="num ex-li-n">${i + 1}</span></li>`).join('')}</ol>
     <div class="chips" role="group" aria-label="Durée du bloc d'étude">${[45, 50, 60].map((v) => `<button class="chip" data-action="study-mins" data-m="${v}" aria-pressed="${m === v}">${v} min</button>`).join('')}</div>
     <div class="btn-row"><button class="btn primary" data-action="study-start">Lancer ${m} min d'étude</button><button class="btn" data-action="pause-start">Micro-pause maintenant</button></div>`;
 }
 function viewPosture() {
   const h = getHab(keyOf()); const streak = postureStreak();
   return `<div class="stack">
-  <section class="sec-head"><p class="eyebrow">Posture</p><h1 class="h1">Tenir d'aplomb</h1><p class="lead">La posture se corrige surtout entre les séances : 5 minutes le matin, une minute toutes les 50 minutes, un poste de travail réglé.</p></section>
+  <section class="sec-head"><p class="eyebrow">Posture</p><h1 class="h1">Tenir d'aplomb</h1><p class="lead">La posture se corrige surtout entre les séances : 5 minutes le matin, 75 secondes toutes les 50 minutes, un poste de travail réglé.</p></section>
   <article class="card feature">
     <div class="row-between"><div><p class="eyebrow">Chaque matin à 3h05 · 5 min</p><h2>Routine du matin</h2></div><div class="streak"><b class="num">${streak}</b><span>${plural(streak, 'jour')} de suite</span></div></div>
-    <ol class="ex-list">${ROUTINE.map((r, i) => `<li>${figHTML(r.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(r.t)}</span><span class="muted small">${esc(r.dose)} · ${esc(r.target)}</span></div><span class="num ex-li-n">${i + 1}</span></li>`).join('')}</ol>
+    <ol class="ex-list">${ROUTINE.map((r, i) => `<li>${figHTML(r.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(r.t)}</span><span class="muted small">${esc(r.dose)} · ${esc(r.target)}</span>${demoBtnHTML(r.fig)}</div><span class="num ex-li-n">${i + 1}</span></li>`).join('')}</ol>
     <button class="btn primary block" data-action="routine-start">${h.posture ? 'Refaire la routine' : 'Commencer la routine'}</button>
     ${h.posture ? '<p class="small ok-txt">Faite aujourd\'hui.</p>' : ''}
   </article>
@@ -2092,7 +2096,7 @@ function ovGuided() {
   <div class="ov-body"><div class="wrap stack">
     <div><p class="eyebrow">${esc(st.target)} · ${esc(st.dose)}</p><h1 class="h1">${esc(st.t)}</h1></div>
     <p class="how">${esc(st.how)}</p>
-    ${st.fig ? figHTML(st.fig, 'lg') : ''}
+    ${st.fig ? demoHTML(st.fig, true) : ''}
     <div class="ring-wrap${st.fig ? ' sm' : ''}${sg.rest ? ' is-rest' : ''}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="54"/><circle class="ring-fg" id="gpRing" cx="60" cy="60" r="54" stroke-dasharray="${RING_C.toFixed(1)}" stroke-dashoffset="${(RING_C * (1 - rem / (sg.s * 1000))).toFixed(1)}"/></svg><div class="ring-txt"><span class="ring-n" id="gpT">${Math.ceil(rem / 1000)}</span><span class="ring-l">${esc(sg.l)}</span></div></div>
     <p class="small muted center">${G.paused ? 'En pause.' : next ? 'Ensuite : ' + esc(next.t) : 'Dernière étape.'}</p>
   </div></div>
@@ -2122,7 +2126,7 @@ function ovSettings() {
       <div class="btn-row"><button class="btn sm" data-action="data-export">Exporter mes données</button><button class="btn sm" data-action="data-import">Importer un fichier</button></div>
       <input type="file" id="importFile" accept="application/json,.json,text/plain" data-change="data-import" hidden></section>
     <section class="card"><h3>Rappels du calendrier</h3>${remindersGuide()}</section>
-    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (routine posture de 5 min)</p>
+    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos de la routine posture)</p>
   </div></div>`;
 }
 
@@ -2146,15 +2150,18 @@ function closeOverlay() { camStop(); tempoStop(); UI.cam = null; UI.overlay = nu
 /* ---------- Actions ---------- */
 
 /* ---------- Vraies démonstrations : une vidéo YouTube par exercice (hébergée par YouTube) ; le dessin seulement hors ligne ---------- */
-const DEMO = { sauts: 'c2LBofIzUqs', hipthrust: '9Wma4mC8wpw', splitsquat: 'k4VWW0-Pwxg', pompes: '9O5upq-dK5k', rowing: 'JdwsVHc6oQ4', yausol: 'DQFTp5n0uh0', mollets_t: 'uqk_Dvw5OoY', planche: '19DEhXTzeU4', rdl: 'DPFnfAUCvTA', fente: 'Zz8DrsAUIZo', developpe: 'ZUuYbRgcHmg', tirage: 'P_s1PLsCRgQ', rotext: '4p7Re3JfSGI', abduction: 'CTmFNSDJTR8', gainage_l: '7WSeMsvEfZ8', mollets_f: 'C3tLEvqrW4E', frogpump: '0TlXxojK7Y4', kickback: '09HYaKHwiII' };
+const DEMO = { sauts: 'c2LBofIzUqs', hipthrust: '9Wma4mC8wpw', splitsquat: 'k4VWW0-Pwxg', pompes: '9O5upq-dK5k', rowing: 'JdwsVHc6oQ4', yausol: 'DQFTp5n0uh0', mollets_t: 'uqk_Dvw5OoY', planche: '19DEhXTzeU4', rdl: 'DPFnfAUCvTA', fente: 'Zz8DrsAUIZo', developpe: 'ZUuYbRgcHmg', tirage: 'P_s1PLsCRgQ', rotext: '4p7Re3JfSGI', abduction: 'CTmFNSDJTR8', gainage_l: '7WSeMsvEfZ8', mollets_f: 'C3tLEvqrW4E', frogpump: '0TlXxojK7Y4', kickback: '09HYaKHwiII',
+  /* routine posture du matin et micro-pauses */
+  w_glisses: 'ti_FUZZz_7k', p_pecs: 'Q6KfoKo0lSo', p_trap: 'vfoWMKhx4v4', p_fente: '5M6zv6hGskQ', p_w: 'ojlpnRGzZIk', p_hipstand: 'WtTAT6lSm3E' };
 const demoMine = () => (S.settings.demo && typeof S.settings.demo === 'object') ? S.settings.demo : {};
 const demoId = (id) => demoMine()[id] || DEMO[id] || '';
 const ytId = (txt) => { const m = String(txt || '').match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/) || String(txt || '').trim().match(/^([A-Za-z0-9_-]{11})$/); return m ? m[1] : ''; };
-const ytSearch = (id) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent((EX[id] ? EX[id].name : id) + ' exercice tuto');
-function demoHTML(id) {
-  const v = demoId(id); if (!v || !EX[id]) return figHTML(id, 'lg');
-  const name = esc(EX[id].name);
-  return `<div class="demo${navigator.onLine === false ? ' demo-off' : ''}">
+const demoName = (id) => (EX[id] && EX[id].name) || (ROUTINE.concat(MICRO).find((r) => r.fig === id) || {}).t || id;
+const ytSearch = (id) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(demoName(id) + ' exercice tuto');
+function demoHTML(id, compact) {
+  const v = demoId(id); if (!v) return figHTML(id, 'lg');
+  const name = esc(demoName(id));
+  return `<div class="demo${compact ? ' demo-sm' : ''}${navigator.onLine === false ? ' demo-off' : ''}">
     <button class="demo-poster" data-action="demo-play" data-ex="${id}" aria-label="Voir la démonstration en vidéo : ${name}">
       <img src="https://i.ytimg.com/vi/${v}/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.demo').classList.add(navigator.onLine === false ? 'demo-off' : 'demo-nothumb')">
       <span class="demo-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
@@ -2167,15 +2174,31 @@ function demoOpen(id) {
   let m = document.getElementById('demoModal');
   if (!m) { m = document.createElement('div'); m.id = 'demoModal'; m.className = 'demo-modal'; document.body.appendChild(m); }
   const mine = !!demoMine()[id];
-  m.innerHTML = `<div class="demo-box" role="dialog" aria-modal="true" aria-label="Démonstration : ${esc(EX[id].name)}">
-    <div class="demo-head"><div><p class="eyebrow">Démonstration</p><b>${esc(EX[id].name)}</b></div><button class="icon-btn" data-action="demo-close" aria-label="Fermer la vidéo">${ICON.x}</button></div>
-    <div class="demo-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="Démonstration : ${esc(EX[id].name)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+  m.innerHTML = `<div class="demo-box" role="dialog" aria-modal="true" aria-label="Démonstration : ${esc(demoName(id))}">
+    <div class="demo-head"><div><p class="eyebrow">Démonstration</p><b>${esc(demoName(id))}</b></div><button class="icon-btn" data-action="demo-close" aria-label="Fermer la vidéo">${ICON.x}</button></div>
+    <div class="demo-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="Démonstration : ${esc(demoName(id))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <p class="small muted">${mine ? 'Ta vidéo, choisie par toi.' : 'Vidéo choisie pour cet exercice, hébergée par YouTube.'} Si elle ne te convient pas, change-la.</p>
     <div class="btn-row"><a class="btn" href="https://www.youtube.com/watch?v=${v}" target="_blank" rel="noopener">Ouvrir dans YouTube</a><a class="btn" href="${ytSearch(id)}" target="_blank" rel="noopener">Autres vidéos</a><button class="btn" data-action="demo-set" data-ex="${id}">Changer la vidéo</button>${mine ? `<button class="btn ghost" data-action="demo-reset" data-ex="${id}">Remettre celle d'origine</button>` : ''}</div>
   </div>`;
   m.hidden = false;
+  const c = m.querySelector('[data-action="demo-close"]'); if (c) c.focus();
 }
-function demoClose() { const m = document.getElementById('demoModal'); if (m) { m.innerHTML = ''; m.hidden = true; } }
+/* pendant la routine ou une micro-pause, la vidéo met le minuteur en pause (il ne tourne pas pendant qu'on regarde) */
+let demoHeld = false;
+function demoHold() {
+  if (UI.overlay !== 'guided' || !GP || GP.done || GP.paused) return;
+  GP.remaining = Math.max(0, GP.segEnd - Date.now()); GP.paused = true; demoHeld = true;
+  try { window.speechSynthesis.cancel(); } catch (e) { /* pas de voix */ }
+  renderOverlay({ keep: true });
+}
+function demoClose() {
+  const m = document.getElementById('demoModal'); if (m) { m.innerHTML = ''; m.hidden = true; }
+  if (demoHeld) { demoHeld = false; if (UI.overlay === 'guided' && GP && GP.paused && !GP.done) toast('Minuteur en pause : appuie sur « Reprendre » quand tu es en place.'); }
+}
+function demoBtnHTML(id) {
+  if (!demoId(id)) return '';
+  return `<button class="demo-mini" data-action="demo-play" data-ex="${id}" aria-label="Voir la vidéo : ${esc(demoName(id))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>Vidéo</button>`;
+}
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { const m = document.getElementById('demoModal'); if (m && !m.hidden) demoClose(); } });
 document.addEventListener('click', (e) => { const m = document.getElementById('demoModal'); if (m && !m.hidden && e.target === m) demoClose(); });
 
@@ -2189,10 +2212,10 @@ const A = {
   'cardio-start'(b) { gpStart('cardio', b.dataset.id); },
   'cam-photo'() { camOpen('photo'); },
   'cam-mirror'(b) { camOpen('mirror', b.dataset.ex); },
-  'demo-play'(b) { if (navigator.onLine === false) { toast('Pas de connexion : la vidéo de démonstration a besoin d\'Internet.'); return; } demoOpen(b.dataset.ex); },
+  'demo-play'(b) { if (navigator.onLine === false) { toast('Pas de connexion : la vidéo de démonstration a besoin d\'Internet.'); return; } const id = b.dataset.ex; if (!demoId(id)) return; demoHold(); demoOpen(id); },
   'demo-close'() { demoClose(); },
-  'demo-set'(b) { const id = b.dataset.ex; const t = window.prompt('Colle le lien de la vidéo YouTube à utiliser pour « ' + EX[id].name + ' » :'); if (t == null) return; const v = ytId(t); if (!v) { toast('Je ne reconnais pas ce lien YouTube.'); return; } S.settings.demo = Object.assign({}, demoMine(), { [id]: v }); touch('settings'); demoOpen(id); renderOverlay({ keep: true }); toast('Vidéo enregistrée pour cet exercice.'); },
-  'demo-reset'(b) { const id = b.dataset.ex; const d = Object.assign({}, demoMine()); delete d[id]; S.settings.demo = d; touch('settings'); demoOpen(id); renderOverlay({ keep: true }); toast('Vidéo d\'origine remise.'); },
+  'demo-set'(b) { const id = b.dataset.ex; const t = window.prompt('Colle le lien de la vidéo YouTube à utiliser pour « ' + demoName(id) + ' » :'); if (t == null) return; const v = ytId(t); if (!v) { toast('Je ne reconnais pas ce lien YouTube.'); return; } S.settings.demo = Object.assign({}, demoMine(), { [id]: v }); touch('settings'); demoOpen(id); if (UI.overlay) renderOverlay({ keep: true }); toast('Vidéo enregistrée pour cet exercice.'); },
+  'demo-reset'(b) { const id = b.dataset.ex; const d = Object.assign({}, demoMine()); delete d[id]; S.settings.demo = d; touch('settings'); demoOpen(id); if (UI.overlay) renderOverlay({ keep: true }); toast('Vidéo d\'origine remise.'); },
   'cam-close'() { camClose(); },
   'cam-flip'() { if (!UI.cam) return; UI.cam.facing = UI.cam.facing === 'user' ? 'environment' : 'user'; renderOverlay({ keep: true }); camStart(); },
   'cam-timer'() {
@@ -2633,7 +2656,7 @@ cloudInit();
 })();
 </script>
 <script>
-const APLOMB_VER = 8;
+const APLOMB_VER = 9;
 if ('serviceWorker' in navigator) {
   const hadCtrl = !!navigator.serviceWorker.controller; let reloading = false;
   window.addEventListener('load', () => {

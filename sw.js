@@ -1,6 +1,6 @@
 // Aplomb : fonctionnement hors ligne.
 // Changer VERSION à chaque mise à jour de l'appli pour rafraîchir le cache.
-const VERSION = 'aplomb-v8';
+const VERSION = 'aplomb-v9';
 const FONTS = 'aplomb-fonts-1';
 const KEEP = [VERSION, FONTS];
 const SHELL = ['./', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-512-maskable.png', 'icons/apple-touch-icon.png'];
