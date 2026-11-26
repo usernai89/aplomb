@@ -2131,7 +2131,7 @@ function ovSettings() {
       <div class="btn-row"><button class="btn sm" data-action="data-export">Exporter mes données</button><button class="btn sm" data-action="data-import">Importer un fichier</button></div>
       <input type="file" id="importFile" accept="application/json,.json,text/plain" data-change="data-import" hidden></section>
     <section class="card"><h3>Rappels du calendrier</h3>${remindersGuide()}</section>
-    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos de l'échauffement)</p>
+    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos de la séance F)</p>
   </div></div>`;
 }
 
@@ -2161,9 +2161,14 @@ const DEMO = { sauts: 'c2LBofIzUqs', hipthrust: '9Wma4mC8wpw', splitsquat: 'k4VW
   /* cardio */
   'c:marche': '0U_Gi19HiGo', 'c:boxe': 'J4j3AOVWuHE', 'c:chasse': 'bCnTJulHGq4', 'c:jack': 'doj3IIyhwvs', 'c:squatpas': '6l9sgi6tOjk', 'c:step': '_yuq0-rJ9sM', 'c:genoux': 'gXW4c0eM8t0', 'c:patineur': 'ZW1G5aWLqXc', 'c:danse': 'ooDqhArCi_A', 'c:rapide': 'hiRQ4CUw42M',
   /* échauffement */
-  'w:cercles': 'goaXpTMg3QI', 'w:catcow': 'eatqmfLWvuE', 'w:book': 'rDviWORCWEw', 'w:pont': '9Wma4mC8wpw', 'w:squat': 'hNOGNlTKIYg', 'w:glisses': 'ti_FUZZz_7k' };
+  'w:cercles': 'goaXpTMg3QI', 'w:catcow': 'eatqmfLWvuE', 'w:book': 'rDviWORCWEw', 'w:pont': '9Wma4mC8wpw', 'w:squat': 'hNOGNlTKIYg', 'w:glisses': 'ti_FUZZz_7k',
+  /* séance F */
+  sumo: 'HahGczZ4un4', curtsy: 'RjeUXMZg5Po', hydrant: 'osIjsoneQGA', clam: '2mMuZk69yCo', pontmarche: '8-invS7-Ugo', adducteurs: 'ha1V5hEhB_E', dips: 'FJPiRKf7-xA', deadbug: 'zJMNbNYYrsY', perinee: 'pvOrsk72rIQ', elevlat: 'zsFbSKCK4Hw' };
+/* versions avec haltères ou élastique : même mouvement que l'exercice de base, on reprend sa vidéo */
+const DEMO_SAME = { hipthrust_h: 'hipthrust', hipthrust_b: 'hipthrust', splitsquat_h: 'splitsquat', splitsquat_b: 'splitsquat', mollets_t_h: 'mollets_t', frogpump_h: 'frogpump', rdl_h: 'rdl', rdl_b: 'rdl', fente_h: 'fente', fente_b: 'fente', rotext_h: 'rotext', mollets_f_h: 'mollets_f', sumo_h: 'sumo', sumo_b: 'sumo', curtsy_h: 'curtsy', hydrant_b: 'hydrant', clam_b: 'clam', elevlat_h: 'elevlat', elevlat_b: 'elevlat' };
 const demoMine = () => (S.settings.demo && typeof S.settings.demo === 'object') ? S.settings.demo : {};
-const demoId = (id) => demoMine()[id] || DEMO[id] || '';
+const demoVia = (id) => (!demoMine()[id] && !DEMO[id] && DEMO_SAME[id]) || '';
+const demoId = (id) => demoMine()[id] || DEMO[id] || (demoVia(id) ? demoMine()[demoVia(id)] || DEMO[demoVia(id)] : '') || '';
 const ytId = (txt) => { const m = String(txt || '').match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/) || String(txt || '').trim().match(/^([A-Za-z0-9_-]{11})$/); return m ? m[1] : ''; };
 const demoCM = (id) => (/^c:/.test(id) && CM[id.slice(2)]) || null;
 const demoWarm = (id) => { const i = WARM_VID.indexOf(id); return i >= 0 ? WARMUP[i][0] : ''; };
@@ -2189,7 +2194,7 @@ function demoOpen(id) {
   m.innerHTML = `<div class="demo-box" role="dialog" aria-modal="true" aria-label="Démonstration : ${esc(demoName(id))}">
     <div class="demo-head"><div><p class="eyebrow">Démonstration</p><b>${esc(demoName(id))}</b></div><button class="icon-btn" data-action="demo-close" aria-label="Fermer la vidéo">${ICON.x}</button></div>
     <div class="demo-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="Démonstration : ${esc(demoName(id))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
-    <p class="small muted">${mine ? 'Ta vidéo, choisie par toi.' : 'Vidéo choisie pour cet exercice, hébergée par YouTube.'} Si elle ne te convient pas, change-la.</p>
+    <p class="small muted">${mine ? 'Ta vidéo, choisie par toi.' : demoVia(id) ? `Vidéo du même mouvement (« ${esc(demoName(demoVia(id)))} ») : le matériel peut être différent.` : 'Vidéo choisie pour cet exercice, hébergée par YouTube.'} Si elle ne te convient pas, change-la.</p>
     <div class="btn-row"><a class="btn" href="https://www.youtube.com/watch?v=${v}" target="_blank" rel="noopener">Ouvrir dans YouTube</a><a class="btn" href="${ytSearch(id)}" target="_blank" rel="noopener">Autres vidéos</a><button class="btn" data-action="demo-set" data-ex="${id}">Changer la vidéo</button>${mine ? `<button class="btn ghost" data-action="demo-reset" data-ex="${id}">Remettre celle d'origine</button>` : ''}</div>
   </div>`;
   m.hidden = false;
@@ -2670,7 +2675,7 @@ cloudInit();
 })();
 </script>
 <script>
-const APLOMB_VER = 11;
+const APLOMB_VER = 12;
 if ('serviceWorker' in navigator) {
   const hadCtrl = !!navigator.serviceWorker.controller; let reloading = false;
   window.addEventListener('load', () => {
