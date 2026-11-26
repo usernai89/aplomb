@@ -414,9 +414,9 @@ details.p-how summary{cursor:pointer;font-weight:600;color:var(--plumb);padding:
 .cam-wrap{position:relative;background:#000;border-radius:14px;overflow:hidden;aspect-ratio:3/4;width:100%;max-height:62vh}
 .cam-wrap video{width:100%;height:100%;object-fit:cover;display:block}
 .cam-wrap video.mir{transform:scaleX(-1)}
-.plumb{position:absolute;inset:0;pointer-events:none}
-.plumb i{position:absolute;left:50%;top:0;bottom:22px;width:2px;margin-left:-1px;background:#EE8458;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
-.plumb b{position:absolute;left:50%;bottom:6px;width:14px;height:18px;margin-left:-7px;background:#EE8458;clip-path:polygon(0 0,100% 0,50% 100%)}
+div.plumb{position:absolute;inset:0;pointer-events:none}
+div.plumb i{position:absolute;left:50%;top:0;bottom:22px;width:2px;margin-left:-1px;background:#EE8458;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+div.plumb b{position:absolute;left:50%;bottom:6px;width:14px;height:18px;margin-left:-7px;background:#EE8458;clip-path:polygon(0 0,100% 0,50% 100%)}
 .cam-fig{position:absolute;right:8px;top:8px;width:44%;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.92)}
 .cam-fig .fig-box{width:100%}
 .cam-count{position:absolute;inset:0;display:grid;place-items:center;font:700 120px/1 var(--f-display);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.6);pointer-events:none}
@@ -869,17 +869,13 @@ const WARMUP = [
 const holdRest = (n, hold, rest) => { const out = []; for (let i = 1; i <= n; i++) { out.push({ l: `Tiens · ${i} sur ${n}`, s: hold }); if (i < n) out.push({ l: 'Relâche', s: rest, rest: true }); } return out; };
 const sides = (secs, rounds = 1) => { const out = []; for (let r = 0; r < rounds; r++) { out.push({ l: 'Côté gauche', s: secs }); out.push({ l: 'Change de côté', s: 4, rest: true }); out.push({ l: 'Côté droit', s: secs }); if (r < rounds - 1) out.push({ l: 'Relâche', s: 6, rest: true }); } return out; };
 const ROUTINE = [
-  { fig: 'p_menton', t: 'Rentrer le menton', target: 'Fléchisseurs profonds du cou', dose: '10 × 5 s', how: 'Dos et tête contre le mur. Recule le menton comme pour faire un double menton, sans lever ni baisser la tête.', segs: holdRest(10, 5, 3) },
-  { fig: 'p_thor', t: 'Extension du haut du dos', target: 'Mobilité thoracique', dose: '6 fois', how: "À quatre pattes, avance les mains et recule les fesses vers les talons. Laisse la poitrine descendre vers le sol pendant 3 respirations, puis reviens.", segs: [{ l: '6 extensions lentes', s: 60 }] },
-  { fig: 'w_glisses', t: 'Glissés au mur', target: 'Trapèze inférieur, dentelé antérieur', dose: '2 × 8', how: 'Dos, tête et bras contre le mur. Fais glisser les bras de W en Y sans décoller les poignets ni cambrer.', segs: [{ l: 'Série 1 · 8 glissés', s: 40 }, { l: 'Relâche', s: 15, rest: true }, { l: 'Série 2 · 8 glissés', s: 40 }] },
-  { fig: 'p_pecs', t: 'Étirement des pectoraux', target: 'Grand et petit pectoral', dose: '2 × 30 s par côté', how: "Avant-bras contre un mur ou l'encadrement d'une porte, coude à hauteur d'épaule. Tourne doucement le corps de l'autre côté jusqu'à sentir l'étirement devant l'épaule.", segs: sides(30, 2) },
+  { fig: 'w_glisses', t: 'Glissés au mur, menton rentré', target: 'Cou, haut du dos, trapèze inférieur, dentelé antérieur', dose: '2 × 10', how: "Dos, arrière de la tête et fesses contre le mur. Rentre le menton (double menton) et garde-le rentré tout du long. Fais glisser les bras de W en Y sans décoller les poignets ni cambrer ; en haut, grandis-toi et ouvre la poitrine le temps d'une respiration.", segs: [{ l: 'Série 1 · 10 glissés, menton rentré', s: 45 }, { l: 'Relâche', s: 10, rest: true }, { l: 'Série 2 · 10 glissés, menton rentré', s: 45 }] },
+  { fig: 'p_pecs', t: 'Étirement des pectoraux dans une porte', target: 'Grand et petit pectoral', dose: '45 s', how: "Dans l'encadrement d'une porte, avant-bras contre les deux montants, coudes à hauteur d'épaules. Avance d'un petit pas jusqu'à sentir l'étirement devant les épaules. Menton rentré, ventre serré, respire lentement.", segs: [{ l: 'Les deux côtés en même temps', s: 45 }] },
   { fig: 'p_trap', t: 'Étirement du trapèze supérieur', target: 'Trapèze supérieur, élévateur de la scapula', dose: '30 s par côté', how: "Oreille vers l'épaule, menton rentré, épaule opposée tirée vers le bas. Main posée sur la tête, sans tirer fort.", segs: sides(30) },
-  { fig: 'p_fente', t: 'Fente basse', target: 'Fléchisseurs de hanche', dose: '40 s par côté', how: 'Genou arrière au sol. Serre la fesse arrière, bascule le bassin, lève le bras du même côté.', segs: sides(40) },
-  { fig: 'hipthrust', t: 'Pont fessier', target: 'Réveil des fessiers', dose: '15 fois', how: 'Sur le dos, pieds à plat. Monte en serrant les fesses, côtes basses, 1 s en haut.', segs: [{ l: '15 ponts fessiers', s: 45 }] },
+  { fig: 'p_fente', t: 'Fente basse, fesse serrée', target: 'Fléchisseurs de hanche et fessiers', dose: '40 s par côté', how: "Genou arrière au sol. Serre fort la fesse de la jambe arrière et bascule le bassin : l'étirement se fait devant la hanche. Toutes les 8 secondes, pousse la hanche vers l'avant en serrant la fesse 2 s. Lève le bras du même côté.", segs: sides(40) },
 ];
 const MICRO = [
-  { fig: 'p_menton', t: 'Rentrer le menton', target: 'Debout', dose: '5 fois', how: 'Debout, recule le menton 2 s, relâche.', segs: [{ l: '5 rentrées de menton', s: 20 }] },
-  { fig: 'p_w', t: 'Les « W »', target: 'Trapèzes moyen et inférieur', dose: '10 fois', how: "Coudes vers le bas et l'arrière, serre les omoplates 2 s, relâche.", segs: [{ l: '10 « W »', s: 30 }] },
+  { fig: 'p_w', t: 'Les « W », menton rentré', target: 'Cou, trapèzes moyen et inférieur', dose: '10 fois', how: "Debout, menton rentré. Coudes vers le bas et l'arrière, serre les omoplates 2 s, relâche.", segs: [{ l: '10 « W », menton rentré', s: 30 }] },
   { fig: 'mollets_t', t: 'Pointes de pieds', target: 'Mollets', dose: '10 fois', how: 'Monte sur la pointe des pieds, redescends lentement.', segs: [{ l: '10 montées', s: 15 }] },
   { fig: 'p_hipstand', t: 'Fléchisseurs de hanche', target: 'Psoas, droit fémoral', dose: '15 s par côté', how: "Debout, une jambe derrière, fesse serrée, bassin basculé vers l'arrière.", segs: [{ l: 'Jambe gauche derrière', s: 15 }, { l: 'Jambe droite derrière', s: 15 }] },
 ];
@@ -1564,9 +1560,9 @@ function studyHTML() {
 function viewPosture() {
   const h = getHab(keyOf()); const streak = postureStreak();
   return `<div class="stack">
-  <section class="sec-head"><p class="eyebrow">Posture</p><h1 class="h1">Tenir d'aplomb</h1><p class="lead">La posture se corrige surtout entre les séances : 9 minutes le matin, 90 secondes toutes les 50 minutes, un poste de travail réglé.</p></section>
+  <section class="sec-head"><p class="eyebrow">Posture</p><h1 class="h1">Tenir d'aplomb</h1><p class="lead">La posture se corrige surtout entre les séances : 5 minutes le matin, une minute toutes les 50 minutes, un poste de travail réglé.</p></section>
   <article class="card feature">
-    <div class="row-between"><div><p class="eyebrow">Chaque matin à 3h05 · 9 min</p><h2>Routine du matin</h2></div><div class="streak"><b class="num">${streak}</b><span>${plural(streak, 'jour')} de suite</span></div></div>
+    <div class="row-between"><div><p class="eyebrow">Chaque matin à 3h05 · 5 min</p><h2>Routine du matin</h2></div><div class="streak"><b class="num">${streak}</b><span>${plural(streak, 'jour')} de suite</span></div></div>
     <ol class="ex-list">${ROUTINE.map((r, i) => `<li>${figHTML(r.fig, 'sm')}<div class="ex-li-b"><span class="ex-li-name">${esc(r.t)}</span><span class="muted small">${esc(r.dose)} · ${esc(r.target)}</span></div><span class="num ex-li-n">${i + 1}</span></li>`).join('')}</ol>
     <button class="btn primary block" data-action="routine-start">${h.posture ? 'Refaire la routine' : 'Commencer la routine'}</button>
     ${h.posture ? '<p class="small ok-txt">Faite aujourd\'hui.</p>' : ''}
@@ -1702,7 +1698,7 @@ function viewSuivi() {
 function progGuide() {
   const P = progInfo(); const cw = P.before ? 0 : P.cw;
   const row = (lo, hi, a, b, c, d) => `<tr class="${cw >= lo && cw <= hi ? 'cur' : ''}"><td class="num">${a}</td><td>${b}</td><td>${c}</td><td>${d}</td></tr>`;
-  return `<p><b>3 séances de 50 min par semaine, en alternant A et B, plus 9 min de posture chaque matin.</b> L'appli calcule les séries de la semaine pour toi.</p>
+  return `<p><b>3 séances de 50 min par semaine, en alternant A et B, plus 5 min de posture chaque matin.</b> L'appli calcule les séries de la semaine pour toi.</p>
   <div class="tbl-wrap"><table><thead><tr><th>Semaines</th><th>Phase</th><th>Séries</th><th>Effort</th></tr></thead><tbody>
   ${row(1, 2, '1-2', 'Fondations', '2', 'RR 3')}${row(3, 4, '3-4', 'Fondations', '3', 'RR 3')}${row(5, 7, '5-7', 'Construction', '3, et 4 pour hip thrust et split squat', 'RR 2')}${row(8, 8, '8', 'Décharge', 'Moitié', 'RR 4')}${row(9, 12, '9-12', 'Intensification', '3, et 4 pour les 4 exercices de jambes', 'RR 1-2')}
   </tbody></table></div>
@@ -2126,7 +2122,7 @@ function ovSettings() {
       <div class="btn-row"><button class="btn sm" data-action="data-export">Exporter mes données</button><button class="btn sm" data-action="data-import">Importer un fichier</button></div>
       <input type="file" id="importFile" accept="application/json,.json,text/plain" data-change="data-import" hidden></section>
     <section class="card"><h3>Rappels du calendrier</h3>${remindersGuide()}</section>
-    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (vidéos de démonstration)</p>
+    <p class="small muted" style="text-align:center">Aplomb · version ${APLOMB_VER} (routine posture de 5 min)</p>
   </div></div>`;
 }
 
@@ -2637,7 +2633,7 @@ cloudInit();
 })();
 </script>
 <script>
-const APLOMB_VER = 7;
+const APLOMB_VER = 8;
 if ('serviceWorker' in navigator) {
   const hadCtrl = !!navigator.serviceWorker.controller; let reloading = false;
   window.addEventListener('load', () => {
